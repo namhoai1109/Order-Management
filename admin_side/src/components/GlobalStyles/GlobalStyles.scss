@@ -1,0 +1,57 @@
+@import 'normalize.css';
+
+:root {
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: var(--font-familly);
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  overflow-y: overlay;
+}
+
+//scrollbar
+html *::-webkit-scrollbar {
+  border-radius: 0;
+  width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button,
+input,
+[tabindex] {
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
