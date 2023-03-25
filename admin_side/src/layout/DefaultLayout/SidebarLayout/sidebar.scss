@@ -1,0 +1,51 @@
+.css-1wvake5 {
+    height: 100vh;
+    border-color: #dfdfdf;
+}
+
+.sidebar_container {
+    width: 250px;
+    transition: width 300ms ease-in-out;
+
+    &.inactive {
+        width: 80px;
+
+        .sidebar_tilte {
+            justify-content: flex-end;
+
+            h1 {
+                display: none;
+            }
+        }
+
+        .css-1wvake5 {
+            width: 80px !important;
+            min-width: 80px !important;
+        }
+
+    }
+}
+
+.sidebar_tilte {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    height: 50px;
+
+    
+}
+
+.sidebar_btnbars {
+    font-size: 20px;
+    color: #000;
+}
+
+.sidebar_btnbars{
+    font-size: 20px;
+    transform: translateX(10px);
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
