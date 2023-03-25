@@ -2,11 +2,11 @@
 import { HeaderOnlyLayout } from '~/layout';
 
 import Login from '~/pages/LoginPage/Login';
-import staffManager from '~/pages/AdminPage/Staff/staffManager';
+import staffManager from '~/pages/StaffPage/Staff/staffManager';
 import adminStaff from '~/pages/AdminPage/Administrator/Staff/Staff';
-import User from '~/pages/AdminPage/Administrator/User';
+import User from '~/pages/AdminPage/Administrator/User/User';
 import Shipper from '~/pages/AdminPage/Administrator/Shipper/Shipper';
-import Partner from '~/pages/AdminPage/Administrator/Partner/Partner';
+import Partner from '~/pages/AdminPage/Partner/Partner';
 
 
 const PUBLIC_ROUTES = [
