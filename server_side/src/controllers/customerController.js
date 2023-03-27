@@ -1,19 +1,23 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient, Prisma } = require('@prisma/client')
 const prisma = new PrismaClient()
 const { hashPassword } = require('../utils/passwordUtil')
+const { createReturnObject } = require('../utils/returnObjectUtil')
 
-exports.getCustomers = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const customers = await prisma.customer.findMany()
-    res.send(customers)
+    res.send(createReturnObject(customers, '', 'Customers fetched successfully', 200))
+
   } catch (err) {
     console.log(err)
+    res.send(createReturnObject(null, err.message, 'Error fetching customers', 500))
+
   } finally {
     await prisma.$disconnect()
   }
 }
 
-exports.registerCustomer = async (req, res) => {
+exports.register = async (req, res) => {
   try {
     const hashedPassword = await hashPassword(req.body.password)
     await prisma.$transaction(async (prisma) => {
@@ -21,7 +25,7 @@ exports.registerCustomer = async (req, res) => {
         data: {
           username: req.body.username,
           password: hashedPassword,
-          role: req.body.role
+          role: 'customer'
         }
       })
       await prisma.customer.create({
@@ -39,10 +43,39 @@ exports.registerCustomer = async (req, res) => {
       })
     })
 
-    res.send({ message: 'Customer created successfully' })
+    res.status(201).send(createReturnObject(null, '', 'Customer registered successfully', 201))
+
   } catch (err) {
     console.log(err)
-    res.status(500).send({ message: err.message })
+    if (err.code === 'P2002') {
+      res.status(400).send(createReturnObject(null, 'Unique constraint', 'Some field are already existed', 400))
+      return
+    }
+
+    res.status(500).send(createReturnObject(null, err.message, 'Error registering customer', 500))
+
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const hashedPassword = await hashPassword(req.body.password)
+    await prisma.account.update({
+      where: {
+        id: req.body.id
+      },
+      data: {
+        password: hashedPassword
+      }
+    })
+    res.status(200).send(createReturnObject(null, '', 'Password updated successfully', 200))
+    
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error updating password', 500))
+
   } finally {
     await prisma.$disconnect()
   }
