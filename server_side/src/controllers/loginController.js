@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 
 const config = require('../configs')
 const { comparePassword } = require('../utils/passwordUtil')
+const { createReturnObject } = require('../utils/returnObjectUtil')
 
 exports.login = async (req, res) => {
   try {
@@ -15,32 +16,36 @@ exports.login = async (req, res) => {
       })
       // if account doesn't exist
       if (!account) {
-        res.status(401).send({ message: 'Invalid username or password' })
+        res.status(401).send(createReturnObject(null, '', 'Invalid username or password', 401))
+        return
       }
 
       // if password doesn't match
       const storedPassword = account.password
       const isMatch = await comparePassword(req.body.password, storedPassword)
       if (!isMatch) {
-        res.status(401).send({ message: 'Invalid username or password' })
+        res.status(401).send(createReturnObject(null, '', 'Invalid username or password', 401))
+        return
       }
 
       // if account is inactive
       if (account.status === 'inactive') {
-        res.status(401).send({ message: 'Account is inactive' })
+        res.status(401).send(createReturnObject(null, '', 'Invalid username or password', 401))
+        return
       }
 
       // if everything checks out
-      console.log(config.jwtToken)
       const token = jwt.sign({ id: account.id }, config.jwtToken)
-      res.status(200).send({
+      const returnObject = {
         token,
         username: account.username,
         role: account.role
-      })
+      }
+
+      res.status(200).send(createReturnObject(returnObject, '', 'Login successfully', 200))
     })
   } catch (err) {
     console.log(err)
-    res.status(401).send({ message: err.message })
+    res.status(500).send(createReturnObject(null, err.message, 'Login failed', 401))
   }
 }
