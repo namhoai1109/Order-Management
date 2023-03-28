@@ -29,8 +29,13 @@ export const errorConfig: RequestConfig = {
   errorConfig: {
     // 错误抛出
     errorThrower: (res) => {
-      const { success, data, errorCode, errorMessage, showType } =
-        res as unknown as ResponseStructure;
+      const {
+        success,
+        data,
+        errorCode,
+        errorMessage,
+        showType,
+      } = (res as unknown) as ResponseStructure;
       if (!success) {
         const error: any = new Error(errorMessage);
         error.name = 'BizError';
@@ -89,7 +94,7 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
+      const url = config?.url;
       return { ...config, url };
     },
   ],
@@ -98,7 +103,7 @@ export const errorConfig: RequestConfig = {
   responseInterceptors: [
     (response) => {
       // 拦截响应数据，进行个性化处理
-      const { data } = response as unknown as ResponseStructure;
+      const { data } = (response as unknown) as ResponseStructure;
 
       if (data?.success === false) {
         message.error('请求失败！');

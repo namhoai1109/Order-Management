@@ -1,24 +1,30 @@
 .wrap-menu-page {
-  position: relative;
   padding: 16px 0px;
 
-  .add-menu-btn {
-    position: absolute;
-    top: 16px;
-    right: 0px;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    color: @primary-color;
-    font-weight: 600;
-    transition: all 0.4s ease-in-out;
+  .header-page {
+    justify-content: space-between;
+    margin-bottom: 16px;
 
-    &:hover {
-      cursor: pointer;
+    .partner-name {
+      color: @primary-color;
+      font-weight: 600;
+      font-size: 20px;
     }
 
-    .icon {
-      margin-left: 8px;
+    .add-menu-btn {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0px;
+      color: @primary-color;
+      font-weight: 600;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .icon {
+        margin-left: 8px;
+      }
     }
   }
 }

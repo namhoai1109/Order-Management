@@ -12,16 +12,30 @@
  */
 export default [
   {
+    path: '/login',
+    layout: false,
+    exact: true,
+    name: 'login',
+    component: './Login',
+  },
+  {
+    path: '/',
+    redirect: '/login',
+  },
+  {
     path: '/',
     layout: false,
     component: '../layout/BasicLayout',
     routes: [
       {
         path: '/partner',
+        exact: true,
         name: 'partner',
+        access: 'isRoutePartner',
         routes: [
           {
             path: '/partner/menu',
+            exact: true,
             component: './Partner/MenuPage',
           },
           {
@@ -31,8 +45,38 @@ export default [
         ],
       },
       {
-        path: '/',
-        redirect: '/partner',
+        path: '/shipper',
+        exact: true,
+        name: 'shipper',
+        access: 'isRouteShipper',
+        routes: [
+          {
+            path: '/shipper/order',
+            exact: true,
+            component: './Shipper/OrderPage',
+          },
+          {
+            path: '/shipper',
+            redirect: '/shipper/order',
+          },
+        ],
+      },
+      {
+        path: '/customer',
+        exact: true,
+        name: 'customer',
+        access: 'isRouteCustomer',
+        routes: [
+          {
+            path: '/customer/order',
+            exact: true,
+            component: './Customer/OrderPage',
+          },
+          {
+            path: '/customer',
+            redirect: '/customer/order',
+          },
+        ],
       },
       {
         path: '*',
@@ -40,5 +84,10 @@ export default [
         component: './404',
       },
     ],
+  },
+  {
+    path: '*',
+    layout: false,
+    component: './404',
   },
 ];

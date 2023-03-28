@@ -1,4 +1,4 @@
-import MenuItem from '@/components/MenuItem/MenuItem';
+import DishCard from '@/components/DishCard/DishCard';
 import dimensions from '@/constants/dimensions';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Typography } from 'antd';
@@ -80,16 +80,33 @@ const fakeData: OBJECT_TYPE.typeDish[] = [
   },
 ];
 
+const constants = {
+  TITLE_ADD_MENU_BTN: 'new menu',
+};
+
 const MenuPage: React.FC = () => {
   return (
     <div className="wrap-menu-page">
-      <Typography.Paragraph className="add-menu-btn">
-        new menu <PlusCircleOutlined className="icon" />
-      </Typography.Paragraph>
+      <header className="header-page flex-center">
+        <span className="partner-name">Partner Name</span>
+        <Typography.Paragraph className="add-menu-btn">
+          {constants.TITLE_ADD_MENU_BTN}
+          <PlusCircleOutlined className="icon" />
+        </Typography.Paragraph>
+      </header>
       <Row gutter={[dimensions.GUTTER_16, dimensions.GUTTER_16]}>
-        <Col span={dimensions.SPAN_24}>
-          <MenuItem listDish={fakeData} />
-        </Col>
+        {fakeData.map((dish) => {
+          return (
+            <Col key={dish.id} span={dimensions.SPAN_4}>
+              <DishCard
+                status={dish.status}
+                name={dish.name}
+                description={dish.description}
+                src={dish.src}
+              />
+            </Col>
+          );
+        })}
       </Row>
     </div>
   );

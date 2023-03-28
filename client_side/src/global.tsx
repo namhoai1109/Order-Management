@@ -1,6 +1,7 @@
 import { useIntl } from '@umijs/max';
 import { Button, message, notification } from 'antd';
 import defaultSettings from '../config/defaultSettings';
+import { componentType } from './constants/component_type';
 
 const { pwa } = defaultSettings;
 const isHttps = document.location.protocol === 'https:';
@@ -56,7 +57,7 @@ if (pwa) {
     const key = `open${Date.now()}`;
     const btn = (
       <Button
-        type="primary"
+        type={componentType.PRIMARY}
         onClick={() => {
           notification.destroy(key);
           reloadSW();

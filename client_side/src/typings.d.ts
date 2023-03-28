@@ -29,3 +29,19 @@ declare namespace OBJECT_TYPE {
     description: string;
   };
 }
+
+type TAuth = {
+  children: React.ReactNode;
+  role: string;
+};
+
+type TMeta = {
+  error: string;
+  message: string;
+  statusCode: number;
+};
+
+type TTemplateResponse<T> = {
+  result: T;
+  meta: TMeta;
+};

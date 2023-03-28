@@ -5,6 +5,7 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 import colors from './colors';
+import themeProvider from './themeProvider';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
 
@@ -37,20 +38,14 @@ export default defineConfig({
   antd: {
     configProvider: {
       theme: {
-        token: {
-          colorPrimary: '#cb997e',
-          fontSize: '16px',
-          lineHeight: 1.5,
-          colorText: '#353535',
-          colorLink: '#cb997e',
-          colorLinkHover: '#cb997e',
-          colorLinkActive: '#cb997e',
-        },
+        token: themeProvider.token,
       },
     },
   },
   request: {},
-  access: {},
+  access: {
+    strictMode: true,
+  },
   headScripts: [{ src: '/scripts/loading.js', async: true }],
   presets: ['umi-presets-pro'],
   openAPI: [
