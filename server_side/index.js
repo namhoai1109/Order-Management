@@ -6,6 +6,7 @@ const config = require('./src/configs')
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use('/static', express.static('public'))
 
 // middlewares
 // const { authorizeUser } = require('./src/middlewares/auth')
@@ -27,8 +28,6 @@ app.use('/api/partners', partnerRouter)
 app.get('/', (req, res) => {
   res.send('Hello world')
 })
-
-
 
 // start server
 const port = config.port || 8080

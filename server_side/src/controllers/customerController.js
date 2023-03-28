@@ -1,16 +1,22 @@
 const { PrismaClient, Prisma } = require('@prisma/client')
 const prisma = new PrismaClient()
+const bcrypt = require('bcryptjs')
 const { hashPassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
 
-exports.getAll = async (req, res) => {
+exports.viewProfile = async (req, res) => {
   try {
-    const customers = await prisma.customer.findMany()
-    res.send(createReturnObject(customers, '', 'Customers fetched successfully', 200))
+    console.log(req.account);
+    const customer = await prisma.customer.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
 
+    res.status(200).send(createReturnObject(customer, '', 'Customer profile viewed successfully', 200))
   } catch (err) {
     console.log(err)
-    res.send(createReturnObject(null, err.message, 'Error fetching customers', 500))
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
 
   } finally {
     await prisma.$disconnect()
@@ -61,17 +67,26 @@ exports.register = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
   try {
-    const hashedPassword = await hashPassword(req.body.password)
-    await prisma.account.update({
-      where: {
-        id: req.body.id
-      },
-      data: {
-        password: hashedPassword
-      }
+    const isMatch = await bcrypt.compare(req.body.oldPassword, req.account.password)
+    if (!isMatch) {
+      res.status(405).send(createReturnObject(null, 'Password mismatch', 'Old password is incorrect', 405))
+      return
+    }
+
+    const hashedPassword = await hashPassword(req.body.newPassword)
+    await prisma.$transaction(async (prisma) => {
+      await prisma.account.update({
+        where: {
+          id: req.account.id
+        },
+        data: {
+          password: hashedPassword
+        }
+      })
     })
+
     res.status(200).send(createReturnObject(null, '', 'Password updated successfully', 200))
-    
+
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error updating password', 500))

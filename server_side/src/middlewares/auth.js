@@ -33,6 +33,7 @@ const authorizeUser = function (...roles) {
         return
       }
       
+      req.account = account
       next()
 
     } catch (err) {
