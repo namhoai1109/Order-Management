@@ -2,7 +2,7 @@
  * loading 占位
  * 解决首次加载时白屏的问题
  */
- (function () {
+(function () {
   const _root = document.querySelector('#root');
   if (_root && _root.innerHTML === '') {
     _root.innerHTML = `
@@ -21,12 +21,6 @@
 
         .loading-title {
           font-size: 1.1rem;
-        }
-
-        .loading-sub-title {
-          margin-top: 20px;
-          font-size: 1rem;
-          color: #888;
         }
 
         .page-loading-warp {
@@ -191,10 +185,7 @@
           </div>
         </div>
         <div class="loading-title">
-          正在加载资源
-        </div>
-        <div class="loading-sub-title">
-          初次加载资源可能需要较多时间 请耐心等待
+          Loading...
         </div>
       </div>
     `;

@@ -1,50 +1,108 @@
-import { useLocation, useNavigate } from '@umijs/max';
-import { MenuItemProps, MenuProps } from 'antd';
-import { useEffect, useState } from 'react';
+import { history, useLocation } from '@umijs/max';
+import { MenuProps } from 'antd';
+import {
+  defaultNavItem,
+  navbarPartner,
+  navbarShipper,
+  navbarCustomer,
+} from '../constants/constants_navbars';
+import { roles } from '@/constants/roles';
+import { internalLink } from '@/constants/internal_link';
+import { keyLocalStorage, removeKey } from '@/utils/local_storage';
 
-const navbarPartner: IMenu = {
-  list: [
-    {
-      key: 'menu',
-      label: 'Menu',
-    },
-    {
-      key: 'order',
-      label: 'Order',
-    },
-    {
-      key: 'analyst',
-      label: 'Analyst',
-    },
-  ],
-  prevPath: '/partner',
+const getNavbar = (pathRole: string) => {
+  switch (pathRole) {
+    case roles.PARTNER:
+      return navbarPartner;
+    case roles.SHIPPER:
+      return navbarShipper;
+    case roles.CUSTOMER:
+      return navbarCustomer;
+    default:
+      return navbarPartner;
+  }
 };
 
-interface IMenuItem {
-  key: string;
-  label: string;
-}
+const checkPathRole = (pathRole: string) => {
+  switch (pathRole) {
+    case roles.PARTNER:
+      return true;
+    case roles.SHIPPER:
+      return true;
+    case roles.CUSTOMER:
+      return true;
+    default:
+      return false;
+  }
+};
 
-interface IMenu {
-  list: IMenuItem[];
-  prevPath: string;
-}
+const getRole = (pathRole: string) => {
+  switch (pathRole) {
+    case roles.PARTNER:
+      return roles.PARTNER;
+    case roles.SHIPPER:
+      return roles.SHIPPER;
+    case roles.CUSTOMER:
+      return roles.CUSTOMER;
+    default:
+      return roles.PARTNER;
+  }
+};
+
+const getDefaultKey = (pathRole: string) => {
+  switch (pathRole) {
+    case roles.PARTNER:
+      return defaultNavItem.PARTNER;
+    case roles.SHIPPER:
+      return defaultNavItem.SHIPPER;
+    case roles.CUSTOMER:
+      return defaultNavItem.CUSTOMER;
+    default:
+      return defaultNavItem.PARTNER;
+  }
+};
+
+const getCurrentKey = (path: string, navBar: IMenu) => {
+  const pathKey = path.split(internalLink.DIVIDER)[internalLink.KEY_NAVBAR_INDEX];
+  const pathRole = path.split(internalLink.DIVIDER)[internalLink.ROLE_INDEX];
+  const defaultKey = navBar.list.find((item) => item.key === pathKey);
+  if (defaultKey) {
+    return defaultKey.key;
+  } else {
+    return getDefaultKey(pathRole);
+  }
+};
 
 const useBasicLayout = () => {
-  const [selectedKey, setSelectedKey] = useState(navbarPartner.list[0]?.key);
   const location = useLocation();
-  const navigate = useNavigate();
-  useEffect(() => {
-    const path = location.pathname;
-    //find menu item that has key included in path
-    const selectedItem = navbarPartner.list.find((item: IMenuItem) => path.includes(item.key));
-    setSelectedKey(selectedItem?.key || '');
-  }, [location.pathname]);
+  const path = location.pathname;
+  const pathRole = path.split(internalLink.DIVIDER)[internalLink.ROLE_INDEX];
+
+  if (!checkPathRole(pathRole)) {
+    history.push(internalLink.LOGIN);
+  }
+
+  const navBar = getNavbar(pathRole);
+  const selectedKey = getCurrentKey(path, navBar);
 
   const onClickMenuItem: MenuProps['onClick'] = (navItem) => {
-    navigate(`${navbarPartner.prevPath}/${navItem.key}`);
+    history.push(`${navBar.prevPath}/${navItem.key}`);
   };
-  return { list: navbarPartner.list, selectedKey, onClickMenuItem };
+
+  const handleLogout = () => {
+    removeKey(keyLocalStorage.TOKEN);
+    removeKey(keyLocalStorage.USERNAME);
+    removeKey(keyLocalStorage.ROLE);
+    history.replace(internalLink.LOGIN);
+  };
+
+  return {
+    list: navBar.list,
+    role: getRole(pathRole),
+    selectedKey,
+    onClickMenuItem,
+    handleLogout,
+  };
 };
 
 export default useBasicLayout;
