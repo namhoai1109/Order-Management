@@ -1,7 +1,7 @@
 ### folder structure
 
-- tên file: `module_name.md`, `feature_name.md`
-- mỗi file chứa api specs liên quan tới `module_name`, `feature_name`
+- filename: `module_name.md`, `feature_name.md`
+- each file contains api specs related to `module_name`, `feature_name`
 
 ### api standard
 
@@ -49,6 +49,19 @@ example:
         ...
     }
     response: {
-        message: string,
+        result: {
+            listDish: [
+                {
+                    name: string,
+                    price: double,
+                    ...
+                }
+            ],
+        },
+        meta: {
+            statusCode: number,
+            message: string,
+            error: string,
+        }
     }
 ```
