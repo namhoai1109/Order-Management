@@ -1,93 +1,145 @@
-import { React, useState } from 'react';
-import { Table } from 'antd';
+import { React, useState, useEffect } from 'react';
+import { Table, Form, Input, Button, Modal } from 'antd';
 
 import './staff.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faPenToSquare, faPlug, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faLock, faPenToSquare, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 
 function Staff() {
-    const dataSource = [
-        {
-            key: '1',
-            username: 'staff1',
-            password: '123456',
-            btn_edit:
-                <button onClick={() => { alert("Giao diện Edit") }} className="admin_btnEdit">
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                </button>,
+    const [dataSource, setDataSource] = useState([]);       // data source for table
+    const [lock, setLock] = useState(faLock);               // icon for block button
+    const [editInfo, setEditInfo] = useState(null);        // edit info for table
+    const [form] = Form.useForm();                         // form for table
+    const [editMode, setEditMode] = useState(false);       // hide/show edit button - save button
 
-            btn_block:
-                <button onClick={() => { alert("Block partner") }} className="admin_btnBlock">
-                    <FontAwesomeIcon icon={faLock} />
-                </button>,
+    const toggle = () => {                            // toggle icon for block button   
+        setLock(lock === faLock ? faLockOpen : faLock);
+    }
 
-            btn_delete:
-                <button onClick={() => { alert("Delete partner") }} className="admin_btnDelete">
-                    <FontAwesomeIcon icon={faTrash} />
-                </button>,
-        },
-        {
-            key: '2',
-            username: 'staff2',
-            password: '123456',
-            btn_edit:
-                <button onClick={() => { alert("Giao diện Edit") }} className="admin_btnEdit">
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                </button>,
+    // get data from server
+    useEffect(() => {
+        const data = [];
+        for (let i = 0; i < 5; i++) {
+            data.push({
+                key: `${i}`,
+                username: `Username ${i}`,
+                password: `Password ${i}`,
+                
+            })
+        }
+        setDataSource(data);
+    }, [])
 
-            btn_block:
-                <button onClick={() => { alert("Block partner") }} className="admin_btnBlock">
-                    <FontAwesomeIcon icon={faLock} />
-                </button>,
+    const handleFinish = (values) => {
+        const newData = [...dataSource];
+        newData.splice(editInfo, 1, { ...values, key: editInfo });
+        setDataSource(newData);
+        setEditInfo(null);
+    };
 
-            btn_delete:
-                <button onClick={() => { alert("Delete partner") }} className="admin_btnDelete">
-                    <FontAwesomeIcon icon={faTrash} />
-                </button>,
-        },
-    ];
+    const handleDelete = (record) => {
+        const newData = [...dataSource];
+        const index = newData.findIndex((item) => record.key === item.key);
+        newData.splice(index, 1);
+        setDataSource(newData);
+      };
+
 
     const columns = [
         {
             title: 'Username',
             dataIndex: 'username',
             key: 'username',
-            // sort theo alphabet
             sorter: (a, b) => a.username.localeCompare(b.username),
+            render: (text, record) => {         // render name column
+                if (editInfo === record.key) {
+                    return <Form.Item
+                        name="username"
+                    >
+                        <Input />
+                    </Form.Item>
+                } else {
+                    return <p>{text}</p>
+                }
+            }
 
         },
         {
             title: 'Password',
             dataIndex: 'password',
             key: 'password',
+            render: (text, record) => {         // render name column
+                if (editInfo === record.key) {
+                    return <Form.Item
+                        name="password"
+                    >
+                        <Input />
+                    </Form.Item>
+                } else {
+                    return <p>{text}</p>
+                }
+            }
         },
         {
-            title: '',
-            dataIndex: 'btn_edit',
-            key: 'btn_edit',
-        },
-        {
-            title: '',
-            dataIndex: 'btn_block',
-            key: 'btn_block',
-        },
-        {
-            title: '',
-            dataIndex: 'btn_delete',
-            key: 'btn_delete',
-        }
+            title: 'Actions',
+            key: 'actions',
+            render: (text, record) => {
+                if (editInfo === record.key) {
+                    return (
+                        <Form.Item>
+                            <Button
+                                type="link"
+                                htmlType="submit"
+                                className="admin_btnSave"
+                            >
+                                Save
+                            </Button>
+                        </Form.Item>
+                    );
+                }
+                else {
+                    return (
+                        <>
+                            <Button
+                                type="link"
+                                onClick={() => {
+                                    setEditInfo(record.key);
+                                    form.setFieldsValue({
+                                        username: record.username,
+                                        password: record.password,
+                                    });
+                                    setEditMode(!editMode); // toggle edit mode
+                                }}
+                                className="admin_btnEdit"
+                            >
+                                <FontAwesomeIcon icon={faPenToSquare} />
+                            </Button>
 
+                            <Button type="link" onClick={toggle} className="admin_btnBlock">
+                                <FontAwesomeIcon icon={lock} />
+                            </Button>
+
+                            <Button type="link" onClick={handleDelete} className="admin_btnDelete">
+                                <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                        </>
+                    );
+                }
+            },
+        }
     ];
 
 
     return (
         <div>
-            <h1 className="partner_container_title"> Staff Page</h1>
-            <button onClick={() => { alert("Giao diện Add") }} className="staff_add">
+            <h1 className="page_container_title"> Staff Page</h1>
+            <Button onClick={() => { alert("Giao diện Add") }} className="staff_add">
                 <FontAwesomeIcon icon={faPlus} />
                 Add Staff
-            </button>
-            <Table dataSource={dataSource} columns={columns} />
+            </Button>
+            <Form form={form} onFinish={handleFinish}>
+                <Table dataSource={dataSource} columns={columns} />
+            </Form>
         </div>
     );
 }

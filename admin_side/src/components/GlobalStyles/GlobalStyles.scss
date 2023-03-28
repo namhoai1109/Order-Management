@@ -48,7 +48,7 @@ html *::-webkit-scrollbar-track {
 
 .content {
   flex: 1;
-  margin: 0 50px;
+  margin: 0 50px 0 50px;
 
 }
 
@@ -71,8 +71,9 @@ a {
   text-decoration: none;
 }
 
-.ant-table-cell {
-  text-align: center !important;
+body .ant-table-wrapper table,
+body .ant-table-wrapper thead tr .ant-table-cell {
+  text-align: center;
 }
 
 .ant-table-column-title {
@@ -82,20 +83,25 @@ a {
 .admin_btnEdit {
   color: rgb(65, 65, 255);
   font-size: 16px;
-  padding: 0 5px;
+  padding: 0 5px 0 5px;
   cursor: pointer;
 }
 
 .admin_btnBlock {
   color: rgb(255, 59, 59);
   font-size: 16px;
-  padding: 0 5px;
+  padding: 0 5px 0 5px;
   cursor: pointer;
 }
 
 .admin_btnDelete {
   color: rgb(0, 182, 0);
   font-size: 16px;
-  padding: 0 5px;
+  padding: 0 5px 0 5px;
   cursor: pointer;
+}
+
+.page_container_title {
+  text-align: center;
+  margin-bottom: 20px;
 }
