@@ -49,8 +49,8 @@ exports.register = async (req, res) => {
           phone,
           bankAccount,
           representative,
-          orderQuantity,
-          status,
+          orderQuantity: 20,
+          status: "active",
           culinaryStyle,
           account: {
             connect: {
@@ -70,7 +70,7 @@ exports.register = async (req, res) => {
         id: account.id,
       },
         config.jwtToken,
-        { expiresIn: '10m' }
+        // { expiresIn: '10m' }
       )
 
       const link = `${config.hostUrl}/api/confirmation/${token}`
