@@ -32,6 +32,11 @@ const authorizeUser = function (...roles) {
         res.status(401).send(createReturnObject(null, '', 'Account is disabled', 401))
         return
       }
+
+      if (!account.confirmed) {
+        res.status(401).send(createReturnObject(null, '', 'Account is not confirmed', 401))
+        return
+      }
       
       req.account = account
       next()

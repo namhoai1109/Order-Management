@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const jwt = require('jsonwebtoken')
+const path = require('path')
 
 const config = require('../configs')
 const { comparePassword } = require('../utils/passwordUtil')
@@ -28,9 +29,15 @@ exports.login = async (req, res) => {
         return
       }
 
+      // if account is not confirmed
+      if (!account.confirmed) {
+        res.status(401).send(createReturnObject(null, '', 'Account is not confirmed', 401))
+        return
+      }
+
       // if account is inactive
       if (account.status === 'inactive') {
-        res.status(401).send(createReturnObject(null, '', 'Invalid username or password', 401))
+        res.status(401).send(createReturnObject(null, '', 'Account is inactive', 401))
         return
       }
 
@@ -47,5 +54,48 @@ exports.login = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Login failed', 401))
+  }
+}
+
+exports.validate = async (req, res) => {
+  try {
+    const decoded = jwt.verify(req.params.confirmCode, config.jwtToken)
+    const account = await prisma.account.findUnique({
+      where: {
+        id: decoded.id
+      }
+    })
+
+    if (!account) {
+      res.sendStatus(404)
+      return
+    }
+
+    if (account.confirmed) {
+      res.sendStatus(400)
+      return
+    }
+
+    // update account
+    await prisma.$transaction(async (prisma) => {
+      await prisma.account.update({
+        where: {
+          id: account.id
+        },
+        data: {
+          status: 'active',
+          confirmed: true
+        }
+      })
+    })
+
+    res.status(200).send(createReturnObject(null, '', 'Account validated successfully', 200))
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error validating account', 500))
+
+  } finally {
+    await prisma.$disconnect()
   }
 }

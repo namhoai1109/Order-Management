@@ -1,6 +1,7 @@
 const router = require('express').Router()
-const controller = require('../controllers/loginController')
+const controller = require('../controllers/authController')
 
-router.post('/', controller.login)
+router.post('/login', controller.login)
+router.get('/confirmation/:confirmCode', controller.validate)
 
 module.exports = router

@@ -1,0 +1,137 @@
+[
+  {
+    "name": "Hồ Chí Minh",
+    "districts": [
+      {
+        "name": "Quận 1"
+      },
+      {
+        "name": "Quận 2"
+      },
+      {
+        "name": "Quận 3"
+      },
+      {
+        "name": "Quận 4"
+      },
+      {
+        "name": "Quận 5"
+      },
+      {
+        "name": "Quận 6"
+      },
+      {
+        "name": "Quận 7"
+      },
+      {
+        "name": "Quận 8"
+      },
+      {
+        "name": "Quận 9"
+      },
+      {
+        "name": "Quận 10"
+      },
+      {
+        "name": "Quận 11"
+      },
+      {
+        "name": "Quận 12"
+      },
+      {
+        "name": "Phú Nhuận"
+      },
+      {
+        "name": "Bình Thạnh"
+      },
+      {
+        "name": "Tân Bình"
+      },
+      {
+        "name": "Tân Phú"
+      },
+      {
+        "name": "Bình Tân"
+      },
+      {
+        "name": "Nhà Bè"
+      },
+      {
+        "name": "Bình Chánh"
+      },
+      {
+        "name": "Hóc Môn"
+      },
+      {
+        "name": "Thủ Đức"
+      },
+      {
+        "name": "Gò Vấp"
+      },
+      {
+        "name": "Củ Chi"
+      },
+      {
+        "name": "Cần Giờ"
+      }
+    ]
+  },
+  {
+    "name": "Hà Nội",
+    "districts": [
+      {
+        "name": "Ba Đình"
+      },
+      {
+        "name": "Hoàn Kiếm"
+      },
+      {
+        "name": "Đống Đa"
+      },
+      {
+        "name": "Hai Bà Trưng"
+      },
+      {
+        "name": "Hoàng Mai"
+      },
+      {
+        "name": "Thanh Xuân"
+      },
+      {
+        "name": "Long Biên"
+      },
+      {
+        "name": "Tây Hồ"
+      },
+      {
+        "name": "Cầu Giấy"
+      },
+      {
+        "name": "Hà Đông"
+      },
+      {
+        "name": "Nam Từ Liêm"
+      },
+      {
+        "name": "Bắc Từ Liêm"
+      }
+    ]
+  },
+  {
+    "name": "Khánh Hòa",
+    "districts": [
+      {
+        "name": "Nha Trang"
+      },
+      {
+        "name": "Diên Khánh"
+      },
+      {
+        "name": "Cam Ranh"
+      },
+      {
+        "name": "Ninh Hòa"
+      }
+    ]
+  }
+]
