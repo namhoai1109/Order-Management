@@ -1,6 +1,12 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const bcrypt = require('bcryptjs')
+// const crypto = require('crypto-js')
+const jwt = require('jsonwebtoken')
 const { hashPassword } = require('../utils/passwordUtil')
+const { createReturnObject } = require('../utils/returnObjectUtil')
+const { sendEmail } = require('../utils/emailSenderUtil')
+const config = require('../configs')
 
 exports.getCustomers = async (req, res) => {
   try {
@@ -37,9 +43,20 @@ exports.registerCustomer = async (req, res) => {
           }
         }
       })
+      const token = jwt.sign({
+        id: account.id,
+      },
+        config.jwtToken,
+        { expiresIn: '10m' }
+      )
+
+      // send email verification
+      const link = `${config.hostUrl}/api/confirmation/${token}`
+      await sendEmail(req.body.email, link)
+
+      res.status(201).send(createReturnObject(token, '', 'Account registered successfully', 201))
     })
 
-    res.send({ message: 'Customer created successfully' })
   } catch (err) {
     console.log(err)
     res.status(500).send({ message: err.message })

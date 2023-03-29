@@ -30,6 +30,23 @@ const authorizeUser = function (...roles) {
       } else {
         res.status(401).send({ message: 'Invalid token' })
       }
+      if (!roles.includes(account.role)) {
+        res.status(401).send(createReturnObject(null, '', 'Permission denied', 401))
+        return
+      }
+      if (account.status !== 'active') {
+        res.status(401).send(createReturnObject(null, '', 'Account is disabled', 401))
+        return
+      }
+
+      if (!account.confirmed) {
+        res.status(401).send(createReturnObject(null, '', 'Account is not confirmed', 401))
+        return
+      }
+      
+      req.account = account
+      next()
+
     } catch (err) {
       console.log(err)
       res.status(500).send({ message: err.message })

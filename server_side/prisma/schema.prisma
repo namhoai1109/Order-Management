@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id       Int       @id @default(autoincrement())
+  customer Customer?
+  partner  Partner?
+  shipper  Shipper?
+
+  password    String
+  username    String  @unique
+  role        String
+  confirmed   Boolean @default(false)
+  confirmCode String?
+  status      String  @default("active")
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  account   Account  @relation(fields: [accountId], references: [id])
+  accountId Int      @unique
+  orders    Order[]
+  ratings   Rating[]
+
+  email   String @unique
+  name    String
+  phone   String @unique
+  address String
+}
+
+model Partner {
+  id         Int      @id @default(autoincrement())
+  account    Account? @relation(fields: [accountId], references: [id])
+  accountId  Int      @unique
+  contract   Contract? @relation(fields: [contractId], references: [id])
+  contractId Int?      @unique
+  dishes     Dish[]
+  branches   Branch[]
+  orders     Order[]
+
+  brandName      String
+  email          String  @unique
+  phone          String  @unique
+  bankAccount    String  @unique
+  representative String?
+  orderQuantity  Int?
+  status         String?
+  culinaryStyle  String?
+}
+
+model Shipper {
+  id         Int       @id @default(autoincrement())
+  account    Account   @relation(fields: [accountId], references: [id])
+  accountId  Int       @unique
+  district   District? @relation(fields: [districtId], references: [id])
+  districtId Int
+  orders     Order[]
+
+  name    String
+  nationalId String @unique
+  phone   String @unique
+  address String?
+  licensePlate String? @unique
+  bankAccount String? @unique
+}
+
+model Contract {
+  id      Int      @id @default(autoincrement())
+  partner Partner?
+
+  createdAt      DateTime  @default(now())
+  confirmedAt    DateTime?
+  expiredAt      DateTime?
+  isConfirmed    Boolean   @default(false)
+  isExpired      Boolean   @default(false)
+  taxCode        String    @unique
+  representative String?
+  accessCode     String?   @unique
+  bankAccount    String?   @unique
+}
+
+model Branch {
+  id         Int      @id @default(autoincrement())
+  partner    Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  partnerId  Int
+  district   District @relation(fields: [districtId], references: [id])
+  districtId Int
+
+  orderNumber Int?
+  address     String
+}
+
+model Dish {
+  id          Int          @id @default(autoincrement())
+  partner     Partner      @relation(fields: [partnerId], references: [id])
+  partnerId   Int
+  dishDetails DishDetail[]
+  ratings     Rating[]
+
+  name        String
+  description String?
+  status      String?
+  rating      Int?
+}
+
+model DishDetail {
+  id     Int  @id @default(autoincrement())
+  dish   Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  dishId Int
+
+  name  String
+  price Float
+}
+
+model Order {
+  id          Int           @id @default(autoincrement())
+  customer    Customer      @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customerId  Int
+  shipper     Shipper?      @relation(fields: [shipperId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shipperId   Int?
+  partner     Partner       @relation(fields: [partnerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  partnerId   Int
+  orderDetais OrderDetail[]
+
+  createdAt     DateTime  @default(now())
+  deliveredAt   DateTime?
+  status        String    @default("pending")
+  process       String    @default("pending")
+  orderPrice    Float
+  shippingPrice Float?
+}
+
+model OrderDetail {
+  id      Int   @id @default(autoincrement())
+  order   Order @relation(fields: [orderId], references: [id], onDelete: NoAction)
+  orderId Int
+
+  dishName   String
+  dishDetail String
+  quantity   Int
+  price      Float
+}
+
+model City {
+  id        Int        @id @default(autoincrement())
+  districts District[]
+
+  name String @unique
+}
+
+model District {
+  id       Int       @id @default(autoincrement())
+  shippers Shipper[]
+  branches Branch[]
+  city     City      @relation(fields: [cityId], references: [id])
+  cityId   Int
+
+  name String
+}
+
+model Rating {
+  isLike      Boolean
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customerId Int
+  dish       Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dishId     Int
+
+  @@id([customerId, dishId])
+}
