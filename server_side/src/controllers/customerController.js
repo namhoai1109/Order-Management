@@ -55,7 +55,7 @@ exports.register = async (req, res) => {
         id: account.id,
       },
         config.jwtToken,
-        { expiresIn: '10m' }
+        // { expiresIn: '10m' }
       )
 
       // send email verification

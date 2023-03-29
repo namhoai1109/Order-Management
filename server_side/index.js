@@ -22,7 +22,7 @@ const partnerRouter = require('./src/routes/partnerRoute')
 const locationRouter = require('./src/routes/locationRoute')
 
 // mount routes
-app.use('/api', authRouter)
+app.use('/api/auth', authRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/partners', partnerRouter)
 app.use('/api/locations', locationRouter)
