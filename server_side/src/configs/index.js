@@ -9,7 +9,9 @@ const {
   SQL_USER,
   SQL_PASSWORD,
   SQL_SERVER,
-  SQL_DATABASE
+  SQL_DATABASE,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
 } = process.env
 const sqlEncrypt = process.env.SQL_ENCRYPT === 'true'
 
@@ -18,6 +20,8 @@ module.exports = {
   port: PORT,
   hostUrl: HOST_URL,
   jwtToken: TOKEN_SECRET,
+  emailSenderUser: EMAIL_USER,
+  emailSenderPassword: EMAIL_PASSWORD,
   sqlConfig: {
     user: SQL_USER,
     password: SQL_PASSWORD,
