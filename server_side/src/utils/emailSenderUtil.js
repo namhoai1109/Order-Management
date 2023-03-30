@@ -1,12 +1,13 @@
 const nodemailer = require('nodemailer')
+const config = require('../configs')
 
 // protonmail
 const transporter = nodemailer.createTransport({
   host: 'smtp.ethereal.email',
   port: 587,
   auth: {
-    user: 'cleta.bayer@ethereal.email',
-    pass: 'B4D6n5J4PtbaVrbxh6'
+    user: config.emailSenderUser,
+    pass: config.emailSenderPassword
   }
 })
 
