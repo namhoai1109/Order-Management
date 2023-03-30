@@ -20,7 +20,7 @@ html {
 }
 
 .image {
-    width: 450px;
+    width: 420px;
 }
 
 .detail {
@@ -37,7 +37,7 @@ html {
     font-size: 4rem;
     font-weight: 700;
     color: #ffffff;
-    background: #8ee0f5;
+    background: #f78b51;
     padding: 5px;
     border-radius: 10px;
     width: 45%;

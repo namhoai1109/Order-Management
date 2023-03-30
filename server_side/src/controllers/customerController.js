@@ -35,13 +35,13 @@ exports.register = async (req, res) => {
         data: {
           username: req.body.username,
           password: hashedPassword,
+          email: req.body.email,
           role: 'customer'
         }
       })
       await prisma.customer.create({
         data: {
           name: req.body.name,
-          email: req.body.email,
           phone: req.body.phone,
           address: req.body.address,
           account: {
@@ -55,14 +55,14 @@ exports.register = async (req, res) => {
         id: account.id,
       },
         config.jwtToken,
-        // { expiresIn: '10m' }
+        { expiresIn: '1d' }
       )
 
       // send email verification
-      const link = `${config.hostUrl}/api/confirmation/${token}`
+      const link = `${config.hostUrl}/api/auth/confirmation/${token}`
       await sendEmail(req.body.email, link)
 
-      res.status(201).send(createReturnObject(token, '', 'Account registered successfully', 201))
+      res.status(201).send(createReturnObject(link, '', 'Account registered successfully', 201))
     })
 
   } catch (err) {
