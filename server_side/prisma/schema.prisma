@@ -16,12 +16,12 @@ model Account {
   partner  Partner?
   shipper  Shipper?
 
-  password    String
-  username    String  @unique
-  role        String
-  confirmed   Boolean @default(false)
-  confirmCode String?
-  status      String  @default("active")
+  username  String  @unique
+  password  String
+  email     String  @unique
+  role      String
+  confirmed Boolean @default(false)
+  status    String  @default("active")
 }
 
 model Customer {
@@ -31,16 +31,15 @@ model Customer {
   orders    Order[]
   ratings   Rating[]
 
-  email   String @unique
   name    String
   phone   String @unique
   address String
 }
 
 model Partner {
-  id         Int      @id @default(autoincrement())
-  account    Account? @relation(fields: [accountId], references: [id])
-  accountId  Int      @unique
+  id         Int       @id @default(autoincrement())
+  account    Account?  @relation(fields: [accountId], references: [id])
+  accountId  Int       @unique
   contract   Contract? @relation(fields: [contractId], references: [id])
   contractId Int?      @unique
   dishes     Dish[]
@@ -48,7 +47,6 @@ model Partner {
   orders     Order[]
 
   brandName      String
-  email          String  @unique
   phone          String  @unique
   bankAccount    String  @unique
   representative String?
@@ -65,12 +63,12 @@ model Shipper {
   districtId Int
   orders     Order[]
 
-  name    String
-  nationalId String @unique
-  phone   String @unique
-  address String?
+  name         String
+  nationalId   String  @unique
+  phone        String  @unique
+  address      String?
   licensePlate String? @unique
-  bankAccount String? @unique
+  bankAccount  String? @unique
 }
 
 model Contract {

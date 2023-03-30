@@ -67,12 +67,12 @@ exports.validate = async (req, res) => {
     })
 
     if (!account) {
-      res.sendStatus(404)
+      res.render('404')
       return
     }
 
     if (account.confirmed) {
-      res.sendStatus(400)
+      res.render('confirmed')
       return
     }
 
@@ -89,10 +89,15 @@ exports.validate = async (req, res) => {
       })
     })
 
-    res.status(200).send(createReturnObject(null, '', 'Account validated successfully', 200))
+    res.status(200).render('confirm_success')
 
   } catch (err) {
     console.log(err)
+    if (err.name === 'TokenExpiredError') {
+      res.status(500).send(createReturnObject(null, err.message, 'Token expired', 500))
+      return
+    }
+    
     res.status(500).send(createReturnObject(null, err.message, 'Error validating account', 500))
 
   } finally {

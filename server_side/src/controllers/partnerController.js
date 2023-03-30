@@ -38,6 +38,7 @@ exports.register = async (req, res) => {
         data: {
           username,
           password: hashedPassword,
+          email,
           role: 'partner',
         }
       })
@@ -45,7 +46,6 @@ exports.register = async (req, res) => {
       const partner = await prisma.partner.create({
         data: {
           brandName,
-          email,
           phone,
           bankAccount,
           representative,
@@ -73,10 +73,10 @@ exports.register = async (req, res) => {
         // { expiresIn: '10m' }
       )
 
-      const link = `${config.hostUrl}/api/confirmation/${token}`
+      const link = `${config.hostUrl}/api/auth/confirmation/${token}`
       await sendEmail(req.body.email, link)
 
-      res.status(201).send(createReturnObject(token, '', 'Partner registered successfully', 201))
+      res.status(201).send(createReturnObject(link, '', 'Partner registered successfully', 201))
     })
 
   } catch (err) {

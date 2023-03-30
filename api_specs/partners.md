@@ -20,7 +20,7 @@
         ]
     },
     response: {
-        result: string //jwt_token for email confirmation
+        result: string //link for email confirmation
         meta: {
             "error": string,
             "message": string,

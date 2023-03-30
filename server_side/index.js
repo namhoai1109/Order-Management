@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const ejs = require('ejs')
 const config = require('./src/configs')
 const path = require('path')
 
@@ -8,6 +9,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
+app.set('view engine', 'ejs')
 
 // middlewares
 // const { authorizeUser } = require('./src/middlewares/auth')
@@ -28,14 +30,13 @@ app.use('/api/partners', partnerRouter)
 app.use('/api/locations', locationRouter)
 
 // root route
-
 app.get('/', (req, res) => {
-  res.send('Hello world')
+  res.render('confirm_success')
 })
 
 // 404
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '/public/pages/404.html'))
+  res.status(404).render('404')
 })
 
 // start server
