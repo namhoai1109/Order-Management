@@ -66,17 +66,17 @@ exports.register = async (req, res) => {
         }
       })
 
-      const token = jwt.sign({
-        id: account.id,
-      },
-        config.jwtToken,
-        // { expiresIn: '10m' }
-      )
+      // const token = jwt.sign({
+      //   id: account.id,
+      // },
+      //   config.jwtToken,
+      //   // { expiresIn: '10m' }
+      // )
 
-      const link = `${config.hostUrl}/api/auth/confirmation/${token}`
-      await sendEmail(req.body.email, link)
+      // const link = `${config.hostUrl}/api/auth/confirmation/${token}`
+      // await sendEmail(req.body.email, link)
 
-      res.status(201).send(createReturnObject(link, '', 'Partner registered successfully', 201))
+      res.status(201).send(createReturnObject(null, '', 'Partner registered successfully', 201))
     })
 
   } catch (err) {
