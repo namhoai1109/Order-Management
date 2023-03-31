@@ -60,6 +60,7 @@ exports.login = async (req, res) => {
 exports.validate = async (req, res) => {
   try {
     const decoded = jwt.verify(req.params.confirmCode, config.jwtToken)
+    console.log(decoded)
     const account = await prisma.account.findUnique({
       where: {
         id: decoded.id

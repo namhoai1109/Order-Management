@@ -12,6 +12,7 @@ const {
   SQL_DATABASE,
   EMAIL_USER,
   EMAIL_PASSWORD,
+  SENDINBLUE_API_KEY
 } = process.env
 const sqlEncrypt = process.env.SQL_ENCRYPT === 'true'
 
@@ -22,6 +23,7 @@ module.exports = {
   jwtToken: TOKEN_SECRET,
   emailSenderUser: EMAIL_USER,
   emailSenderPassword: EMAIL_PASSWORD,
+  sendinblueApiKey: SENDINBLUE_API_KEY,
   sqlConfig: {
     user: SQL_USER,
     password: SQL_PASSWORD,

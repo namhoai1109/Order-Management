@@ -9,28 +9,44 @@ const { sendEmail } = require('../utils/emailSenderUtil')
 
 exports.register = async (req, res) => {
   try {
-    const { email, username, password, name, phone, address, nationalId, licensePlate, bankAccount } = req.body
+    const { email, username, password, name, phone, address, nationalId, licensePlate, bankAccount, districtId } = req.body
     const hashedPassword = await hashPassword(password)
     await prisma.$transaction(async (prisma) => {
-      const shipper = await prisma.shipper.create({
+      const account = await prisma.account.create({
         data: {
           username,
           password: hashedPassword,
-          name,
-          phone,
-          address,
           email,
-          nationalId,
-          licensePlate,
-          bankAccount
+          role: 'shipper'
         }
       })
 
-      const token = jwt.sign({ id: shipper.id }, config.jwtSecret, { expiresIn: '1d' })
-      const link = `${config.clientUrl}/api/auth/confirmation/${token}`
+      const shipper = await prisma.shipper.create({
+        data: {       
+          name,
+          phone,
+          address,
+          nationalId,
+          licensePlate,
+          bankAccount,
+          account: {
+            connect: {
+              id: account.id
+            }
+          },
+          district: {
+            connect: {
+              id: districtId
+            }
+          }
+        }
+      })
+
+      const token = jwt.sign({ id: account.id }, config.jwtToken, { expiresIn: '1d' })
+      const link = `${config.hostUrl}/api/auth/confirmation/${token}`
       await sendEmail(email, link)
 
-      return res.status(200).json(createReturnObject(link, 'Register successfully', { token }))
+      return res.status(200).json(createReturnObject(link, '', 'Register successfully', 200))
     })
 
   } catch (err) {

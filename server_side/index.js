@@ -22,16 +22,18 @@ const authRouter = require('./src/routes/authRoute')
 const customerRouter = require('./src/routes/customerRoute')
 const partnerRouter = require('./src/routes/partnerRoute')
 const locationRouter = require('./src/routes/locationRoute')
+const shipperRouter = require('./src/routes/shipperRoute')
 
 // mount routes
 app.use('/api/auth', authRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/partners', partnerRouter)
+app.use('/api/shippers', shipperRouter)
 app.use('/api/locations', locationRouter)
 
 // root route
 app.get('/', (req, res) => {
-  res.render('confirm_success')
+  res.send('Hello World')
 })
 
 // 404
