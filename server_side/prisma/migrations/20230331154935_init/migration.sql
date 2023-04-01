@@ -7,63 +7,62 @@ CREATE TABLE [dbo].[Account] (
     [id] INT NOT NULL IDENTITY(1,1),
     [username] NVARCHAR(1000) NOT NULL,
     [password] NVARCHAR(1000) NOT NULL,
-    [email] NVARCHAR(1000) NOT NULL,
+    [email] NVARCHAR(1000),
+    [phone] NVARCHAR(1000),
+    [bankAccount] NVARCHAR(1000),
+    [nationalId] NVARCHAR(1000),
+    [licensePlate] NVARCHAR(1000),
     [role] NVARCHAR(1000) NOT NULL,
     [confirmed] BIT NOT NULL CONSTRAINT [Account_confirmed_df] DEFAULT 0,
     [status] NVARCHAR(1000) NOT NULL CONSTRAINT [Account_status_df] DEFAULT 'active',
     CONSTRAINT [Account_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [Account_username_key] UNIQUE NONCLUSTERED ([username]),
-    CONSTRAINT [Account_email_key] UNIQUE NONCLUSTERED ([email])
+    CONSTRAINT [Account_username_key] UNIQUE NONCLUSTERED ([username])
+);
+
+-- CreateTable
+CREATE TABLE [dbo].[Staff] (
+    [id] INT NOT NULL IDENTITY(1,1),
+    [accountId] INT,
+    [name] NVARCHAR(1000) NOT NULL,
+    [address] NVARCHAR(1000),
+    CONSTRAINT [Staff_pkey] PRIMARY KEY CLUSTERED ([id]),
+    CONSTRAINT [Staff_accountId_key] UNIQUE NONCLUSTERED ([accountId])
 );
 
 -- CreateTable
 CREATE TABLE [dbo].[Customer] (
     [id] INT NOT NULL IDENTITY(1,1),
-    [accountId] INT NOT NULL,
+    [accountId] INT,
     [name] NVARCHAR(1000) NOT NULL,
-    [phone] NVARCHAR(1000) NOT NULL,
     [address] NVARCHAR(1000) NOT NULL,
     CONSTRAINT [Customer_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [Customer_accountId_key] UNIQUE NONCLUSTERED ([accountId]),
-    CONSTRAINT [Customer_phone_key] UNIQUE NONCLUSTERED ([phone])
+    CONSTRAINT [Customer_accountId_key] UNIQUE NONCLUSTERED ([accountId])
 );
 
 -- CreateTable
 CREATE TABLE [dbo].[Partner] (
     [id] INT NOT NULL IDENTITY(1,1),
-    [accountId] INT NOT NULL,
+    [accountId] INT,
     [contractId] INT,
     [brandName] NVARCHAR(1000) NOT NULL,
-    [phone] NVARCHAR(1000) NOT NULL,
-    [bankAccount] NVARCHAR(1000) NOT NULL,
     [representative] NVARCHAR(1000),
     [orderQuantity] INT,
     [status] NVARCHAR(1000),
     [culinaryStyle] NVARCHAR(1000),
     CONSTRAINT [Partner_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Partner_accountId_key] UNIQUE NONCLUSTERED ([accountId]),
-    CONSTRAINT [Partner_contractId_key] UNIQUE NONCLUSTERED ([contractId]),
-    CONSTRAINT [Partner_phone_key] UNIQUE NONCLUSTERED ([phone]),
-    CONSTRAINT [Partner_bankAccount_key] UNIQUE NONCLUSTERED ([bankAccount])
+    CONSTRAINT [Partner_contractId_key] UNIQUE NONCLUSTERED ([contractId])
 );
 
 -- CreateTable
 CREATE TABLE [dbo].[Shipper] (
     [id] INT NOT NULL IDENTITY(1,1),
-    [accountId] INT NOT NULL,
+    [accountId] INT,
     [districtId] INT NOT NULL,
     [name] NVARCHAR(1000) NOT NULL,
-    [nationalId] NVARCHAR(1000) NOT NULL,
-    [phone] NVARCHAR(1000) NOT NULL,
     [address] NVARCHAR(1000),
-    [licensePlate] NVARCHAR(1000),
-    [bankAccount] NVARCHAR(1000),
     CONSTRAINT [Shipper_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [Shipper_accountId_key] UNIQUE NONCLUSTERED ([accountId]),
-    CONSTRAINT [Shipper_nationalId_key] UNIQUE NONCLUSTERED ([nationalId]),
-    CONSTRAINT [Shipper_phone_key] UNIQUE NONCLUSTERED ([phone]),
-    CONSTRAINT [Shipper_licensePlate_key] UNIQUE NONCLUSTERED ([licensePlate]),
-    CONSTRAINT [Shipper_bankAccount_key] UNIQUE NONCLUSTERED ([bankAccount])
+    CONSTRAINT [Shipper_accountId_key] UNIQUE NONCLUSTERED ([accountId])
 );
 
 -- CreateTable
@@ -168,16 +167,19 @@ CREATE TABLE [dbo].[Rating] (
 );
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Customer] ADD CONSTRAINT [Customer_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE [dbo].[Staff] ADD CONSTRAINT [Staff_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Partner] ADD CONSTRAINT [Partner_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE [dbo].[Customer] ADD CONSTRAINT [Customer_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Partner] ADD CONSTRAINT [Partner_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Partner] ADD CONSTRAINT [Partner_contractId_fkey] FOREIGN KEY ([contractId]) REFERENCES [dbo].[Contract]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Shipper] ADD CONSTRAINT [Shipper_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE [dbo].[Shipper] ADD CONSTRAINT [Shipper_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Shipper] ADD CONSTRAINT [Shipper_districtId_fkey] FOREIGN KEY ([districtId]) REFERENCES [dbo].[District]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;

@@ -17,18 +17,18 @@ exports.register = async (req, res) => {
           username,
           password: hashedPassword,
           email,
+          phone,
+          nationalId,
+          licensePlate,
+          // bankAccount,
           role: 'shipper'
         }
       })
 
-      const shipper = await prisma.shipper.create({
+      await prisma.shipper.create({
         data: {       
           name,
-          phone,
-          address,
-          nationalId,
-          licensePlate,
-          bankAccount,
+          address,  
           account: {
             connect: {
               id: account.id
@@ -51,7 +51,7 @@ exports.register = async (req, res) => {
 
   } catch (err) {
     console.log(err)
-    return res.status(500).json(createReturnObject(false, 'Register failed', err))
+    return res.status(500).json(createReturnObject(null, err.message, "Unique constraint", 500))
 
   } finally {
     await prisma.$disconnect()

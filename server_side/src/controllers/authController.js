@@ -7,7 +7,10 @@ const config = require('../configs')
 const { comparePassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
 
+let currenntAccount
+
 exports.login = async (req, res) => {
+  let account
   try {
     await prisma.$transaction(async (tx) => {
       const account = await tx.account.findUnique({
@@ -60,7 +63,6 @@ exports.login = async (req, res) => {
 exports.validate = async (req, res) => {
   try {
     const decoded = jwt.verify(req.params.confirmCode, config.jwtToken)
-    console.log(decoded)
     const account = await prisma.account.findUnique({
       where: {
         id: decoded.id
@@ -95,7 +97,8 @@ exports.validate = async (req, res) => {
   } catch (err) {
     console.log(err)
     if (err.name === 'TokenExpiredError') {
-      res.status(500).send(createReturnObject(null, err.message, 'Token expired', 500))
+      // resend email
+      res.render('expired', )
       return
     }
     
@@ -104,4 +107,35 @@ exports.validate = async (req, res) => {
   } finally {
     await prisma.$disconnect()
   }
+}
+
+exports.expiredEmailResend = async (req, res) => {
+  try {
+    const account = await prisma.account.findUnique({
+      where: {
+        id: req.params.id
+      }
+    })
+
+    if (!account) {
+      res.render('404')
+      return
+    }
+
+    if (account.confirmed) {
+      res.render('confirmed')
+      return
+    }
+
+    const token = jwt.sign({ id: account.id }, config.jwtToken, { expiresIn: '1m' })
+    const link = `${config.host}/auth/validate/${token}`
+
+    // send email
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error resending email', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+   
 }

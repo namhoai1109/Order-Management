@@ -15,9 +15,11 @@ app.set('view engine', 'ejs')
 // const { authorizeUser } = require('./src/middlewares/auth')
 
 // controllers
+const adminController = require('./src/controllers/adminController')
 const locationController = require('./src/controllers/locationController')
 
 // routers
+const adminRouter = require('./src/routes/adminRoute')
 const authRouter = require('./src/routes/authRoute')
 const customerRouter = require('./src/routes/customerRoute')
 const partnerRouter = require('./src/routes/partnerRoute')
@@ -25,6 +27,7 @@ const locationRouter = require('./src/routes/locationRoute')
 const shipperRouter = require('./src/routes/shipperRoute')
 
 // mount routes
+app.use('/api/admin', adminRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/partners', partnerRouter)
@@ -44,6 +47,9 @@ app.use((req, res) => {
 // start server
 const port = config.port || 8080
 app.listen(port, () => {
+  // init database
+  adminController.register()
   locationController.register()
+
   console.log(`Server is running on ${config.hostUrl}`)
 })

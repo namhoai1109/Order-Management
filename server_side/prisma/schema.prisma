@@ -15,31 +15,44 @@ model Account {
   customer Customer?
   partner  Partner?
   shipper  Shipper?
+  staff    Staff?
 
-  username  String  @unique
-  password  String
-  email     String  @unique
-  role      String
-  confirmed Boolean @default(false)
-  status    String  @default("active")
+  username     String  @unique
+  password     String
+  email        String? 
+  phone        String? 
+  bankAccount  String? 
+  nationalId   String? 
+  licensePlate String? 
+  role         String
+  confirmed    Boolean @default(false)
+  status       String  @default("active")
+}
+
+model Staff {
+  id        Int      @id @default(autoincrement())
+  account   Account? @relation(fields: [accountId], references: [id])
+  accountId Int?     @unique
+
+  name    String
+  address String?
 }
 
 model Customer {
   id        Int      @id @default(autoincrement())
-  account   Account  @relation(fields: [accountId], references: [id])
-  accountId Int      @unique
+  account   Account? @relation(fields: [accountId], references: [id])
+  accountId Int?     @unique
   orders    Order[]
   ratings   Rating[]
 
   name    String
-  phone   String @unique
   address String
 }
 
 model Partner {
   id         Int       @id @default(autoincrement())
   account    Account?  @relation(fields: [accountId], references: [id])
-  accountId  Int       @unique
+  accountId  Int?      @unique
   contract   Contract? @relation(fields: [contractId], references: [id])
   contractId Int?      @unique
   dishes     Dish[]
@@ -47,8 +60,6 @@ model Partner {
   orders     Order[]
 
   brandName      String
-  phone          String  @unique
-  bankAccount    String  @unique
   representative String?
   orderQuantity  Int?
   status         String?
@@ -57,18 +68,14 @@ model Partner {
 
 model Shipper {
   id         Int       @id @default(autoincrement())
-  account    Account   @relation(fields: [accountId], references: [id])
-  accountId  Int       @unique
+  account    Account?  @relation(fields: [accountId], references: [id])
+  accountId  Int?      @unique
   district   District? @relation(fields: [districtId], references: [id])
   districtId Int
   orders     Order[]
 
-  name         String
-  nationalId   String  @unique
-  phone        String  @unique
-  address      String?
-  licensePlate String? @unique
-  bankAccount  String? @unique
+  name    String
+  address String?
 }
 
 model Contract {
