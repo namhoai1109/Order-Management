@@ -36,13 +36,13 @@ exports.register = async (req, res) => {
           username: req.body.username,
           password: hashedPassword,
           email: req.body.email,
+          phone: req.body.phone,
           role: 'customer'
         }
       })
       await prisma.customer.create({
         data: {
-          name: req.body.name,
-          phone: req.body.phone,
+          name: req.body.name,     
           address: req.body.address,
           account: {
             connect: {
@@ -67,11 +67,6 @@ exports.register = async (req, res) => {
 
   } catch (err) {
     console.log(err)
-    if (err.code === 'P2002') {
-      res.status(400).send(createReturnObject(null, 'Unique constraint', 'Some field are already existed', 400))
-      return
-    }
-
     res.status(500).send(createReturnObject(null, err.message, 'Error registering customer', 500))
 
   } finally {

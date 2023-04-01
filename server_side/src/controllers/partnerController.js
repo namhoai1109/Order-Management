@@ -39,6 +39,8 @@ exports.register = async (req, res) => {
           username,
           password: hashedPassword,
           email,
+          phone,
+          bankAccount,
           role: 'partner',
         }
       })
@@ -46,8 +48,6 @@ exports.register = async (req, res) => {
       const partner = await prisma.partner.create({
         data: {
           brandName,
-          phone,
-          bankAccount,
           representative,
           orderQuantity: 20,
           status: "active",
