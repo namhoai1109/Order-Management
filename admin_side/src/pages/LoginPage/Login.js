@@ -4,6 +4,9 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 
+import Background from '~/assets/images/backgroundAdmin.jpg';
+
+
 
 import './Login.scss';
 
@@ -18,16 +21,14 @@ function Login() {
 
     return (
         <div className="adminPage_container">
+            <div className="login_background">
+                <img src={Background} alt="Background" />
+            </div>
             <div className="login_container">
                 <div className="login_form">
                     <div className="login_form_title">Login</div>
                     <Form
                         name="basic"
-
-                        // style={{
-                        //     width: '350px',
-                        //     transform: 'translate(-51px,15px)',
-                        // }}
                         initialValues={{
                             remember: true,
                         }}

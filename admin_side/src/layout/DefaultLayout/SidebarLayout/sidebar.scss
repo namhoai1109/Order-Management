@@ -3,7 +3,7 @@
     border-color: #dfdfdf;
 }
 
-.sidebar_container {
+.sidebar-container {
     width: 250px;
     transition: width 300ms ease-in-out;
 
@@ -38,7 +38,7 @@
 
 .sidebar_btnbars {
     font-size: 20px;
-    color: #000;
+    color: var(--black);
 }
 
 .sidebar_btnbars{

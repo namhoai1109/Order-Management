@@ -5,18 +5,18 @@ import './staff.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faLock, faPenToSquare, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 
+import { COLUMNS_STAFF } from '../constColumn/const';
+
 function Staff() {
+    const columns = COLUMNS_STAFF;
     const [dataSource, setDataSource] = useState([]);       // data source for table
     const [lock, setLock] = useState(faLock);               // icon for block button
     const [editInfo, setEditInfo] = useState(null);        // edit info for table
     const [form] = Form.useForm();                         // form for table
     const [editMode, setEditMode] = useState(false);       // hide/show edit button - save button
 
-    const toggle = () => {                            // toggle icon for block button   
-        setLock(lock === faLock ? faLockOpen : faLock);
-    }
 
-    // get data from server
+
     useEffect(() => {
         const data = [];
         for (let i = 0; i < 5; i++) {
@@ -43,92 +43,6 @@ function Staff() {
         newData.splice(index, 1);
         setDataSource(newData);
       };
-
-
-    const columns = [
-        {
-            title: 'Username',
-            dataIndex: 'username',
-            key: 'username',
-            sorter: (a, b) => a.username.localeCompare(b.username),
-            render: (text, record) => {         // render name column
-                if (editInfo === record.key) {
-                    return <Form.Item
-                        name="username"
-                    >
-                        <Input />
-                    </Form.Item>
-                } else {
-                    return <p>{text}</p>
-                }
-            }
-
-        },
-        {
-            title: 'Password',
-            dataIndex: 'password',
-            key: 'password',
-            render: (text, record) => {         // render name column
-                if (editInfo === record.key) {
-                    return <Form.Item
-                        name="password"
-                    >
-                        <Input />
-                    </Form.Item>
-                } else {
-                    return <p>{text}</p>
-                }
-            }
-        },
-        {
-            title: 'Actions',
-            key: 'actions',
-            render: (text, record) => {
-                if (editInfo === record.key) {
-                    return (
-                        <Form.Item>
-                            <Button
-                                type="link"
-                                htmlType="submit"
-                                className="admin_btnSave"
-                            >
-                                Save
-                            </Button>
-                        </Form.Item>
-                    );
-                }
-                else {
-                    return (
-                        <>
-                            <Button
-                                type="link"
-                                onClick={() => {
-                                    setEditInfo(record.key);
-                                    form.setFieldsValue({
-                                        username: record.username,
-                                        password: record.password,
-                                    });
-                                    setEditMode(!editMode); // toggle edit mode
-                                }}
-                                className="admin_btnEdit"
-                            >
-                                <FontAwesomeIcon icon={faPenToSquare} />
-                            </Button>
-
-                            <Button type="link" onClick={toggle} className="admin_btnBlock">
-                                <FontAwesomeIcon icon={lock} />
-                            </Button>
-
-                            <Button type="link" onClick={handleDelete} className="admin_btnDelete">
-                                <FontAwesomeIcon icon={faTrash} />
-                            </Button>
-                        </>
-                    );
-                }
-            },
-        }
-    ];
-
 
     return (
         <div>
