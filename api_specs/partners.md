@@ -11,6 +11,7 @@
         culinaryStyle: string,
         username: string,
         password: string,
+        taxCode: string
         branches: [
             {
                 districtId: int,
