@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const config = require('../configs')
 const { hashPassword } = require('../utils/passwordUtil')
+const { createReturnObject } = require('../utils/returnObjectUtil')
 
 exports.register = async (req, res) => {
   try {

@@ -19,11 +19,11 @@ model Account {
 
   username     String  @unique
   password     String
-  email        String? 
-  phone        String? 
-  bankAccount  String? 
-  nationalId   String? 
-  licensePlate String? 
+  email        String?
+  phone        String?
+  bankAccount  String?
+  nationalId   String?
+  licensePlate String?
   role         String
   confirmed    Boolean @default(false)
   status       String  @default("active")
@@ -60,6 +60,7 @@ model Partner {
   orders     Order[]
 
   brandName      String
+  taxCode        String  @unique
   representative String?
   orderQuantity  Int?
   status         String?

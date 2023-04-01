@@ -9,17 +9,18 @@ const { sendEmail } = require('../utils/emailSenderUtil')
 // TODO: implement register
 exports.register = async (req, res) => {
   try {
-    const { 
+    const {
       brandName,
       email,
       phone,
       bankAccount,
+      taxCode,
       representative,
       orderQuantity,
       status,
       culinaryStyle,
       username,
-      password ,
+      password,
       branches
     } = req.body
 
@@ -48,6 +49,7 @@ exports.register = async (req, res) => {
       const partner = await prisma.partner.create({
         data: {
           brandName,
+          taxCode,
           representative,
           orderQuantity: 20,
           status: "active",
@@ -66,21 +68,35 @@ exports.register = async (req, res) => {
         }
       })
 
-      // const token = jwt.sign({
-      //   id: account.id,
-      // },
-      //   config.jwtToken,
-      //   // { expiresIn: '10m' }
-      // )
-
-      // const link = `${config.hostUrl}/api/auth/confirmation/${token}`
-      // await sendEmail(req.body.email, link)
-
       res.status(201).send(createReturnObject(null, '', 'Partner registered successfully', 201))
     })
 
   } catch (err) {
     console.log(err)
     res.status(500).send({ message: err.message })
+  }
+}
+
+exports.getContract = async (req, res) => {
+  try {
+    const { accessCode } = req.params
+
+    const partner = await prisma.partner.findUnique({
+      where: {
+        accessCode
+      },
+      include: {
+        account: true,
+        branches: true
+      }
+    })
+
+    if (!partner) {
+      res.status(404).send(createReturnObject(null, 'Partner not found', '', 404))
+    }
+
+    res.status(200).send(createReturnObject(partner, '', '', 200))
+  } catch (err) {
+
   }
 }

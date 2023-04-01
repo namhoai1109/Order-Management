@@ -25,6 +25,7 @@ const customerRouter = require('./src/routes/customerRoute')
 const partnerRouter = require('./src/routes/partnerRoute')
 const locationRouter = require('./src/routes/locationRoute')
 const shipperRouter = require('./src/routes/shipperRoute')
+const staffRouter = require('./src/routes/staffRoute')
 
 // mount routes
 app.use('/api/admin', adminRouter)
@@ -32,6 +33,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/partners', partnerRouter)
 app.use('/api/shippers', shipperRouter)
+app.use('/api/staffs', staffRouter)
 app.use('/api/locations', locationRouter)
 
 // root route
