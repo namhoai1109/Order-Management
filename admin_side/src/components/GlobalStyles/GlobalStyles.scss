@@ -1,11 +1,14 @@
 @import 'normalize.css';
 
 :root {
+  --white: #ffffff;
+  --black: #000000;
 }
 
 html {
   font-size: 62.5%;
 }
+
 
 body {
   font-family: var(--font-familly);
@@ -37,6 +40,16 @@ html *::-webkit-scrollbar-track {
   padding: 0;
 }
 
+.container {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  margin: 0 50px 0 50px;
+
+}
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -54,4 +67,39 @@ input,
 a {
   color: var(--text-color);
   text-decoration: none;
+}
+
+body .ant-table-wrapper table,
+body .ant-table-wrapper thead tr .ant-table-cell {
+  text-align: center;
+}
+
+.ant-table-column-title {
+  text-align: center;
+}
+
+.admin_btnEdit {
+  color: rgb(65, 65, 255);
+  font-size: 16px;
+  padding: 0 5px 0 5px;
+  cursor: pointer;
+}
+
+.admin_btnBlock {
+  color: rgb(255, 59, 59);
+  font-size: 16px;
+  padding: 0 5px 0 5px;
+  cursor: pointer;
+}
+
+.admin_btnDelete {
+  color: rgb(0, 182, 0);
+  font-size: 16px;
+  padding: 0 5px 0 5px;
+  cursor: pointer;
+}
+
+.page_container_title {
+  text-align: center;
+  margin-bottom: 20px;
 }

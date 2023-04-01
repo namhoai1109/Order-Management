@@ -1,0 +1,78 @@
+.adminPage_container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login_background{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+.login_container{
+    width: 420px;
+    height: 250px;
+    background-color: var(--white);
+    border-radius: 10px;
+}
+
+.login_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_form_title{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    margin: 20px 0 20px 0;
+}
+
+.login_form_input{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+
+.login_form_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+
+    input{
+        width: 300px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 0 10px 0 10px;
+        margin-left: 10px;
+    }
+}
+
+.login_form form{
+    width: 300px;
+}
+
+.login_form form .ant-form-item{
+    margin-bottom: 12px;
+}
+
+.login_form .login_form_remember{
+    margin-left: 38px;
+}
+
+.login_form_btnSubmit{
+    text-align: center;
+}
