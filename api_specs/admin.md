@@ -33,7 +33,7 @@
     params: {
         id: string (id of staff's account to delete)
     },
-    esponse: {
+    response: {
         result: null
         meta: {
             error: string,
@@ -41,4 +41,24 @@
             statusCode: int
         }
     }
+```
+
+3. Update status Account
+```
+    [POST] /api/admin/update-accountStatus/:id
+    header: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    params: {
+        id: string (id of account to delete)
+    },
+    response: {
+        result: null
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+
 ```
