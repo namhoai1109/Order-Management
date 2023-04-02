@@ -153,7 +153,28 @@ exports.getStaff = async (req, res) => {
           }
         })
     
-        res.status(200).send(createReturnObject(customer, '', 'Customer profile viewed successfully', 200))
+        res.status(200).send(createReturnObject(customer, '', 'Staff profile viewed successfully', 200))
+      } catch (err) {
+        console.log(err)
+        res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+    
+      } finally {
+        await prisma.$disconnect()
+      }
+}
+
+
+exports.getAllStaff = async (req, res) => {
+
+    try {
+        // console.log(req.account);
+        const customer = await prisma.account.findMany({
+          where: {
+            role: 'staff'
+          }
+        })
+    
+        res.status(200).send(createReturnObject(customer, '', 'Staffs profile viewed successfully', 200))
       } catch (err) {
         console.log(err)
         res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
