@@ -6,9 +6,38 @@ import { ProSidebarProvider } from 'react-pro-sidebar';
 
 function App() {
   return (
-    <div className="App">
-      Vu Hoai Nam
-    </div>
+    <ProSidebarProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            {PUBLIC_ROUTES.map((route, index) => {
+              const PAGE = route.component;   // <Login /> or <Staff />
+  
+              let Layout = DefaultLayout;   // set default layout
+  
+              // Check layout
+              if (route.layout) {
+                Layout = route.layout;
+              } else if (route.layout === null) {
+                Layout = Fragment;
+              } 
+  
+              return (
+                <Route
+                  key={index} 
+                  path={route.path}
+                  element={
+                    <Layout>
+                      <PAGE />
+                    </Layout>
+                  }
+                />
+              )
+            })}
+          </Routes>
+        </div>
+      </Router>
+    </ProSidebarProvider>
   );
 }
 
