@@ -62,3 +62,27 @@
     }
 
 ```
+
+
+4. Get Staff
+
+```
+    [GET] /api/admin/get-staff/:id
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            name: string
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
