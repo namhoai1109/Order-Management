@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
-import axios from '../../api/axios';
 
 import Background from '~/assets/images/backgroundAdmin.jpg';
 
@@ -12,23 +11,9 @@ import Background from '~/assets/images/backgroundAdmin.jpg';
 import './Login.scss';
 
 function Login() {
-    const [error, setError] = useState('');
 
-    const onFinish = async (values) => {
-        try {
-            const response = await axios.post('/posts', values);
-            const { result, meta } = response.data;
-            if (meta.statusCode === 200) {
-                localStorage.setItem('token', result.token);
-                localStorage.setItem('username', result.username);
-                localStorage.setItem('role', result.role);
-                window.location.href = '/dashboard';    
-            } else {
-                setError(meta.message);
-            }
-        } catch (error) {
-            setError(error.message);
-        }
+    const onFinish = (values) => {
+        console.log('Success:', values);
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -51,6 +36,7 @@ function Login() {
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
+
                         <Form.Item
                             label={<FontAwesomeIcon icon={faUser} />}
                             name="username"

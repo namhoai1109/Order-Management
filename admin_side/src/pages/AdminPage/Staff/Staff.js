@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { Table, Form, Input, Button, Modal } from 'antd';
+import { Table, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faLock, faPenToSquare, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 import './staff.scss';
