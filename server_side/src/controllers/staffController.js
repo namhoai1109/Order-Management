@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../configs')
 const { createReturnObject } = require('../utils/returnObjectUtil')
 const { generateContract } = require('../utils/contractUtil')
-const { sendEmail } = require('../utils/emailSenderUtil')
+const { sendContract } = require('../utils/emailSenderUtil')
 
 exports.getAllPartners = async (req, res) => {
   try {
@@ -62,6 +62,7 @@ exports.generateContract = async (req, res) => {
       })
 
       generateContract(partner, contract)
+      sendContract(partner.account.email, contract)
     })
 
     // TODO: send email with contract to partner

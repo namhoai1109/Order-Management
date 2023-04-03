@@ -1,15 +1,26 @@
 const nodemailer = require('nodemailer')
 const SendinblueTransport = require('nodemailer-sendinblue-transport')
 const config = require('../configs')
+const path = require('path')
 
 // protonmail
-const transporter = nodemailer.createTransport(
-  new SendinblueTransport({
-    apiKey: config.sendinblueApiKey
-  })
-);
+// const transporter = nodemailer.createTransport(
+//   new SendinblueTransport({
+//     apiKey: config.sendinblueApiKey
+//   })
+// );
 
-exports.sendEmail = async (to, link) => {
+// ethereal
+const transporter = nodemailer.createTransport({
+  host: 'smtp.ethereal.email',
+  port: 587,
+  auth: {
+      user: config.etherealUsername,
+      pass: config.etherealPassword
+  }
+});
+
+exports.sendConfirmEmail = async (to, link) => {
   const mailOptions = {
     from: 'demo@example.com',
     to: to,
@@ -70,6 +81,28 @@ exports.sendEmail = async (to, link) => {
     </body>
     </html>
     `
+  }
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(info.response)
+    }
+  })
+}
+
+exports.sendContract = async (to, contract) => {
+  const mailOptions = {
+    from: 'demo@example.com',
+    to: to,
+    subject: 'Contract Detail',
+    attachments: [
+      {
+        filename: "Contract.txt",
+        path: path.join(__dirname, `../../data/contracts/${contract.taxCode}.txt`)
+      }
+    ]
   }
 
   transporter.sendMail(mailOptions, (err, info) => {
