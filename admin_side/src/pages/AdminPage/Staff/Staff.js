@@ -1,9 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Table, Button } from 'antd';
-
-
 import './staff.scss';
-import {AddStaff} from '../../../components/Staff/staffComponent';
+import { AddStaff } from '../../../components/Staff/staffComponent';
 import { COLUMNS_STAFF } from '../const/column';
 import axios from '../../../api/axios';
 
@@ -16,15 +14,15 @@ function Staff() {
             try {
                 const response = await axios.get('/api/admin/get-allStaff', {
                     headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjgwNDU1NDUwfQ.oZfwJAXQDXESpJzfZHiStER08gAGuUlSIR6o62rMX1g`,
+                        authorization: `Bearer ${localStorage.getItem('token')}`,
+                        withCredentials: true,
                     },
                 });
-                
                 const result = response.data;
-                const staffs = result.map(user => ({
+                const staffs = result.result.map(user => ({
                     id: user.id,
                     username: user.username,
-                    password: user.address.city,
+                    password: user.password,
                 }));
                 setData(staffs);
             } catch (error) {
@@ -35,11 +33,10 @@ function Staff() {
         fetchData();
     }, []);
 
-
     return (
         <div>
             <h1 className="page_container_title"> Staff Page</h1>
-            <AddStaff />    
+            <AddStaff />
             <Table dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
         </div>
     );
