@@ -5,11 +5,29 @@ const path = require('path')
 const config = require('../configs')
 const { createReturnObject } = require('../utils/returnObjectUtil')
 const { hashPassword } = require('../utils/passwordUtil')
-const { sendEmail } = require('../utils/emailSenderUtil')
+const { sendConfirmEmail } = require('../utils/emailSenderUtil')
 
 exports.register = async (req, res) => {
   try {
     const { email, username, password, name, phone, address, nationalId, licensePlate, bankAccount, districtId } = req.body
+    // check unique constraint
+    const account = await prisma.account.findFirst({
+      where: {
+        OR: [
+          { email },
+          { username },
+          { phone },
+          { nationalId },
+          { licensePlate },
+          { bankAccount }
+        ]
+      }
+    })
+    if (account) {
+      res.status(400).send(createReturnObject(null, 'Error registering account', 'Unique constraint', 400))
+      return
+    }
+
     const hashedPassword = await hashPassword(password)
     await prisma.$transaction(async (prisma) => {
       const account = await prisma.account.create({
@@ -44,7 +62,7 @@ exports.register = async (req, res) => {
 
       const token = jwt.sign({ id: account.id }, config.jwtToken, { expiresIn: '1d' })
       const link = `${config.hostUrl}/api/auth/confirmation/${token}`
-      await sendEmail(email, link)
+      await sendConfirmEmail(email, link)
 
       return res.status(200).json(createReturnObject(link, '', 'Register successfully', 200))
     })
