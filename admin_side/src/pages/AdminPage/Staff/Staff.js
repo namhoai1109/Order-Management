@@ -1,10 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import { Table, Button } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 import './staff.scss';
+import {AddStaff} from '../../../components/Staff/staffComponent';
 import { COLUMNS_STAFF } from '../const/column';
 import axios from '../../../api/axios';
 
@@ -15,7 +14,12 @@ function Staff() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/users');
+                const response = await axios.get('/api/admin/get-allStaff', {
+                    headers: {
+                        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjgwNDU1NDUwfQ.oZfwJAXQDXESpJzfZHiStER08gAGuUlSIR6o62rMX1g`,
+                    },
+                });
+                
                 const result = response.data;
                 const staffs = result.map(user => ({
                     id: user.id,
@@ -35,10 +39,7 @@ function Staff() {
     return (
         <div>
             <h1 className="page_container_title"> Staff Page</h1>
-            <Button onClick={() => { alert("Giao diện Add") }} className="staff_add">
-                <FontAwesomeIcon icon={faPlus} />
-                Add Staff
-            </Button>
+            <AddStaff />    
             <Table dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
         </div>
     );

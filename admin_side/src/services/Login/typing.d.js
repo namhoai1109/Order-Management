@@ -1,5 +1,5 @@
-type TSignInResponse = {
-  token: string;
-  role: string;
-  username: string;
-};
+// type TSignInResponse = {
+//   token: string;
+//   role: string;
+//   username: string;
+// };
