@@ -1,19 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 
 import Background from '~/assets/images/backgroundAdmin.jpg';
-
-
+import axios from '~/api/axios';
 
 import './Login.scss';
 
-function Login() {
-
-    const onFinish = (values) => {
-        console.log('Success:', values);
+function Login({ setToken }) { // receive a setToken prop to set token in App.js
+    const onFinish = async (e) => {
+        console.log('Success:', e);
+        const { username, password } = e;
+        try {
+            const response = await axios.post('/api/auth/login', {
+                username,
+                password,
+            });
+            const { result } = response.data;
+            const token = result.token;
+            setToken(token); // set the token received from the server to local storage
+        } catch (error) {
+            console.log(error);
+        }
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -36,19 +46,16 @@ function Login() {
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
-
                         <Form.Item
                             label={<FontAwesomeIcon icon={faUser} />}
                             name="username"
                             rules={[
                                 {
-
                                     required: true,
                                     message: 'Please input your username!',
-                                    placeholder: 'Username'
+                                    placeholder: 'Username',
                                 },
                             ]}
-
                         >
                             <Input />
                         </Form.Item>
@@ -60,31 +67,27 @@ function Login() {
                                 {
                                     required: true,
                                     message: 'Please input your password!',
-                                    placeholder: 'Password'
+                                    placeholder: 'Password',
                                 },
                             ]}
                         >
                             <Input.Password />
                         </Form.Item>
 
-                        <Form.Item
-                            className='login_form_remember'
-                            name="remember"
-                            valuePropName="checked"
-                        >
+                        <Form.Item className="login_form_remember" name="remember" valuePropName="checked">
                             <Checkbox>Remember me</Checkbox>
                         </Form.Item>
 
                         <Form.Item className="login_form_btnSubmit">
-                            <Button className='btnSubmit' type="primary" htmlType="submit">Submit</Button>
+                            <Button className="btnSubmit" type="primary" htmlType="submit">
+                                Submit
+                            </Button>
                         </Form.Item>
                     </Form>
                 </div>
             </div>
         </div>
-
     );
-
 }
 
 export default Login;
