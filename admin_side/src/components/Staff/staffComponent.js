@@ -20,11 +20,10 @@ function AddStaff(){
         setVisible(true);
     };
 
-    const handleOk = (values) => {
-        setModalText("The modal will be closed after two seconds");
-        
-        addStaff(values);
-        console.log("VALUES: " + values);
+    const handleOk = async (values) => {
+            setModalText("The modal will be closed after two seconds");
+            
+            addStaff(values);
     };
 
     const handleCancel = () => {

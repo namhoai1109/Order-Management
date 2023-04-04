@@ -25,13 +25,7 @@ const deleteStaff = async (id) => {
 const addStaff = async (staff) => {
     const { username, password, email, phone, name } = staff;
     try {
-        const response = await axios.post('/admin/register-staff', {
-            username,
-            password,
-            email,
-            phone,
-            name,
-        });
+        const response = await axios.post('/api/admin/register-staff', staff);
         const { result, meta } = response.data;
         // handle success case
         console.log(`Staff with username ${username} has been added`);

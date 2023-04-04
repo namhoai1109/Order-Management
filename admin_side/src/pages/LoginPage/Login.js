@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,22 +9,31 @@ import axios from '~/api/axios';
 
 import './Login.scss';
 
-function Login({ setToken }) { // receive a setToken prop to set token in App.js
-    const onFinish = async (e) => {
-        console.log('Success:', e);
-        const { username, password } = e;
+function refreshToken(newtoken) {
+    localStorage.setItem('token', newtoken);
+
+}
+function Login({ setAuth }) { // receive a setToken prop to set token in App.js
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const onFinish = async (values) => {
+        setIsLoading(true);
+        setErrorMessage(null);
         try {
-            const response = await axios.post('/api/auth/login', {
-                username,
-                password,
-            });
-            const { result } = response.data;
-            const token = result.token;
-            setToken(token); // set the token received from the server to local storage
+          const response = await axios.post('/api/auth/login', values);
+          const token = response?.data?.result?.token;
+          console.log("Token Login: " + token);
+          const role = response?.data?.result?.role;
+          refreshToken(token);
+          setAuth({ token, role });
+          console.log('Role Login: ' + role);
+          console.log(response);
         } catch (error) {
-            console.log(error);
+          console.log(error);
+          setErrorMessage('Invalid username or password');
         }
-    };
+        setIsLoading(false);
+      };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -79,7 +88,7 @@ function Login({ setToken }) { // receive a setToken prop to set token in App.js
                         </Form.Item>
 
                         <Form.Item className="login_form_btnSubmit">
-                            <Button className="btnSubmit" type="primary" htmlType="submit">
+                            <Button className="btnSubmit" type="primary" htmlType="submit" loading={isLoading}>
                                 Submit
                             </Button>
                         </Form.Item>
