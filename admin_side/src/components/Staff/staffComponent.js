@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input } from "antd";
+import { useState, useEffect } from "react";
+import { Button, Modal, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import {addStaff} from "../../pages/AdminPage/logic/staffLogic";
+import { addStaff } from "../../services/Admin/servicesAdmin";
 
 
-function AddStaff(){
+function AddStaff() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -20,10 +20,15 @@ function AddStaff(){
         setVisible(true);
     };
 
-    const handleOk = async (values) => {
-            setModalText("The modal will be closed after two seconds");
-            
-            addStaff(values);
+    const handleOk = async () => {
+        const staff = { username, password, email, phone, name };
+        setModalText("The modal will be closed after two seconds");
+        try {
+            await addStaff(staff, localStorage.getItem("token"));
+            setVisible(false);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleCancel = () => {
@@ -39,12 +44,14 @@ function AddStaff(){
             </Button>
             <Modal
                 title="Add Staff"
-                visible={visible}
+                open={visible}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
             >
-                <Form>
+                <Form
+                    onFinish={handleOk}
+                >
                     <Form.Item label="Username">
                         <Input
                             placeholder="Username"
@@ -86,4 +93,4 @@ function AddStaff(){
     );
 }
 
-export {AddStaff}
+export { AddStaff }

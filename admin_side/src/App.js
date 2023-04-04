@@ -1,25 +1,18 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PRIVATE_ROUTES_ADMIN, PRIVATE_ROUTES_STAFF } from '~/routes';
 import { DefaultLayout } from '~/layout';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import Login from '~/pages/LoginPage/Login';
 
-function getToken() {
-  return localStorage.getItem('token');
-}
-
-
 
 function App() {
-  const token = getToken();
-  const [auth, setAuth] = useState(null);
+  const token = localStorage.getItem('token');   // get the token from local storage
+  const role = localStorage.getItem('role');     // get the token from local storage
 
-  console.log('token APP: ' + token);
-  console.log('auth APP: ' + auth);
 
-  if (!token || !auth) {
-    return <Login setAuth={setAuth} />; // show the Login component if there is no token or no auth object
+  if (!token) {
+    return <Login />; // show the Login component if there is no token or no auth object
 
   } else
     return (
@@ -27,7 +20,7 @@ function App() {
         <Router>
           <div className="App">
             <Routes>
-              {auth.role === 'admin' &&
+              {role === 'admin' &&
                 PRIVATE_ROUTES_ADMIN.map((route, index) => {
                   const PageComponent = route.component;
                   let LayoutComponent = DefaultLayout;
@@ -39,6 +32,7 @@ function App() {
                   }
 
                   return (
+
                     <Route
                       key={index}
                       path={route.path}
@@ -50,7 +44,7 @@ function App() {
                     />
                   );
                 })}
-              {auth.role === 'staff' &&
+              {role === 'staff' &&
                 PRIVATE_ROUTES_STAFF.map((route, index) => {
                   const PageComponent = route.component;
                   let LayoutComponent = DefaultLayout;
@@ -73,7 +67,7 @@ function App() {
                     />
                   );
                 })}
-              <Route path="**" element={<h1>404 Not Found</h1>} />
+              <Route path="*" element={<h1>404 Not Found Page</h1>} />
             </Routes>
           </div>
         </Router>
