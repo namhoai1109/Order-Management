@@ -1,7 +1,7 @@
 import { faLock, faPenToSquare, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'antd';
-import { deleteStaff } from '../logic/staffLogic';
+import { deleteStaff } from '~/services/Admin/servicesAdmin';
 
 
 const COLUMNS_SHIPPER = [

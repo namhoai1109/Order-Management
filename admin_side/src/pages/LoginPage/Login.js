@@ -1,39 +1,24 @@
 import { React, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 
 import Background from '~/assets/images/backgroundAdmin.jpg';
-import axios from '~/api/axios';
 
 import './Login.scss';
+import { PostSignIn } from '~/services/Login/servicesLogin';
 
-function refreshToken(newtoken) {
-    localStorage.setItem('token', newtoken);
-
-}
-function Login({ setAuth }) { // receive a setToken prop to set token in App.js
+function Login() { // receive a setToken prop to set token in App.js
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-    const onFinish = async (values) => {
+
+
+    const handleSubmit = async (values) => {
         setIsLoading(true);
         setErrorMessage(null);
-        try {
-          const response = await axios.post('/api/auth/login', values);
-          const token = response?.data?.result?.token;
-          console.log("Token Login: " + token);
-          const role = response?.data?.result?.role;
-          refreshToken(token);
-          setAuth({ token, role });
-          console.log('Role Login: ' + role);
-          console.log(response);
-        } catch (error) {
-          console.log(error);
-          setErrorMessage('Invalid username or password');
-        }
+        PostSignIn(values);         // call api to get token
         setIsLoading(false);
-      };
+    };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -51,7 +36,7 @@ function Login({ setAuth }) { // receive a setToken prop to set token in App.js
                         initialValues={{
                             remember: true,
                         }}
-                        onFinish={onFinish}
+                        onFinish={handleSubmit}
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
