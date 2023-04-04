@@ -180,11 +180,11 @@ exports.getAllStaff = async (req, res) => {
       }
 }
 
-exports.getAllShipper = async (req, res) => {
+exports.getAll = async (req, res) => {
 
     try {
         // console.log(req.account);
-        const shippers = await prisma.shipper.findMany()
+        const shippers = await prisma.account.findMany()
     
         res.status(200).send(createReturnObject(shippers, '', 'Shippers profile viewed successfully', 200))
       } catch (err) {

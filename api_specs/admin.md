@@ -45,7 +45,7 @@
 
 3. Update status Account
 ```
-    [POST] /api/admin/update-accountStatus/:id
+    [POST] /api/admin/update-account-status/:id
     header: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -119,20 +119,26 @@
     }
 ```
 
-6. Get All Shipper
+6. Get All Account
 
 ```
-    [GET] /api/admin/get-shippers
+    [GET] /api/admin/get-all
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
     response: {
         result: {
-           "id": int,
-            "accountId": int,
-            "districtId": int,
-            "name": string,
-            "address": string
+            id: int,
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            bankAccount: string,
+            nationalId: string,
+            licensePlate: string,
+            role: string,
+            confirmed: boolean,
+            status: string
         },
         meta: {
             error: string,
