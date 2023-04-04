@@ -179,3 +179,19 @@ exports.getAllStaff = async (req, res) => {
         await prisma.$disconnect()
       }
 }
+
+exports.getAllShipper = async (req, res) => {
+
+    try {
+        // console.log(req.account);
+        const shippers = await prisma.shipper.findMany()
+    
+        res.status(200).send(createReturnObject(shippers, '', 'Shippers profile viewed successfully', 200))
+      } catch (err) {
+        console.log(err)
+        res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+    
+      } finally {
+        await prisma.$disconnect()
+      }
+}
