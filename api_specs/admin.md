@@ -91,7 +91,7 @@
 5. Get All Staff
 
 ```
-    [GET] /api/admin/get-allStaff
+    [GET] /api/admin/get-staffs
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -110,6 +110,29 @@
             status: string
 
             
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+6. Get All Shipper
+
+```
+    [GET] /api/admin/get-shippers
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+           "id": int,
+            "accountId": int,
+            "districtId": int,
+            "name": string,
+            "address": string
         },
         meta: {
             error: string,
