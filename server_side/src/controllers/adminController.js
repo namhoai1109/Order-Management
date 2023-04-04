@@ -180,7 +180,7 @@ exports.getAllStaff = async (req, res) => {
       }
 }
 
-exports.getAll = async (req, res) => {
+exports.getAllAccount = async (req, res) => {
 
     try {
         // console.log(req.account);
