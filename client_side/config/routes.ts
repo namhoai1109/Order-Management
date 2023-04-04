@@ -19,6 +19,31 @@ export default [
     component: './Login',
   },
   {
+    path: '/sign-up',
+    layout: false,
+    routes: [
+      {
+        path: '/sign-up/customer',
+        exact: true,
+        component: './Login',
+      },
+      {
+        path: '/sign-up/partner',
+        exact: true,
+        component: './Login',
+      },
+      {
+        path: '/sign-up/shipper',
+        exact: true,
+        component: './Login',
+      },
+      {
+        path: '/sign-up',
+        redirect: '/sign-up/customer',
+      },
+    ],
+  },
+  {
     path: '/',
     redirect: '/login',
   },
@@ -35,8 +60,16 @@ export default [
         routes: [
           {
             path: '/partner/menu',
-            exact: true,
-            component: './Partner/MenuPage',
+            routes: [
+              {
+                path: '/partner/menu',
+                component: './Partner/MenuPage',
+              },
+              {
+                path: '/partner/menu/add',
+                component: './Partner/AddDishPage',
+              },
+            ],
           },
           {
             path: '/partner',

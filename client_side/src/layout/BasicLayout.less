@@ -1,22 +1,31 @@
 .wrap-nav-bar-layout {
-  background-color: @neutral-1;
+  padding-top: 46px;
+  overflow-y: overlay;
+  background-color: @neutral-2;
 
   .wrap-content-navbar {
-    justify-content: space-between;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: @neutral-1;
+    .navbar {
+      justify-content: space-between;
+      .wrap-header-account {
+        margin-right: 8px;
+        padding: 0px 8px;
+        color: @primary-color;
+        font-weight: bold;
+        font-size: 14px;
 
-    .wrap-header-account {
-      margin-right: 8px;
-      padding: 0px 8px;
-      color: @primary-color;
-      font-weight: bold;
-      font-size: 14px;
+        &:hover {
+          cursor: pointer;
+        }
 
-      &:hover {
-        cursor: pointer;
-      }
-
-      .icon {
-        margin-left: 8px;
+        .icon {
+          margin-left: 8px;
+        }
       }
     }
   }

@@ -1,9 +1,7 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { history, RunTimeLayoutConfig } from '@umijs/max';
+import { RunTimeLayoutConfig } from '@umijs/max';
 import { Fragment } from 'react';
 import defaultSettings from '../config/defaultSettings';
-import { internalLink } from './constants/internal_link';
-import { roles } from './constants/roles';
 import { errorConfig } from './requestErrorConfig';
 import { getKey, keyLocalStorage } from './utils/local_storage';
 
@@ -14,23 +12,9 @@ export async function getInitialState() {
   const token = getKey(keyLocalStorage.TOKEN);
   let role: string = '';
   let currentUser: any = {};
-  if (!token) {
-  } else {
+  if (token) {
     role = getKey(keyLocalStorage.ROLE) as string;
     currentUser.username = getKey(keyLocalStorage.USERNAME);
-    switch (role) {
-      case roles.PARTNER:
-        history.push(internalLink.PARTNER);
-        break;
-      case roles.SHIPPER:
-        history.push(internalLink.SHIPPER);
-        break;
-      case roles.CUSTOMER:
-        history.push(internalLink.CUSTOMER);
-        break;
-      default:
-        history.push(internalLink.LOGIN);
-    }
   }
   return {
     currentUser: { ...currentUser },

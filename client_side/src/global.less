@@ -41,6 +41,7 @@ canvas {
 }
 
 body {
+  background-color: @neutral-2;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,6 +50,21 @@ body {
 ul,
 ol {
   list-style: none;
+}
+
+html *::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 0;
+}
+
+html *::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+html *::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 0;
 }
 
 @media (max-width: 768px) {

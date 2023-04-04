@@ -12,9 +12,13 @@ const { REACT_APP_ENV = 'dev' } = process.env;
 export default defineConfig({
   hash: true,
   routes,
+  define: {
+    HOST_NAME: 'https://8004-14-169-227-137.ap.ngrok.io',
+  },
   theme: {
     ...colors,
     'max-width': '1280px',
+    'width-845': '845px',
   },
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV as keyof typeof proxy],
