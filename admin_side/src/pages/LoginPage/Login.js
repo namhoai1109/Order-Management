@@ -2,25 +2,38 @@ import { React, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Background from '~/assets/images/backgroundAdmin.jpg';
 
 import './Login.scss';
 import { PostSignIn } from '~/services/Login/servicesLogin';
 
 function Login() { // receive a setToken prop to set token in App.js
-    const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
 
 
     const handleSubmit = async (values) => {
-        setIsLoading(true);
-        setErrorMessage(null);
         PostSignIn(values);         // call api to get token
-        setIsLoading(false);
-    };
+
+        // if token is null => show error message
+        setTimeout(() => {
+            if (localStorage.getItem('token') === null) {
+                toast.error("Invalid username or password", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                })
+            }
+        },500)
+    }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+
     };
 
     return (
@@ -73,11 +86,13 @@ function Login() { // receive a setToken prop to set token in App.js
                         </Form.Item>
 
                         <Form.Item className="login_form_btnSubmit">
-                            <Button className="btnSubmit" type="primary" htmlType="submit" loading={isLoading}>
+                            <Button className="btnSubmit" type="primary" htmlType="submit">
                                 Submit
                             </Button>
                         </Form.Item>
                     </Form>
+                    <ToastContainer />
+
                 </div>
             </div>
         </div>

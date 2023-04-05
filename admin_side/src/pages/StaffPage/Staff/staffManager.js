@@ -1,3 +1,4 @@
+import React from 'react';
 import { Table } from 'antd';
 import { COLUMNS } from './constColumn/const';
 import { DATASOURCES } from './fakeData/data';

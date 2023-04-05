@@ -1,6 +1,7 @@
+import React from 'react';
 import { faLock, faPenToSquare, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from 'antd';
+import { Modal, Button } from 'antd';
 import { deleteStaff } from '~/services/Admin/servicesAdmin';
 
 
@@ -130,8 +131,17 @@ const COLUMNS_STAFF = [
                 </Button>
 
                 <Button
-                    onClick={() => { deleteStaff(record.id) }}
-                 type="link" lassName="admin_btnDelete">
+                    onClick={() => {
+                        Modal.confirm({
+                            title: "Are you sure, you want to delete this staff record?",
+                            okText: "Yes",
+                            okType: "danger",
+                            onOk: () => { deleteStaff(record.id) },
+                        });
+
+
+                    }}
+                    type="link" lassName="admin_btnDelete">
                     <FontAwesomeIcon icon={faTrash} />
                 </Button>
             </div>

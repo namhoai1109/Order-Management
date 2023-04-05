@@ -6,8 +6,9 @@ export const PostSignIn = async (values) => {
         const token = response?.data?.result?.token;
         const role = response?.data?.result?.role;
 
-        console.log("Token Login: " + token);
-        console.log('Role Login: ' + role);
+        console.log(token);
+        console.log(role);
+
         localStorage.setItem('token', token);
         localStorage.setItem('role', role);
 
