@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { hashPassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
-const { sendEmail } = require('../utils/emailSenderUtil')
+const { sendConfirmEmail } = require('../utils/emailSenderUtil')
 const config = require('../configs')
 
 exports.viewProfile = async (req, res) => {
@@ -29,6 +29,21 @@ exports.viewProfile = async (req, res) => {
 
 exports.register = async (req, res) => {
   try {
+    // check unique constraint
+    const account = await prisma.account.findFirst({
+      where: {
+        OR: [
+          { email: req.body.email },
+          { username: req.body.username },
+          { phone: req.body.phone}
+        ]
+      }
+    })
+    if (account) {
+      res.status(400).send(createReturnObject(null, 'Error registering account', 'Unique constraint', 400))
+      return
+    }
+
     const hashedPassword = await hashPassword(req.body.password)
     await prisma.$transaction(async (prisma) => {
       const account = await prisma.account.create({
@@ -60,7 +75,7 @@ exports.register = async (req, res) => {
 
       // send email verification
       const link = `${config.hostUrl}/api/auth/confirmation/${token}`
-      await sendEmail(req.body.email, link)
+      await sendConfirmEmail(req.body.email, link)
 
       res.status(201).send(createReturnObject(link, '', 'Account registered successfully', 201))
     })

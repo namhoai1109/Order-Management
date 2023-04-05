@@ -23,6 +23,7 @@ const PRIVATE_ROUTES_STAFF = [
 ];
 
 const PRIVATE_ROUTES_ADMIN = [
+
     {
         path: '/admin', component: adminStaff,
     },
@@ -41,3 +42,4 @@ const PRIVATE_ROUTES_ADMIN = [
 ];
 
 export { PUBLIC_ROUTES, PRIVATE_ROUTES_STAFF, PRIVATE_ROUTES_ADMIN };
+

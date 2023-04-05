@@ -110,6 +110,7 @@ model Dish {
   partner     Partner      @relation(fields: [partnerId], references: [id])
   partnerId   Int
   dishDetails DishDetail[]
+  images      Image[]
   ratings     Rating[]
 
   name        String
@@ -125,6 +126,14 @@ model DishDetail {
 
   name  String
   price Float
+}
+
+model Image {
+  id     Int  @id @default(autoincrement())
+  dish   Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  dishId Int
+
+  filename String
 }
 
 model Order {

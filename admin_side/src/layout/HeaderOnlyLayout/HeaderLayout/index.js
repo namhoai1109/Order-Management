@@ -28,7 +28,6 @@ const handleLogout = () => {
 
 };
 
-
 function Header() {
     return (
         <div className={CX("header_container")}>
