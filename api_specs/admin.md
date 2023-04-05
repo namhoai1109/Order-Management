@@ -45,7 +45,7 @@
 
 3. Update Status Account
 ```
-    [POST] /api/admin/update-accountstatus/:id
+    [POST] /api/admin/update-account-status/:id
     header: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -122,7 +122,7 @@
 6. Get All Account
 
 ```
-    [GET] /api/admin/get-allaccount
+    [GET] /api/admin/get-all-account
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
