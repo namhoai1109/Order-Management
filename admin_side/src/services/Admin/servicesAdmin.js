@@ -1,29 +1,21 @@
 import axios from '../../api/axios';
-import { Modal } from 'antd';
 
 // delete staff when click button delete
 const deleteStaff = async (id) => {
-    Modal.confirm({
-        title: "Are you sure, you want to delete this staff record?",
-        okText: "Yes",
-        okType: "danger",
-        onOk: async () => {
-            try {
-                const response = await axios.delete(`/api/admin/delete-staff/${id}`, {
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem('token')}`,
-                        "withCredentials": true,
-                    },
-                });
+    try {
+        const response = await axios.delete(`/api/admin/delete-staff/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                "withCredentials": true,
+            },
+        });
 
-                // handle success case
-                console.log(`Staff with id ${id} has been deleted`);
-            } catch (error) {
-                // handle error case
-                console.log(`Failed to delete staff with id ${id}: ${error.message}`);
-            }
-        },
-    });
+        // handle success case
+        console.log(`Staff with id ${id} has been deleted`);
+    } catch (error) {
+        // handle error case
+        console.log(`Failed to delete staff with id ${id}: ${error.message}`);
+    }
 
 };
 
@@ -58,15 +50,11 @@ const addStaff = async (staff, token) => {
 
 const getAllStaff = async (setData, token) => {
     try {
-        const response = await axios({
-            method: "GET",
-            url: "/api/admin/get-allShipper",
+        const response = await axios.get("/api/admin/get-all-staff", {
             headers: {
                 authorization: "Bearer " + token,
                 withCredentials: true,
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-            }
+            },
         });
 
         const result = response.data;
@@ -85,7 +73,7 @@ const getAllShipper = async (setData, token) => {
     try {
         const response = await axios({
             method: "GET",
-            url: "/api/admin/get-allStaff",
+            url: "/api/admin/get-all",
             headers: {
                 authorization: "Bearer " + token,
                 withCredentials: true,
@@ -116,7 +104,7 @@ const getAllShipper = async (setData, token) => {
 //     try {
 //         const response = await axios({
 //             method: "GET",
-//             url: "/api/admin/get-allStaff",
+//             url: "/api/admin/get-all",
 //             headers: {
 //                 authorization: "Bearer " + token,
 //                 withCredentials: true,
