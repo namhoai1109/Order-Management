@@ -6,5 +6,3 @@ router.get('/get-partners', authorizeUser('staff'), controller.getAllPartners)
 router.post('/generate-contract/:taxCode', authorizeUser('staff'), controller.generateContract)
 
 module.exports = router
-
-

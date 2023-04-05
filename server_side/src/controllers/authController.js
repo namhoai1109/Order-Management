@@ -7,10 +7,7 @@ const config = require('../configs')
 const { comparePassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
 
-let currenntAccount
-
 exports.login = async (req, res) => {
-  let account
   try {
     await prisma.$transaction(async (tx) => {
       const account = await tx.account.findUnique({
@@ -93,7 +90,6 @@ exports.validate = async (req, res) => {
     })
 
     res.status(200).render('confirm_success')
-
   } catch (err) {
     console.log(err)
     if (err.name === 'TokenExpiredError') {
@@ -101,9 +97,7 @@ exports.validate = async (req, res) => {
       res.render('expired', )
       return
     }
-    
     res.status(500).send(createReturnObject(null, err.message, 'Error validating account', 500))
-
   } finally {
     await prisma.$disconnect()
   }
@@ -137,5 +131,4 @@ exports.expiredEmailResend = async (req, res) => {
   } finally {
     await prisma.$disconnect()
   }
-   
 }

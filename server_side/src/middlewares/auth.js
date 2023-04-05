@@ -37,10 +37,8 @@ const authorizeUser = function (...roles) {
         res.status(401).send(createReturnObject(null, '', 'Account is not confirmed', 401))
         return
       }
-      
       req.account = account
       next()
-
     } catch (err) {
       console.log(err)
       res.status(500).send(createReturnObject(null, err.message, 'Something went wrong', 500))

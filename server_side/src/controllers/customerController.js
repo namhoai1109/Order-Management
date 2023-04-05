@@ -10,18 +10,16 @@ const config = require('../configs')
 
 exports.viewProfile = async (req, res) => {
   try {
-    console.log(req.account);
+    console.log(req.account)
     const customer = await prisma.customer.findUnique({
       where: {
         accountId: req.account.id
       }
     })
-
     res.status(200).send(createReturnObject(customer, '', 'Customer profile viewed successfully', 200))
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
-
   } finally {
     await prisma.$disconnect()
   }
@@ -35,10 +33,11 @@ exports.register = async (req, res) => {
         OR: [
           { email: req.body.email },
           { username: req.body.username },
-          { phone: req.body.phone}
+          { phone: req.body.phone }
         ]
       }
     })
+
     if (account) {
       res.status(400).send(createReturnObject(null, 'Error registering account', 'Unique constraint', 400))
       return
@@ -57,7 +56,7 @@ exports.register = async (req, res) => {
       })
       await prisma.customer.create({
         data: {
-          name: req.body.name,     
+          name: req.body.name,
           address: req.body.address,
           account: {
             connect: {
@@ -79,11 +78,9 @@ exports.register = async (req, res) => {
 
       res.status(201).send(createReturnObject(link, '', 'Account registered successfully', 201))
     })
-
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error registering customer', 500))
-
   } finally {
     await prisma.$disconnect()
   }

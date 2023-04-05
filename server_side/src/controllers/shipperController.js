@@ -44,9 +44,9 @@ exports.register = async (req, res) => {
       })
 
       await prisma.shipper.create({
-        data: {       
+        data: {
           name,
-          address,  
+          address,
           account: {
             connect: {
               id: account.id

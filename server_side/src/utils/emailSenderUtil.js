@@ -15,10 +15,10 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.ethereal.email',
   port: 587,
   auth: {
-      user: config.etherealUsername,
-      pass: config.etherealPassword
+    user: config.etherealUsername,
+    pass: config.etherealPassword
   }
-});
+})
 
 exports.sendConfirmEmail = async (to, link) => {
   const mailOptions = {
@@ -99,7 +99,7 @@ exports.sendContract = async (to, contract) => {
     subject: 'Contract Detail',
     attachments: [
       {
-        filename: "Contract.txt",
+        filename: 'Contract.txt',
         path: path.join(__dirname, `../../data/contracts/${contract.taxCode}.txt`)
       }
     ]
