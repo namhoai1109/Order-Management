@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +29,7 @@ function Login() { // receive a setToken prop to set token in App.js
                     theme: "dark",
                 })
             }
-        },500)
+        }, 1500)
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
