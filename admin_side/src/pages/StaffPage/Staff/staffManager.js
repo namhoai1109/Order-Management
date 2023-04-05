@@ -16,7 +16,6 @@ function staffManager() {
         <div>
             <h1 className="page_container_title"> Staff Manager Page</h1>
             <Table dataSource={dataSource} columns={columns} pagination={{ pageSize: 5 }} />
-
         </div>
     );
 }

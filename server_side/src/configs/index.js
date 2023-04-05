@@ -13,7 +13,9 @@ const {
   SQL_DATABASE,
   SENDINBLUE_API_KEY,
   ADMIN_USERNAME,
-  ADMIN_PASSWORD
+  ADMIN_PASSWORD,
+  ETHEREAL_USERNAME,
+  ETHEREAL_PASSWORD
 } = process.env
 const sqlEncrypt = process.env.SQL_ENCRYPT === 'true'
 
@@ -26,6 +28,8 @@ module.exports = {
   sendinblueApiKey: SENDINBLUE_API_KEY,
   adminUsername: ADMIN_USERNAME,
   adminPassword: ADMIN_PASSWORD,
+  etherealUsername: ETHEREAL_USERNAME,
+  etherealPassword: ETHEREAL_PASSWORD,
   sqlConfig: {
     user: SQL_USER,
     password: SQL_PASSWORD,

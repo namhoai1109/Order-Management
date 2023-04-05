@@ -1,3 +1,4 @@
+
 import { React, Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PRIVATE_ROUTES_ADMIN, PRIVATE_ROUTES_STAFF } from '~/routes';
@@ -73,6 +74,7 @@ function App() {
         </Router>
       </ProSidebarProvider>
     );
+
 }
 
 export default App;

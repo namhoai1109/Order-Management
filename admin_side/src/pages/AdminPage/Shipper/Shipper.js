@@ -4,8 +4,6 @@ import './shipper.scss';
 import { COLUMNS_SHIPPER } from '../const/column';
 import { getAllShipper } from '../../../services/Admin/servicesAdmin';
 
-
-
 function Shipper() {
     const columns = COLUMNS_SHIPPER;
     const [data, setData] = useState([]);

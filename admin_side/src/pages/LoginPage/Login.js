@@ -33,7 +33,6 @@ function Login() { // receive a setToken prop to set token in App.js
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-
     };
 
     return (
@@ -80,8 +79,8 @@ function Login() { // receive a setToken prop to set token in App.js
                         >
                             <Input.Password />
                         </Form.Item>
-
                         <Form.Item className="login_form_remember" name="remember" valuePropName="checked">
+
                             <Checkbox>Remember me</Checkbox>
                         </Form.Item>
 
@@ -100,3 +99,4 @@ function Login() { // receive a setToken prop to set token in App.js
 }
 
 export default Login;
+

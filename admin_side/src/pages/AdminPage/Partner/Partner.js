@@ -6,7 +6,6 @@ import './partner.scss';
 import { COLUMNS_PARTNER } from '../const/column';
 import { API_URL } from '../../../api/axios';
 
-
 function Partner() {
     const columns = COLUMNS_PARTNER;
     const [data, setData] = useState([]);
@@ -28,6 +27,7 @@ function Partner() {
     //         })
     //         .catch(error => console.log(error));
     // }, []);
+
     return (
         <div>
             <h1 className="page_container_title"> Partner Page</h1>

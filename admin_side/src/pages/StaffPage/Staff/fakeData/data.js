@@ -71,8 +71,6 @@ const DATASOURCES = [
         status: 'Active',
         time: '8 days',
     },
-
-
 ];
 
 export {DATASOURCES};
