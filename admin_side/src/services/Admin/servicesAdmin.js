@@ -50,7 +50,7 @@ const addStaff = async (staff, token) => {
 
 const getAllStaff = async (setData, token) => {
     try {
-        const response = await axios.get("/api/admin/get-all-staff", {
+        const response = await axios.get("/api/admin/get-staffs", {
             headers: {
                 authorization: "Bearer " + token,
                 withCredentials: true,

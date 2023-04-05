@@ -150,6 +150,7 @@ exports.getStaff = async (req, res) => {
         const staff = await prisma.staff.findUnique({
           where: {
             id: parseInt(req.params.id)
+            
           }
         })
     
@@ -168,7 +169,11 @@ exports.getAllStaff = async (req, res) => {
 
     try {
         // console.log(req.account);
-        const staffs = await prisma.staff.findMany()
+        const staffs = await prisma.account.findMany({
+            where: {
+                role: 'staff'
+              }
+        })
     
         res.status(200).send(createReturnObject(staffs, '', 'Staffs profile viewed successfully', 200))
       } catch (err) {
