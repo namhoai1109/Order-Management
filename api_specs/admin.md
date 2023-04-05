@@ -33,8 +33,113 @@
     params: {
         id: string (id of staff's account to delete)
     },
-    esponse: {
+    response: {
         result: null
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+3. Update Status Account
+```
+    [POST] /api/admin/update-accountstatus/:id
+    header: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    params: {
+        id: string (id of account to delete)
+    },
+    response: {
+        result: null
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+
+```
+
+
+4. Get Staff
+
+```
+    [GET] /api/admin/get-staff/:id
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            name: string
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+
+5. Get All Staff
+
+```
+    [GET] /api/admin/get-staffs
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            id: int,
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            bankAccount: string,
+            nationalId: string,
+            licensePlate: string,
+            role: "staff",
+            confirmed: boolean,
+            status: string
+
+            
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+6. Get All Account
+
+```
+    [GET] /api/admin/get-allaccount
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            id: int,
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            bankAccount: string,
+            nationalId: string,
+            licensePlate: string,
+            role: string,
+            confirmed: boolean,
+            status: string
+        },
         meta: {
             error: string,
             message: string,

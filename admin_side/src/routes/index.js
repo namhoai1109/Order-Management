@@ -8,14 +8,22 @@ import User from '~/pages/AdminPage/User/User';
 import Shipper from '~/pages/AdminPage/Shipper/Shipper';
 import Partner from '~/pages/AdminPage/Partner/Partner';
 
-
 const PUBLIC_ROUTES = [
     {
         path: '/', component: Login, layout: null
     },
+];
+
+
+const PRIVATE_ROUTES_STAFF = [
     {
         path: '/staff', component: staffManager, layout: HeaderOnlyLayout,
     },
+    
+];
+
+const PRIVATE_ROUTES_ADMIN = [
+
     {
         path: '/admin', component: adminStaff,
     },
@@ -31,15 +39,7 @@ const PUBLIC_ROUTES = [
     {
         path: '/admin/adminPartner', component: Partner,
     },
-    
-
-
-    
 ];
 
+export { PUBLIC_ROUTES, PRIVATE_ROUTES_STAFF, PRIVATE_ROUTES_ADMIN };
 
-const PRIVATE_ROUTES = [
-    {},
-];
-
-export { PUBLIC_ROUTES, PRIVATE_ROUTES };

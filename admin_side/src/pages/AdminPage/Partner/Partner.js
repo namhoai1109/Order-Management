@@ -1,24 +1,32 @@
 import { React, useState, useEffect } from 'react';
 import { Table } from 'antd';
+import axios from '../../../api/axios'
 
 import './partner.scss';
-import { COLUMNS_PARTNER } from '../constColumn/const';
-
+import { COLUMNS_PARTNER } from '../const/column';
+import { API_URL } from '../../../api/axios';
 
 function Partner() {
     const columns = COLUMNS_PARTNER;
-    const data = [];
-    for (let i = 0; i < 5; i++) {
-        data.push({
-            key: `${i}`,
-            email: `Email ${i}`,
-            representative: `Representative ${i}`,
-            restaurant: `Restaurant ${i}`,
-            phone: `Phone ${i}`,
-            city: `City ${i}`,
-            bank: `Bank ${i}`,
-        })
-    }
+    const [data, setData] = useState([]);
+
+    // useEffect(() => {
+
+    //     axios.get(`${API_URL}/users`)
+    //         .then(res => {
+    //             const partners = res.data.map(user => ({
+    //                 key: user.id,
+    //                 email: user.email,
+    //                 representative: user.name,
+    //                 restaurant: `Restaurant ${user.address.street}`,
+    //                 phone: `Phone ${user.phone}`,
+    //                 city: `City ${user.address.city}`,
+    //                 bank: `Bank ${user.address.zipcode}`,
+    //             }));
+    //             setData(partners);
+    //         })
+    //         .catch(error => console.log(error));
+    // }, []);
 
     return (
         <div>

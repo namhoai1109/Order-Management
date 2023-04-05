@@ -1,3 +1,4 @@
+import React from 'react';
 import { Table } from 'antd';
 import { COLUMNS } from './constColumn/const';
 import { DATASOURCES } from './fakeData/data';
@@ -14,8 +15,7 @@ function staffManager() {
     return (
         <div>
             <h1 className="page_container_title"> Staff Manager Page</h1>
-            <Table dataSource={dataSource} columns={columns} />
-
+            <Table dataSource={dataSource} columns={columns} pagination={{ pageSize: 5 }} />
         </div>
     );
 }
