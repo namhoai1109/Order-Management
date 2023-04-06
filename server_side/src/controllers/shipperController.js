@@ -18,7 +18,6 @@ exports.register = async (req, res) => {
           { username },
           { phone },
           { nationalId },
-          { licensePlate },
           { bankAccount }
         ]
       }
@@ -37,8 +36,7 @@ exports.register = async (req, res) => {
           email,
           phone,
           nationalId,
-          licensePlate,
-          // bankAccount,
+          bankAccount,
           role: 'shipper'
         }
       })
@@ -47,6 +45,7 @@ exports.register = async (req, res) => {
         data: {
           name,
           address,
+          licensePlate,
           account: {
             connect: {
               id: account.id

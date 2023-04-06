@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
       }
 
       // if account is not confirmed
-      if (!account.confirmed) {
+      if (!account.isConfirmed) {
         res.status(401).send(createReturnObject(null, '', 'Account is not confirmed', 401))
         return
       }
@@ -71,7 +71,7 @@ exports.validate = async (req, res) => {
       return
     }
 
-    if (account.confirmed) {
+    if (account.isConfirmed) {
       res.render('confirmed')
       return
     }
@@ -84,7 +84,7 @@ exports.validate = async (req, res) => {
         },
         data: {
           status: 'active',
-          confirmed: true
+          isConfirmed: true
         }
       })
     })
@@ -116,7 +116,7 @@ exports.expiredEmailResend = async (req, res) => {
       return
     }
 
-    if (account.confirmed) {
+    if (account.isConfirmed) {
       res.render('confirmed')
       return
     }

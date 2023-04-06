@@ -10,8 +10,32 @@ exports.getAllPartners = async (req, res) => {
   try {
     const partners = await prisma.partner.findMany({
       include: {
-        account: true,
-        contract: true
+        account: {
+          select: {
+            id: true,
+            email: true,
+            bankAccount: true,
+            nationalId: true,
+            isConfirmed: true
+
+          }
+        },
+        contract: {
+          select: {
+            id: true,
+            createdAt: true,
+            confirmedAt: true,
+            expiredAt: true,
+            isConfirmed: true,
+            isExpired: true,
+            taxCode: true,
+            representative: true,
+            bankAccount: true,
+            branchQuantity: true,
+            commission: true,
+            effectTimeInYear: true
+          }
+        }
       }
     })
 
@@ -50,6 +74,7 @@ exports.generateContract = async (req, res) => {
       const contract = await prisma.contract.create({
         data: {
           accessCode,
+          branchQuantity: partner.branches.length,
           taxCode: partner.taxCode,
           representative: partner.representative,
           bankAccount: partner.account.bankAccount,

@@ -33,7 +33,7 @@ const authorizeUser = function (...roles) {
         return
       }
 
-      if (!account.confirmed) {
+      if (!account.isConfirmed) {
         res.status(401).send(createReturnObject(null, '', 'Account is not confirmed', 401))
         return
       }

@@ -17,16 +17,15 @@ model Account {
   shipper  Shipper?
   staff    Staff?
 
-  username     String  @unique
-  password     String
-  email        String?
-  phone        String?
-  bankAccount  String?
-  nationalId   String?
-  licensePlate String?
-  role         String
-  confirmed    Boolean @default(false)
-  status       String  @default("active")
+  username    String  @unique
+  password    String
+  email       String?
+  phone       String?
+  bankAccount String?
+  nationalId  String?
+  role        String
+  isConfirmed Boolean @default(false)
+  status      String  @default("active")
 }
 
 model Staff {
@@ -75,23 +74,27 @@ model Shipper {
   districtId Int
   orders     Order[]
 
-  name    String
-  address String?
+  name         String
+  address      String?
+  licensePlate String
 }
 
 model Contract {
   id      Int      @id @default(autoincrement())
   partner Partner?
 
-  createdAt      DateTime  @default(now())
-  confirmedAt    DateTime?
-  expiredAt      DateTime?
-  isConfirmed    Boolean   @default(false)
-  isExpired      Boolean   @default(false)
-  taxCode        String    @unique
-  representative String?
-  accessCode     String?   @unique
-  bankAccount    String?   @unique
+  createdAt        DateTime  @default(now())
+  confirmedAt      DateTime?
+  expiredAt        DateTime?
+  isConfirmed      Boolean   @default(false)
+  isExpired        Boolean   @default(false)
+  taxCode          String    @unique
+  representative   String?
+  accessCode       String?   @unique
+  bankAccount      String?   @unique
+  commission       Float     @default(0.1)
+  effectTimeInYear Int       @default(1)
+  branchQuantity   Int?
 }
 
 model Branch {
@@ -101,8 +104,8 @@ model Branch {
   district   District @relation(fields: [districtId], references: [id])
   districtId Int
 
-  orderNumber Int?
-  address     String
+  orderQuantity Int?
+  address       String
 }
 
 model Dish {
