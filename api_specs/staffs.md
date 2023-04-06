@@ -47,3 +47,21 @@
   }
 
 ```
+
+2. Generate contract
+
+```
+  [POST] /api/staffs/generate-contract/:taxCode
+  headers: {
+        authorization: string //Bearer  + jwt_token
+  },
+  response: {
+    result: null,
+    meta: {
+      "error": string,
+      "message": string,
+      statusCode: int
+    }
+  }
+
+```
