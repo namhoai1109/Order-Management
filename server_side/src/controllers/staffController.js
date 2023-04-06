@@ -100,3 +100,41 @@ exports.generateContract = async (req, res) => {
     await prisma.$disconnect()
   }
 }
+
+exports.getAllShipper = async (req, res) => {
+  try {
+    console.log(req.account)
+    const shipper = await prisma.account.findMany({
+      where: {
+        role: 'shipper'
+      }
+    })
+
+    res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.getActiveShippers = async (req, res) => {
+  try {
+    console.log(req.account)
+    const shipper = await prisma.account.findMany({
+      where: {
+        role: 'shipper',
+        status: 'active'
+      }
+    })
+
+    res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
