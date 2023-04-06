@@ -56,7 +56,6 @@ model Partner {
   contractId Int?      @unique
   dishes     Dish[]
   branches   Branch[]
-  orders     Order[]
 
   brandName      String
   taxCode        String  @unique
@@ -103,6 +102,7 @@ model Branch {
   partnerId  Int
   district   District @relation(fields: [districtId], references: [id])
   districtId Int
+  orders     Order[]
 
   orderQuantity Int?
   address       String
@@ -145,8 +145,8 @@ model Order {
   customerId  Int
   shipper     Shipper?      @relation(fields: [shipperId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shipperId   Int?
-  partner     Partner       @relation(fields: [partnerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  partnerId   Int
+  branch     Branch        @relation(fields: [branchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  branchId   Int
   orderDetais OrderDetail[]
 
   createdAt     DateTime  @default(now())
