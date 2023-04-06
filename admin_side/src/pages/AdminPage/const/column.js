@@ -103,7 +103,7 @@ const COLUMNS_PARTNER = [
 
 const COLUMNS_STAFF = [
     {
-        title: 'Id',
+        title: 'ID',
         dataIndex: 'id',
         key: 'id',
         sorter: (a, b) => a.username.localeCompare(b.username),
@@ -141,7 +141,7 @@ const COLUMNS_STAFF = [
 
 
                     }}
-                    type="link" lassName="admin_btnDelete">
+                    type="link" className="admin_btnDelete">
                     <FontAwesomeIcon icon={faTrash} />
                 </Button>
             </div>

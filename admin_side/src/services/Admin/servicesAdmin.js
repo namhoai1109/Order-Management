@@ -55,7 +55,6 @@ const getAllStaff = async (setData, token) => {
                 authorization: "Bearer " + token,
             },
         });
-
         const result = response.data;
         const staffs = result.result.map(user => ({
             id: user.id,
@@ -72,7 +71,7 @@ const getAllShipper = async (setData, token) => {
     try {
         const response = await axios({
             method: "GET",
-            url: "/api/admin/get-all",
+            url: "/api/admin/get-all-account",
             headers: {
                 authorization: "Bearer " + token,
             }

@@ -17,7 +17,7 @@ function Staff() {
         <div>
             <h1 className="page_container_title">Staff Page</h1>
             <AddStaff />
-            <Table dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
+            <Table rowKey="id" dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
         </div>
     );
 }
