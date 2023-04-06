@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
           username: config.adminUsername,
           password: hashedPassword,
           role: 'admin',
-          confirmed: true
+          isConfirmed: true
         }
       })
     })
@@ -42,7 +42,7 @@ exports.registerStaff = async (req, res) => {
           email: req.body.email,
           phone: req.body.phone,
           role: 'staff',
-          confirmed: true
+          isConfirmed: true
         }
       })
 

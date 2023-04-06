@@ -11,9 +11,8 @@ CREATE TABLE [dbo].[Account] (
     [phone] NVARCHAR(1000),
     [bankAccount] NVARCHAR(1000),
     [nationalId] NVARCHAR(1000),
-    [licensePlate] NVARCHAR(1000),
     [role] NVARCHAR(1000) NOT NULL,
-    [confirmed] BIT NOT NULL CONSTRAINT [Account_confirmed_df] DEFAULT 0,
+    [isConfirmed] BIT NOT NULL CONSTRAINT [Account_isConfirmed_df] DEFAULT 0,
     [status] NVARCHAR(1000) NOT NULL CONSTRAINT [Account_status_df] DEFAULT 'active',
     CONSTRAINT [Account_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Account_username_key] UNIQUE NONCLUSTERED ([username])
@@ -45,13 +44,15 @@ CREATE TABLE [dbo].[Partner] (
     [accountId] INT,
     [contractId] INT,
     [brandName] NVARCHAR(1000) NOT NULL,
+    [taxCode] NVARCHAR(1000) NOT NULL,
     [representative] NVARCHAR(1000),
     [orderQuantity] INT,
     [status] NVARCHAR(1000),
     [culinaryStyle] NVARCHAR(1000),
     CONSTRAINT [Partner_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Partner_accountId_key] UNIQUE NONCLUSTERED ([accountId]),
-    CONSTRAINT [Partner_contractId_key] UNIQUE NONCLUSTERED ([contractId])
+    CONSTRAINT [Partner_contractId_key] UNIQUE NONCLUSTERED ([contractId]),
+    CONSTRAINT [Partner_taxCode_key] UNIQUE NONCLUSTERED ([taxCode])
 );
 
 -- CreateTable
@@ -61,6 +62,7 @@ CREATE TABLE [dbo].[Shipper] (
     [districtId] INT NOT NULL,
     [name] NVARCHAR(1000) NOT NULL,
     [address] NVARCHAR(1000),
+    [licensePlate] NVARCHAR(1000) NOT NULL,
     CONSTRAINT [Shipper_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Shipper_accountId_key] UNIQUE NONCLUSTERED ([accountId])
 );
@@ -77,6 +79,9 @@ CREATE TABLE [dbo].[Contract] (
     [representative] NVARCHAR(1000),
     [accessCode] NVARCHAR(1000),
     [bankAccount] NVARCHAR(1000),
+    [commission] FLOAT(53) NOT NULL CONSTRAINT [Contract_commission_df] DEFAULT 0.1,
+    [effectTimeInYear] INT NOT NULL CONSTRAINT [Contract_effectTimeInYear_df] DEFAULT 1,
+    [branchQuantity] INT,
     CONSTRAINT [Contract_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Contract_taxCode_key] UNIQUE NONCLUSTERED ([taxCode]),
     CONSTRAINT [Contract_accessCode_key] UNIQUE NONCLUSTERED ([accessCode]),
@@ -88,7 +93,7 @@ CREATE TABLE [dbo].[Branch] (
     [id] INT NOT NULL IDENTITY(1,1),
     [partnerId] INT NOT NULL,
     [districtId] INT NOT NULL,
-    [orderNumber] INT,
+    [orderQuantity] INT,
     [address] NVARCHAR(1000) NOT NULL,
     CONSTRAINT [Branch_pkey] PRIMARY KEY CLUSTERED ([id])
 );
@@ -111,6 +116,14 @@ CREATE TABLE [dbo].[DishDetail] (
     [name] NVARCHAR(1000) NOT NULL,
     [price] FLOAT(53) NOT NULL,
     CONSTRAINT [DishDetail_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+-- CreateTable
+CREATE TABLE [dbo].[Image] (
+    [id] INT NOT NULL IDENTITY(1,1),
+    [dishId] INT NOT NULL,
+    [filename] NVARCHAR(1000) NOT NULL,
+    CONSTRAINT [Image_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
 -- CreateTable
@@ -195,6 +208,9 @@ ALTER TABLE [dbo].[Dish] ADD CONSTRAINT [Dish_partnerId_fkey] FOREIGN KEY ([part
 
 -- AddForeignKey
 ALTER TABLE [dbo].[DishDetail] ADD CONSTRAINT [DishDetail_dishId_fkey] FOREIGN KEY ([dishId]) REFERENCES [dbo].[Dish]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Image] ADD CONSTRAINT [Image_dishId_fkey] FOREIGN KEY ([dishId]) REFERENCES [dbo].[Dish]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Order] ADD CONSTRAINT [Order_customerId_fkey] FOREIGN KEY ([customerId]) REFERENCES [dbo].[Customer]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
