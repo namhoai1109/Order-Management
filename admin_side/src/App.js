@@ -8,8 +8,8 @@ import Login from '~/pages/LoginPage/Login';
 
 
 function App() {
-  const token = localStorage.getItem('token');   // get the token from local storage
-  const role = localStorage.getItem('role');     // get the token from local storage
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
 
 
   if (!token || !role) {

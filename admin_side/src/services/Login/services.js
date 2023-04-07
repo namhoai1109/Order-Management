@@ -1,8 +1,9 @@
 import axios from '~/api/axios';
+import { API_SIGN_IN } from './api_paths';
 
 export const PostSignIn = async (values) => {
     try {
-        const response = await axios.post('/api/auth/login', values);
+        const response = await axios.post(API_SIGN_IN, values);
         const token = response?.data?.result?.token;
         const role = response?.data?.result?.role;
 

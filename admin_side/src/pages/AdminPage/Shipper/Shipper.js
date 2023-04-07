@@ -2,15 +2,13 @@ import { React, useState, useEffect } from 'react';
 import { Table } from 'antd';
 import './shipper.scss';
 import { COLUMNS_SHIPPER } from '../const/column';
-import { getAllShipper } from '../../../services/Admin/servicesAdmin';
+import { useGetShippers } from '../../../services/Admin/services';
 
 function Shipper() {
     const columns = COLUMNS_SHIPPER;
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        getAllShipper(setData, localStorage.getItem('token'));       // get all staffs from database
-    }, []);
+    useGetShippers(setData, localStorage.getItem('token'));       // get all staffs from database
 
 
     return (

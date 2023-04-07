@@ -1,10 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import { Table } from 'antd';
-import axios from '../../../api/axios'
 
 import './partner.scss';
 import { COLUMNS_PARTNER } from '../const/column';
-import { API_URL } from '../../../api/axios';
 
 function Partner() {
     const columns = COLUMNS_PARTNER;

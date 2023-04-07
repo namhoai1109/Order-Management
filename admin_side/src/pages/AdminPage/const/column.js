@@ -1,8 +1,8 @@
 import React from 'react';
-import { faLock, faPenToSquare, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Button } from 'antd';
-import { deleteStaff } from '~/services/Admin/servicesAdmin';
+import { AuseDelelteStaff, useUpdateStatus } from '~/services/Admin/services';
 
 
 const COLUMNS_SHIPPER = [
@@ -126,7 +126,11 @@ const COLUMNS_STAFF = [
         key: 'actions',
         render: (text, record) => (
             <div>
-                <Button type="link" className="admin_btnBlock">
+                <Button
+                    onClick={() => {
+                        useUpdateStatus(record.id, localStorage.getItem('token'));
+                    }}
+                    type="link" className="admin_btnBlock">
                     <FontAwesomeIcon icon={faLock} />
                 </Button>
 
@@ -136,10 +140,10 @@ const COLUMNS_STAFF = [
                             title: "Are you sure, you want to delete this staff record?",
                             okText: "Yes",
                             okType: "danger",
-                            onOk: () => { deleteStaff(record.id) },
+                            onOk: () => { 
+                                AuseDelelteStaff(record.id) 
+                            },
                         });
-
-
                     }}
                     type="link" className="admin_btnDelete">
                     <FontAwesomeIcon icon={faTrash} />

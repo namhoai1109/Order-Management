@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Modal, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { addStaff } from "../../services/Admin/servicesAdmin";
+import { useAddStaff } from "../../services/Admin/services";
 
 
 function AddStaff() {
@@ -24,7 +24,7 @@ function AddStaff() {
         const staff = { username, password, email, phone, name };
         setModalText("The modal will be closed after two seconds");
         try {
-            await addStaff(staff, localStorage.getItem("token"));
+            await useAddStaff(staff, localStorage.getItem("token"));
             setVisible(false);
         } catch (error) {
             console.log(error);

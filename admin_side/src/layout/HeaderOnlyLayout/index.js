@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './HeaderLayout';
 
-function DefaultLayout({ children }) {
+function HeaderOnlyLayout({ children }) {
     return (
         <div>
             <Header />
@@ -15,4 +15,4 @@ function DefaultLayout({ children }) {
     )
 }
 
-export default DefaultLayout;
+export default HeaderOnlyLayout;

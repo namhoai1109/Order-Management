@@ -1,17 +1,15 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import { Table } from 'antd';
 import './staff.scss';
 import { AddStaff } from '../../../components/Staff/staffComponent';
-import { getAllStaff } from '../../../services/Admin/servicesAdmin';
+import { useGetStaffs } from '../../../services/Admin/services';
 import { COLUMNS_STAFF } from '../const/column';
 
 function Staff() {
     const columns = COLUMNS_STAFF;
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        getAllStaff(setData, localStorage.getItem('token'));       // get all staffs from database
-    }, []);
+    
+    useGetStaffs(setData, localStorage.getItem('token'));       // get all staffs from database
 
     return (
         <div>

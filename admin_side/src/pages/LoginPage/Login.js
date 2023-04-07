@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Background from '~/assets/images/backgroundAdmin.jpg';
 
 import './Login.scss';
-import { PostSignIn } from '~/services/Login/servicesLogin';
+import { PostSignIn } from '~/services/Login/services';
 
 function Login() { // receive a setToken prop to set token in App.js
 
