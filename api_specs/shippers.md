@@ -23,3 +23,32 @@
         }
     }
 ```
+
+2. Get Shipper Profile
+
+```
+    [GET] /api/shippers/get-shipper/:username
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            id: int,
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            bankAccount: string,
+            nationalId: string,
+            licensePlate: string,
+            role: "staff",
+            confirmed: boolean,
+            status: string
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```

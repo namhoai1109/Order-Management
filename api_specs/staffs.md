@@ -65,3 +65,61 @@
   }
 
 ```
+
+3. Get All Shipper
+
+```
+    [GET] /api/staffs/get-shippers
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            id: int,
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            bankAccount: string,
+            nationalId: string,
+            licensePlate: string,
+            role: "staff",
+            confirmed: boolean,
+            status: string
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+3. Get All Active Shipper
+
+```
+    [GET] /api/staffs/get-active-shippers
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: {
+            id: int,
+            username: string,
+            password: string,
+            email: string,
+            phone: string,
+            bankAccount: string,
+            nationalId: string,
+            licensePlate: string,
+            role: "staff",
+            confirmed: boolean,
+            status: string
+        },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
