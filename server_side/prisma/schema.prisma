@@ -145,15 +145,15 @@ model Order {
   customerId  Int
   shipper     Shipper?      @relation(fields: [shipperId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shipperId   Int?
-  branch     Branch        @relation(fields: [branchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  branchId   Int
+  branch      Branch        @relation(fields: [branchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  branchId    Int
   orderDetais OrderDetail[]
 
   createdAt     DateTime  @default(now())
   deliveredAt   DateTime?
   status        String    @default("pending")
   process       String    @default("pending")
-  orderPrice    Float
+  orderPrice    Float?
   shippingPrice Float?
 }
 
@@ -189,7 +189,7 @@ model Rating {
   isLike      Boolean
   description String?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime? @updatedAt
 
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   customerId Int
