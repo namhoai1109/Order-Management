@@ -83,9 +83,14 @@
             bankAccount: string,
             nationalId: string,
             licensePlate: string,
-            role: "staff",
+            role: "shipper",
             confirmed: boolean,
-            status: string
+            status: string,
+            accountId: int,
+            districtId: int,
+            name: string,
+            address: string,
+            licensePlate: string
         },
         meta: {
             error: string,
@@ -112,9 +117,14 @@
             bankAccount: string,
             nationalId: string,
             licensePlate: string,
-            role: "staff",
+            role: "shipper",
             confirmed: boolean,
-            status: string
+            status: "active",
+            accountId: int,
+            districtId: int,
+            name: string,
+            address: string,
+            licensePlate: string
         },
         meta: {
             error: string,

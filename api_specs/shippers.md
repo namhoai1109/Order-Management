@@ -43,7 +43,12 @@
             licensePlate: string,
             role: "staff",
             confirmed: boolean,
-            status: string
+            status: string,
+            accountId: int,
+            districtId: int,
+            name: string,
+            address: string,
+            licensePlate: string
         },
         meta: {
             error: string,

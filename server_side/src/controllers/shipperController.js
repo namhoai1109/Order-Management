@@ -78,11 +78,11 @@ exports.register = async (req, res) => {
 exports.getShipper = async (req, res) => {
   try {
     console.log(req.account)
-    const shipper = await prisma.account.findUnique({
-      where: {
-        username: req.params.username
-      }
-    })
+    const username = req.params.username
+    const shipper = await prisma.$queryRaw`
+    SELECT * FROM Account acc
+    JOIN Shipper s ON acc.username = s.name
+    WHERE acc.username = ${username}`
 
     res.status(200).send(createReturnObject(shipper, '', 'Shipper profile viewed successfully', 200))
   } catch (err) {

@@ -104,11 +104,12 @@ exports.generateContract = async (req, res) => {
 exports.getAllShipper = async (req, res) => {
   try {
     console.log(req.account)
-    const shipper = await prisma.account.findMany({
-      where: {
-        role: 'shipper'
-      }
-    })
+    const shipper = await prisma.$queryRaw`
+    SELECT * FROM Account acc
+    JOIN Shipper s ON acc.username = s.name
+    WHERE acc.role = 'shipper'`
+
+
 
     res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
   } catch (err) {
@@ -122,12 +123,10 @@ exports.getAllShipper = async (req, res) => {
 exports.getActiveShippers = async (req, res) => {
   try {
     console.log(req.account)
-    const shipper = await prisma.account.findMany({
-      where: {
-        role: 'shipper',
-        status: 'active'
-      }
-    })
+    const shipper = await prisma.$queryRaw`
+    SELECT * FROM Account acc
+    JOIN Shipper s ON acc.username = s.name
+    WHERE acc.role = 'shipper' AND acc.status = 'active'`
 
     res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
   } catch (err) {
