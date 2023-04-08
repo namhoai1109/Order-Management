@@ -1,7 +1,7 @@
 1. Get partners
 
 ```
-  [GET] /api/staffs/get-partners/:taxCode
+  [GET] /api/staffs/get-partners
   headers: {
         authorization: string //Bearer  + jwt_token
   },
