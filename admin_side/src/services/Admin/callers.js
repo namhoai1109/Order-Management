@@ -1,80 +1,55 @@
-import axios from '../../api/axios';
+import { get, post, postForm, _delete } from '~/utils/httpRequest';
+
 import {
     API_DELETE_STAFF,
     API_SIGN_UP_STAFF,
+    API_UPDATE_STATUS,
     API_GET_STAFFS,
     API_GET_ACCOUNTS,
-    API_UPDATE_STATUS,
+    API_GET_PARTNERS,
+    API_GET_SHIPPERS,
 } from './api_paths';
 
 export const deleteStaff = async (id) => {
-    return await axios({
-        method: 'DELETE',
-        url: `${API_DELETE_STAFF}/${id}`,
-        headers: {
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-            withCredentials: true,
-        },
-    });
+    const response = await _delete(`${API_DELETE_STAFF}/${id}`);
+    return response;
 }
 
-export const addStaff = async (staff, token) => {
+export const addStaff = async (staff) => {
     const { username, password, email, phone, name } = staff;
 
-    return await axios({
-        method: 'POST',
-        url: API_SIGN_UP_STAFF,
-        headers: {
-            authorization: "Bearer " + token,
-            withCredentials: true,
-
-        },
-        data: {
-            username: username,
-            password: password,
-            email: email,
-            phone: phone,
-            name: name,
-        }
+    const response = await postForm(API_SIGN_UP_STAFF, {
+        username: username,
+        password: password,
+        email: email,
+        phone: phone,
+        name: name,
     });
+    return response;
 }
 
-export const getStaffs = async (token) => {
-    return await axios({
-        method: 'GET',
-        url: API_GET_STAFFS,
-        headers: {
-            authorization: "Bearer " + token,
-            withCredentials: true,
-
-        },
-    });
+export const getStaffs = async () => {
+    const response = await get(API_GET_STAFFS);
+    return response;
 }
 
-export const getShippers = async (token) => {
-    return await axios({
-        method: 'GET',
-        url: API_GET_ACCOUNTS,
-        headers: {
-            authorization: "Bearer " + token,
-            withCredentials: true,
-
-        }
-    });
+export const getShippers = async () => {
+    const response = await get(API_GET_SHIPPERS);
+    return response;
 }
+
+
+export const getPartners = async () => {
+    const response = await get(API_GET_PARTNERS);
+    return response;
+}
+
 
 export const updateStatus = async (id) => {
-    return await axios({
-        method: 'POST',
-        url: `${API_UPDATE_STATUS}/${id}`,
-        headers: {
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-            withCredentials: true,
-        },
-        data: {
-            id: id,
-        }
+    const response = await post(API_UPDATE_STATUS, {
+        id: id,
     });
+    return response;
 }
 
 

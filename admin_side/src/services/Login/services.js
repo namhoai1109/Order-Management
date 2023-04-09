@@ -1,15 +1,14 @@
-import axios from '~/api/axios';
+import { post } from '~/utils/httpRequest';
 import { API_SIGN_IN } from './api_paths';
 
 export const PostSignIn = async (values) => {
     try {
-        const response = await axios.post(API_SIGN_IN, values);
-        const token = response?.data?.result?.token;
-        const role = response?.data?.result?.role;
+        const response = await post(API_SIGN_IN, values);
+        const token = response?.result?.token;
+        const role = response?.result?.role;
 
-        console.log(token);
-        console.log(role);
-
+        console.log('token', token);
+        console.log('role', role);
         localStorage.setItem('token', token);
         localStorage.setItem('role', role);
 
@@ -20,8 +19,8 @@ export const PostSignIn = async (values) => {
         } else {
             window.location.href = '/';
         }
-        
+        return response;
     } catch (error) {
-        console.log(error);
+        return error.response.data.message;
     }
 };

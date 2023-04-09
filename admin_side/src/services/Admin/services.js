@@ -1,92 +1,74 @@
-import { deleteStaff, addStaff, getStaffs, getShippers, updateStatus } from './callers';
+import { deleteStaff, addStaff, getStaffs, getShippers, updateStatus, getPartners } from './callers';
 
 export const AuseDelelteStaff = async (id) => {
     try {
         const response = await deleteStaff(id);
-        const result = response.data;
-        if (result.status === "success") {
-            console.log(`Staff with id ${id} has been deleted`);
-        } else {
-            console.log(`Failed to delete staff with id ${id}`);
-        }
+        const result = response.result;
+        return result;
     } catch (error) {
         console.log(error);
+        return error;
     }
 };
 
 
-export const useAddStaff = async (staff, token) => {
+export const useAddStaff = async (staff) => {
     try {
-        const response = await addStaff(staff, token);
-        const result = response.data;
-        if (result.status === "success") {
-            console.log(`Staff with id ${result.result.id} has been added`);
-        } else {
-            console.log(`Failed to add staff`);
-        }
+        const response = await addStaff(staff);
+        const result = response.result;
+        return result;
     } catch (error) {
         console.log(error);
+        return error;
     }
 };
 
 
-export const useGetStaffs = async (setData, token) => {
+export const useGetStaffs = async () => {
     try {
-        const response = await getStaffs(token);
-        const result = response.data;
-        const staffs = result.result.map(user => ({
-            id: user.id,
-            username: user.username,
-            password: user.password,
-        }));
-        setData(staffs);
+        const response = await getStaffs();
+        const result = response.result;
+        console.log('result', result);
+        return result;
     } catch (error) {
         console.log(error);
+        return error;
     }
 };
 
-export const useGetShippers = async (setData, token) => {
+export const useGetShippers = async () => {
     try {
-        const response = await getShippers(token);
-        const result = response.data;
-        const shippers = [];
-
-        result.result.forEach(user => {
-            if (user.role === "shipper") {
-                shippers.push({
-                    id: user.id,
-                    name: user.name,
-                    cmnd: user.cmnd,
-                    phone: user.phone,
-                    address: user.address,
-                    license: user.licensePlate,
-                    area: user.area,
-                    email: user.email,
-                    bank: user.bank,
-                });
-            }
-        });
-        setData(shippers);
-
+        const response = await getShippers();
+        const result = response.result;
+        return result;
     } catch (error) {
         console.log(error);
+        return error;
     }
 };
 
-export const useUpdateStatus = async (id) => {
+export const useGetPartners = async () => {
+    try {
+        const response = await getPartners();
+        const result = response.result;
+        return result;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
+export const AuseUpdateStatus = async (id) => {
     try {
         const response = await updateStatus(id);
-        const result = response.data;
-        if (result.status === "success") {
-            console.log(`Staff with id ${id} has been updated`);
-        } else {
-            console.log(`Failed to update staff with id ${id}`);
-        }
+        const result = response.result;
+        return result;
     } catch (error) {
         console.log(error);
+        return error;
     }
-
 }
+
 
 
 

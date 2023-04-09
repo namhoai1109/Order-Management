@@ -1,23 +1,20 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Table } from 'antd';
-import { COLUMNS } from './constColumn/const';
-import { DATASOURCES } from './fakeData/data';
+import { COLUMNS_CONTRACT } from './const/column';
+import { useGetPartners } from '../../../services/Staff/services';
 
 
+function StaffManager() {
+    const columns = COLUMNS_CONTRACT;
+    const [data, setData] = useState([]);
 
-
-const columns = COLUMNS;
-const dataSource = DATASOURCES;
-
-
-function staffManager() {
-
+    useGetPartners(setData, localStorage.getItem('token'));
     return (
         <div>
             <h1 className="page_container_title"> Staff Manager Page</h1>
-            <Table dataSource={dataSource} columns={columns} pagination={{ pageSize: 5 }} />
+            <Table rowKey="id" dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
         </div>
     );
 }
 
-export default staffManager;
+export default StaffManager;

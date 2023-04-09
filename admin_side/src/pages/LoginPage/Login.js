@@ -29,7 +29,7 @@ function Login() { // receive a setToken prop to set token in App.js
                     theme: "dark",
                 })
             }
-        }, 1500)
+        }, 5000)
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);

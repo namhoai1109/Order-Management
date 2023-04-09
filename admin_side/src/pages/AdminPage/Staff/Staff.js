@@ -1,5 +1,5 @@
-import { React, useState } from 'react';
-import { Table } from 'antd';
+import { React, useState, useEffect } from 'react';
+import { Table, Spin } from 'antd';
 import './staff.scss';
 import { AddStaff } from '../../../components/Staff/staffComponent';
 import { useGetStaffs } from '../../../services/Admin/services';
@@ -7,15 +7,26 @@ import { COLUMNS_STAFF } from '../const/column';
 
 function Staff() {
     const columns = COLUMNS_STAFF;
-    const [data, setData] = useState([]);
+    const [dataTable, setDataTable] = useState();
+    const { data, isLoading } = useGetStaffs();
+
     
-    useGetStaffs(setData, localStorage.getItem('token'));       // get all staffs from database
+    
 
     return (
         <div>
             <h1 className="page_container_title">Staff Page</h1>
             <AddStaff />
-            <Table rowKey="id" dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
+            <Spin size='large' spinning={isLoading} tip="Loading...">
+                {data && (
+                    <Table
+                        rowKey="id"
+                        dataSource={dataTable}
+                        columns={columns}
+                        pagination={{ pageSize: 5 }}
+                    />
+                )}
+            </Spin>
         </div>
     );
 }
