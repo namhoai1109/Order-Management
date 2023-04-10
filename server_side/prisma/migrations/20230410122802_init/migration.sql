@@ -42,7 +42,6 @@ CREATE TABLE [dbo].[Customer] (
 CREATE TABLE [dbo].[Partner] (
     [id] INT NOT NULL IDENTITY(1,1),
     [accountId] INT,
-    [contractId] INT,
     [brandName] NVARCHAR(1000) NOT NULL,
     [taxCode] NVARCHAR(1000) NOT NULL,
     [representative] NVARCHAR(1000),
@@ -51,7 +50,6 @@ CREATE TABLE [dbo].[Partner] (
     [culinaryStyle] NVARCHAR(1000),
     CONSTRAINT [Partner_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Partner_accountId_key] UNIQUE NONCLUSTERED ([accountId]),
-    CONSTRAINT [Partner_contractId_key] UNIQUE NONCLUSTERED ([contractId]),
     CONSTRAINT [Partner_taxCode_key] UNIQUE NONCLUSTERED ([taxCode])
 );
 
@@ -70,6 +68,7 @@ CREATE TABLE [dbo].[Shipper] (
 -- CreateTable
 CREATE TABLE [dbo].[Contract] (
     [id] INT NOT NULL IDENTITY(1,1),
+    [partnerId] INT NOT NULL,
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [Contract_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [confirmedAt] DATETIME2,
     [expiredAt] DATETIME2,
@@ -83,6 +82,7 @@ CREATE TABLE [dbo].[Contract] (
     [effectTimeInYear] INT NOT NULL CONSTRAINT [Contract_effectTimeInYear_df] DEFAULT 1,
     [branchQuantity] INT,
     CONSTRAINT [Contract_pkey] PRIMARY KEY CLUSTERED ([id]),
+    CONSTRAINT [Contract_partnerId_key] UNIQUE NONCLUSTERED ([partnerId]),
     CONSTRAINT [Contract_taxCode_key] UNIQUE NONCLUSTERED ([taxCode]),
     CONSTRAINT [Contract_accessCode_key] UNIQUE NONCLUSTERED ([accessCode]),
     CONSTRAINT [Contract_bankAccount_key] UNIQUE NONCLUSTERED ([bankAccount])
@@ -95,7 +95,8 @@ CREATE TABLE [dbo].[Branch] (
     [districtId] INT NOT NULL,
     [orderQuantity] INT,
     [address] NVARCHAR(1000) NOT NULL,
-    CONSTRAINT [Branch_pkey] PRIMARY KEY CLUSTERED ([id])
+    CONSTRAINT [Branch_pkey] PRIMARY KEY CLUSTERED ([id]),
+    CONSTRAINT [Branch_address_key] UNIQUE NONCLUSTERED ([address])
 );
 
 -- CreateTable
@@ -115,6 +116,7 @@ CREATE TABLE [dbo].[DishDetail] (
     [dishId] INT NOT NULL,
     [name] NVARCHAR(1000) NOT NULL,
     [price] FLOAT(53) NOT NULL,
+    [quantity] INT,
     CONSTRAINT [DishDetail_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
@@ -131,14 +133,16 @@ CREATE TABLE [dbo].[Order] (
     [id] INT NOT NULL IDENTITY(1,1),
     [customerId] INT NOT NULL,
     [shipperId] INT,
-    [partnerId] INT NOT NULL,
+    [branchId] INT,
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [Order_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [deliveredAt] DATETIME2,
     [status] NVARCHAR(1000) NOT NULL CONSTRAINT [Order_status_df] DEFAULT 'pending',
     [process] NVARCHAR(1000) NOT NULL CONSTRAINT [Order_process_df] DEFAULT 'pending',
-    [orderPrice] FLOAT(53) NOT NULL,
+    [orderPrice] FLOAT(53),
     [shippingPrice] FLOAT(53),
-    CONSTRAINT [Order_pkey] PRIMARY KEY CLUSTERED ([id])
+    [orderCode] NVARCHAR(1000),
+    CONSTRAINT [Order_pkey] PRIMARY KEY CLUSTERED ([id]),
+    CONSTRAINT [Order_orderCode_key] UNIQUE NONCLUSTERED ([orderCode])
 );
 
 -- CreateTable
@@ -147,8 +151,8 @@ CREATE TABLE [dbo].[OrderDetail] (
     [orderId] INT NOT NULL,
     [dishName] NVARCHAR(1000) NOT NULL,
     [dishDetail] NVARCHAR(1000) NOT NULL,
-    [quantity] INT NOT NULL,
     [price] FLOAT(53) NOT NULL,
+    [quantity] INT NOT NULL,
     CONSTRAINT [OrderDetail_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
@@ -173,7 +177,7 @@ CREATE TABLE [dbo].[Rating] (
     [isLike] BIT NOT NULL,
     [description] NVARCHAR(1000),
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [Rating_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
-    [updatedAt] DATETIME2 NOT NULL,
+    [updatedAt] DATETIME2,
     [customerId] INT NOT NULL,
     [dishId] INT NOT NULL,
     CONSTRAINT [Rating_pkey] PRIMARY KEY CLUSTERED ([customerId],[dishId])
@@ -189,13 +193,13 @@ ALTER TABLE [dbo].[Customer] ADD CONSTRAINT [Customer_accountId_fkey] FOREIGN KE
 ALTER TABLE [dbo].[Partner] ADD CONSTRAINT [Partner_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Partner] ADD CONSTRAINT [Partner_contractId_fkey] FOREIGN KEY ([contractId]) REFERENCES [dbo].[Contract]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE [dbo].[Shipper] ADD CONSTRAINT [Shipper_accountId_fkey] FOREIGN KEY ([accountId]) REFERENCES [dbo].[Account]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Shipper] ADD CONSTRAINT [Shipper_districtId_fkey] FOREIGN KEY ([districtId]) REFERENCES [dbo].[District]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Contract] ADD CONSTRAINT [Contract_partnerId_fkey] FOREIGN KEY ([partnerId]) REFERENCES [dbo].[Partner]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Branch] ADD CONSTRAINT [Branch_partnerId_fkey] FOREIGN KEY ([partnerId]) REFERENCES [dbo].[Partner]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -219,7 +223,7 @@ ALTER TABLE [dbo].[Order] ADD CONSTRAINT [Order_customerId_fkey] FOREIGN KEY ([c
 ALTER TABLE [dbo].[Order] ADD CONSTRAINT [Order_shipperId_fkey] FOREIGN KEY ([shipperId]) REFERENCES [dbo].[Shipper]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Order] ADD CONSTRAINT [Order_partnerId_fkey] FOREIGN KEY ([partnerId]) REFERENCES [dbo].[Partner]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [dbo].[Order] ADD CONSTRAINT [Order_branchId_fkey] FOREIGN KEY ([branchId]) REFERENCES [dbo].[Branch]([id]) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[OrderDetail] ADD CONSTRAINT [OrderDetail_orderId_fkey] FOREIGN KEY ([orderId]) REFERENCES [dbo].[Order]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;

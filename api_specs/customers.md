@@ -21,7 +21,7 @@
     }
 ```
 
-1. View customer profile
+2. View customer profile
 
 ```
     [GET] /api/customers/profile
@@ -37,6 +37,69 @@
             phone: string,
             address: string
         },
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+3. Get partners
+
+```
+    [GET] /api/customers/partners
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: [
+            {
+                id: int,
+                brandName: string,
+                culinaryStyle: string,
+                status: string,
+                branches: [
+                    {
+                        id: int,
+                        address: string
+                    }
+                ],
+                account: {
+                    id: int,
+                    email: string,
+                    phone: string
+                }
+            }
+        ]
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+4. Get dishes of partner
+
+```
+    [GET] /api/customers/partner/dishes/:partnerId
+    params: {
+        partnerId: int
+    },
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },'
+    response: {
+        result: [
+            {
+                id: int,
+                name: string,
+                description: string,
+                status: string,
+                rating: int
+            }
+        ]
         meta: {
             error: string,
             message: string,

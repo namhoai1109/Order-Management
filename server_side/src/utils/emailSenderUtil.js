@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
 exports.sendConfirmEmail = async (to, link) => {
   const mailOptions = {
     from: 'demo@example.com',
-    to: to,
+    to,
     subject: 'Email confirmation',
     html: `
     <html lang="en">
@@ -95,7 +95,7 @@ exports.sendConfirmEmail = async (to, link) => {
 exports.sendContract = async (to, contract) => {
   const mailOptions = {
     from: 'demo@example.com',
-    to: to,
+    to,
     subject: 'Contract Detail',
     attachments: [
       {

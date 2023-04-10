@@ -1,4 +1,4 @@
-const { PrismaClient, Prisma } = require('@prisma/client')
+const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs')
 // const crypto = require('crypto-js')
@@ -66,10 +66,10 @@ exports.register = async (req, res) => {
         }
       })
       const token = jwt.sign({
-        id: account.id,
+        id: account.id
       },
-        config.jwtToken,
-        { expiresIn: '1d' }
+      config.jwtToken,
+      { expiresIn: '1d' }
       )
 
       // send email verification
@@ -107,11 +107,81 @@ exports.updatePassword = async (req, res) => {
     })
 
     res.status(200).send(createReturnObject(null, '', 'Password updated successfully', 200))
-
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error updating password', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
 
+exports.getPartners = async (req, res) => {
+  try {
+    const partners = await prisma.partner.findMany({
+      where: {
+        account: {
+          isConfirmed: true
+        }
+      },
+      select: {
+        id: true,
+        brandName: true,
+        culinaryStyle: true,
+        status: true,
+        branches: {
+          select: {
+            id: true,
+            address: true
+          }
+        },
+        account: {
+          select: {
+            id: true,
+            email: true,
+            phone: true
+          }
+        }
+      }
+    })
+    res.status(200).send(createReturnObject(partners, '', 'Partners retrieved successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error getting partners', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.getDishes = async (req, res) => {
+  try {
+    const dishes = await prisma.dish.findMany({
+      where: {
+        // string to int
+        partnerId: parseInt(req.params.partnerId)
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        status: true,
+        rating: true
+      }
+    })
+    res.status(200).send(createReturnObject(dishes, '', 'Dishes retrieved successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error getting dishes', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.createOrder = async (req, res) => {
+  try {
+    
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error creating order', 500))
   } finally {
     await prisma.$disconnect()
   }
