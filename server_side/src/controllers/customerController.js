@@ -164,7 +164,15 @@ exports.getDishes = async (req, res) => {
         name: true,
         description: true,
         status: true,
-        rating: true
+        rating: true,
+        partner: {
+          select: {
+            id: true,
+            brandName: true
+          }
+        },
+        dishDetails: true,
+        images: true
       }
     })
     res.status(200).send(createReturnObject(dishes, '', 'Dishes retrieved successfully', 200))
