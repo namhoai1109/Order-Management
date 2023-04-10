@@ -40,7 +40,7 @@ const upload = (fieldName, options, count) => {
         res.status(400).send(createReturnObject(null, 'Error uploading file', err.message, 400))
         return
       } else if (err) {
-        res.status(400).send(createReturnObject(null, 'Error uploading file', err.message, 400))
+        res.status(500).send(createReturnObject(null, 'Error uploading file', err.message, 500))
         return
       }
       next()

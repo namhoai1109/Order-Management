@@ -16,8 +16,6 @@ exports.register = async (req, res) => {
       bankAccount,
       taxCode,
       representative,
-      orderQuantity,
-      status,
       culinaryStyle,
       username,
       password,
@@ -42,17 +40,17 @@ exports.register = async (req, res) => {
           email,
           phone,
           bankAccount,
-          role: 'partner',
+          role: 'partner'
         }
       })
 
-      const partner = await prisma.partner.create({
+      await prisma.partner.create({
         data: {
           brandName,
           taxCode,
           representative,
           orderQuantity: 20,
-          status: "active",
+          status: 'active',
           culinaryStyle,
           account: {
             connect: {
@@ -70,7 +68,6 @@ exports.register = async (req, res) => {
 
       res.status(201).send(createReturnObject(null, '', 'Partner registered successfully', 201))
     })
-
   } catch (err) {
     console.log(err)
     res.status(500).send({ message: err.message })
@@ -103,7 +100,7 @@ exports.register = async (req, res) => {
 
 exports.addDish = async (req, res) => {
   try {
-    const { name, status, description,  } = req.body
+    const { name, status, description } = req.body
     const dishDetails = JSON.parse(req.body.dishDetails)
     const partner = await prisma.partner.findUnique({
       where: {
@@ -116,11 +113,11 @@ exports.addDish = async (req, res) => {
     }
 
     const imagesData = req.files.map(file => ({
-      filename: file.filename,
+      filename: file.filename
     }))
     const dishDetailsData = dishDetails.map((dishDetail) => ({
       name: dishDetail.name,
-      price: dishDetail.price,
+      price: dishDetail.price
     }))
 
     await prisma.$transaction(async (prisma) => {
@@ -145,7 +142,6 @@ exports.addDish = async (req, res) => {
     })
 
     res.status(201).send(createReturnObject(null, '', 'Dish added successfully', 201))
-
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, 'Error adding dish', err.message, 500))
