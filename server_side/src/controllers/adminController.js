@@ -182,3 +182,42 @@ exports.getAllAccount = async (req, res) => {
     await prisma.$disconnect()
   }
 }
+
+exports.getAllPartners = async (req, res) => {
+  try {
+    const partners = await prisma.partner.findMany({
+      include: {
+        account: {
+          select: {
+            id: true,
+            email: true,
+            bankAccount: true,
+            nationalId: true,
+            isConfirmed: true
+          }
+        },
+        contract: {
+          select: {
+            id: true,
+            createdAt: true,
+            confirmedAt: true,
+            expiredAt: true,
+            isConfirmed: true,
+            isExpired: true,
+            taxCode: true,
+            representative: true,
+            bankAccount: true,
+            branchQuantity: true,
+            commission: true,
+            effectTimeInYear: true
+          }
+        }
+      }
+    })
+
+    res.status(200).send(createReturnObject(partners, 'Success', 'Success', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Internal server error', 500))
+  }
+}

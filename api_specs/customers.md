@@ -97,7 +97,26 @@
                 name: string,
                 description: string,
                 status: string,
-                rating: int
+                rating: int,
+                partner: {
+                    id: int,
+                    brandName: string
+                },
+                dishDetails: [
+                    {
+                        id: int,
+                        dishId: int,
+                        name: string,
+                        price: float
+                    }
+                ],
+                images: [
+                    {
+                        id: int,
+                        dishId: int,
+                        filename: string
+                    }
+                ]
             }
         ]
         meta: {
