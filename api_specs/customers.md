@@ -89,7 +89,7 @@
     },
     headers: {
         authorization: string //"Bearer " + jwt_token
-    },'
+    },
     response: {
         result: [
             {
@@ -125,4 +125,31 @@
             statusCode: int
         }
     }
+```
+
+5. Create order
+
+```
+    [POST] /api/customers/order
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    body: {
+        branchId: int,
+        orderDetails: [
+            {
+                dishDetailId: int,
+                quantity: int
+            }
+        ]
+    },
+    response: {
+        result: null,
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+
 ```

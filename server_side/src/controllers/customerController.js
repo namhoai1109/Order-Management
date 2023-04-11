@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs')
-// const crypto = require('crypto-js')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const { hashPassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
@@ -186,7 +186,80 @@ exports.getDishes = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    
+    const customer = await prisma.customer.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+    if (!customer) {
+      res.status(404).send(createReturnObject(null, 'Customer not found', 'Customer not found', 404))
+      return
+    }
+
+    // generate order code
+    let orderCode
+    do {
+      orderCode = crypto.randomBytes(4).toString('hex')
+    } while (await prisma.order.findUnique({
+      where: {
+        orderCode
+      }
+    }))
+
+    // find dish details
+    const orderDetails = []
+    for (const orderDetail of req.body.orderDetails) {
+      const dishDetail = await prisma.dishDetail.findUnique({
+        where: {
+          id: orderDetail.dishDetailId
+        },
+        select: {
+          name: true,
+          price: true,
+          dish: {
+            select: {
+              name: true
+            }
+          }
+        }
+      })
+      if (!dishDetail) {
+        res.status(404).send(createReturnObject(null, 'Dish detail not found', 'Error creating order', 404))
+        return
+      }
+      orderDetails.push({
+        dishName: dishDetail.dish.name,
+        dishDetailName: dishDetail.name,
+        quantity: orderDetail.quantity,
+        totalPrice: dishDetail.price * orderDetail.quantity
+      })
+    }
+    // calculate order total price
+    const orderPrice = orderDetails.reduce((acc, cur) => acc + cur.totalPrice, 0)
+    console.log(orderDetails)
+    await prisma.$transaction(async (prisma) => {
+      await prisma.order.create({
+        data: {
+          customer: {
+            connect: {
+              id: customer.id
+            }
+          },
+          branch: {
+            connect: {
+              id: req.body.branchId
+            }
+          },
+          orderDetails: {
+            create: orderDetails
+          },
+          orderPrice,
+          orderCode
+        }
+      })
+    })
+
+    res.status(201).send(createReturnObject(null, '', 'Order created successfully', 201))
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error creating order', 500))
