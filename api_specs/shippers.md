@@ -98,6 +98,8 @@
                 orderDetails: [
                     {
                         id: int,
+                        dishId: int,
+                        dishDetailId: int,
                         orderId: int,
                         dishName: string,
                         dishDetailName: string,
@@ -118,7 +120,7 @@
 4. Confirm take order
 
 ```
-    [PUT] /api/shippers/order/:orderCode
+    [PUT] /api/shippers/confirm-order/:orderCode
     params: {
         orderCode: string
     },
@@ -126,7 +128,28 @@
         authorization: string //"Bearer " + jwt_token
     },
     body: {
-        process: string //taking, taken, delivering, delivered
+        process: string //taking, taken, delivering
+    },
+    response: {
+        result: null,
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+
+```
+
+5. Confirm deliver order
+
+```
+    [PUT] /api/shippers/deliver-order/:orderCode
+    param: {
+        orderCode: string
+    },
+    headers: {
+        authorization: string //"Bearer " + jwt_token
     },
     response: {
         result: null,

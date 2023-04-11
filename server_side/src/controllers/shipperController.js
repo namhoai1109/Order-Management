@@ -220,28 +220,67 @@ exports.confirmOrder = async (req, res) => {
           }
         }
       })
-
-      // await prisma.order.update({
-      //   where: {
-      //     orderCode: req.params.orderCode
-      //   },
-      //   data: {
-      //     process: req.body.process,
-      //     shippingPrice: 25000,
-      //     totalPrice: order.orderPrice + 25000,
-      //     shipper: {
-      //       connect: {
-      //         id: shipper.id
-      //       }
-      //     }
-      //   }
-      // })
     })
 
     res.status(200).send(createReturnObject(null, '', 'Order confirmed successfully', 200))
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error confirming order', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.deliverOrder = async (req, res) => {
+  try {
+    const shipper = await prisma.shipper.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+    if (!shipper) {
+      res.status(400).send(createReturnObject(null, 'Error getting orders', 'Shipper not found', 400))
+      return
+    }
+
+    await prisma.$transaction(async (prisma) => {
+      const order = await prisma.order.findUnique({
+        where: {
+          orderCode: req.params.orderCode
+        },
+        include: {
+          orderDetails: true
+        }
+      })
+      await prisma.order.update({
+        where: {
+          orderCode: req.params.orderCode
+        },
+        data: {
+          process: 'delivered',
+          deliveredAt: new Date()
+        }
+      })
+
+      // update stock
+      for (const orderDetail of order.orderDetails) {
+        await prisma.dishDetail.update({
+          where: {
+            id: orderDetail.dishDetailId
+          },
+          data: {
+            quantity: {
+              decrement: orderDetail.quantity
+            }
+          }
+        })
+      }
+    })
+
+    res.status(200).send(createReturnObject(null, '', 'Order delivered successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error delivering order', 500))
   } finally {
     await prisma.$disconnect()
   }
