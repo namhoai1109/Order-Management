@@ -117,7 +117,8 @@ exports.addDish = async (req, res) => {
     }))
     const dishDetailsData = dishDetails.map((dishDetail) => ({
       name: dishDetail.name,
-      price: dishDetail.price
+      price: dishDetail.price,
+      quantity: dishDetail.quantity
     }))
 
     await prisma.$transaction(async (prisma) => {

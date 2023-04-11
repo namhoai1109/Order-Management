@@ -42,7 +42,7 @@
         image: file,
         name: string,
         dishDetails: [  //JSON string
-            { name: string, price: float}
+            { name: string, price: float, quantity: int }
         ]
     },
     response: {

@@ -142,33 +142,34 @@ model Image {
 }
 
 model Order {
-  id          Int           @id @default(autoincrement())
-  customer    Customer      @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customerId  Int
-  shipper     Shipper?      @relation(fields: [shipperId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  shipperId   Int?
-  branch      Branch?       @relation(fields: [branchId], references: [id], onDelete: SetNull, onUpdate: NoAction)
-  branchId    Int?
-  orderDetais OrderDetail[]
+  id           Int           @id @default(autoincrement())
+  customer     Customer      @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customerId   Int
+  shipper      Shipper?      @relation(fields: [shipperId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shipperId    Int?
+  branch       Branch?       @relation(fields: [branchId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  branchId     Int?
+  orderDetails OrderDetail[]
 
   createdAt     DateTime  @default(now())
   deliveredAt   DateTime?
   status        String    @default("pending")
   process       String    @default("pending")
   orderPrice    Float?
-  shippingPrice Float?
+  shippingPrice Float?    @default(0)
+  totalPrice    Float?    @default(0)
   orderCode     String?   @unique
 }
 
 model OrderDetail {
   id      Int   @id @default(autoincrement())
-  order   Order @relation(fields: [orderId], references: [id], onDelete: NoAction)
+  order   Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId Int
 
-  dishName   String
-  dishDetail String
-  price      Float
-  quantity   Int
+  dishName       String
+  dishDetailName String
+  quantity       Int
+  totalPrice     Float
 }
 
 model City {
