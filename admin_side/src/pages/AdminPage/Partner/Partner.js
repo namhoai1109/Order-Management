@@ -2,7 +2,7 @@ import { React, useState, useCallback } from 'react';
 import { Table, Spin } from 'antd';
 
 import './partner.scss';
-import { COLUMNS_PARTNER } from '../const/column';
+import { COLUMNS_PARTNER } from '../../../constants/column_admin';
 import { usedGetPartners } from '../../../services/Admin/services';
 
 

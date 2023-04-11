@@ -1,7 +1,8 @@
 import { React, useState, useCallback } from 'react';
 import { Table, Spin } from 'antd';
 
-import { COLUMNS_USER } from '../const/column';
+import './customer.scss';
+import { COLUMNS_USER } from '../../../constants/column_admin';
 import { usedGetCustomers } from '../../../services/Admin/services';
 
 function Customer() {

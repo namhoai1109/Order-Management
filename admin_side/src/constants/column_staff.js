@@ -1,4 +1,4 @@
-import {GenerateContract} from '~/pages/StaffPage/action';
+import {GenerateContract} from '~/constants/action_staff';
 const COLUMNS_CONTRACT = [
     {
         title: 'Name',

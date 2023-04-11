@@ -3,7 +3,7 @@ import { Table, Spin } from 'antd';
 import './staff.scss';
 import { AddStaff } from '~/components/Staff/staffComponent';
 import { usedGetStaffs } from '~/services/Admin/services';
-import { COLUMNS_STAFF } from '../const/column';
+import { COLUMNS_STAFF } from '../../../constants/column_admin';
 
 function Staff() {
     const columns = COLUMNS_STAFF;

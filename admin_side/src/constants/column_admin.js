@@ -1,5 +1,5 @@
 import React from 'react';
-import { StaffAction } from '../Staff/actions';
+import { StaffAction } from './actions_admin';
 
 const COLUMNS_SHIPPER = [
     {

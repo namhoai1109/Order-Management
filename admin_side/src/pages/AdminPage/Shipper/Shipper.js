@@ -2,7 +2,7 @@ import { React, useState, useCallback } from 'react';
 import { Table, Spin } from 'antd';
 
 import './shipper.scss';
-import { COLUMNS_SHIPPER } from '../const/column';
+import { COLUMNS_SHIPPER } from '../../../constants/column_admin';
 import { usedGetShippers } from '../../../services/Admin/services';
 
 function Shipper() {

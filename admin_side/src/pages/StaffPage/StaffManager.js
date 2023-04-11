@@ -1,6 +1,6 @@
 import { React, useState, useCallback } from 'react';
 import { Table, Spin } from 'antd';
-import { COLUMNS_CONTRACT } from './const/column';
+import { COLUMNS_CONTRACT } from '../../constants/column_staff';
 import { usedGetPartners } from '~/services/Staff/services';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
