@@ -214,10 +214,12 @@ exports.createOrder = async (req, res) => {
           id: orderDetail.dishDetailId
         },
         select: {
+          id: true,
           name: true,
           price: true,
           dish: {
             select: {
+              id: true,
               name: true
             }
           }
@@ -228,6 +230,8 @@ exports.createOrder = async (req, res) => {
         return
       }
       orderDetails.push({
+        dishId: dishDetail.dish.id,
+        dishDetailId: dishDetail.id,
         dishName: dishDetail.dish.name,
         dishDetailName: dishDetail.name,
         quantity: orderDetail.quantity,

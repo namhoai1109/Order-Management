@@ -166,6 +166,8 @@ model OrderDetail {
   order   Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId Int
 
+  dishId         Int
+  dishDetailId   Int
   dishName       String
   dishDetailName String
   quantity       Int
