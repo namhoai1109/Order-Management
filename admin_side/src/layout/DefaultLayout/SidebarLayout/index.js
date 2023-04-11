@@ -7,7 +7,7 @@ import useToggle from './toggle';
 import classNames from 'classnames/bind';
 import styles from './sidebar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPeopleRoof, faUsers, faMotorcycle, faHandshake} from '@fortawesome/free-solid-svg-icons';
+import { faPeopleRoof, faUsers, faMotorcycle, faHandshake } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +27,7 @@ function SidebarLayout() {
             <Sidebar>
                 <Menu>
                     <MenuItem icon={<FontAwesomeIcon icon={faPeopleRoof} />} component={<Link to="/admin/adminStaff" />}> Staff </MenuItem>
-                    <MenuItem icon={<FontAwesomeIcon icon={faUsers} />} component={<Link to="/admin/adminUser" />}> User </MenuItem>
+                    <MenuItem icon={<FontAwesomeIcon icon={faUsers} />} component={<Link to="/admin/adminUser" />}> Customer </MenuItem>
                     <MenuItem icon={<FontAwesomeIcon icon={faMotorcycle} />} component={<Link to="/admin/adminShipper" />}> Shipper </MenuItem>
                     <MenuItem icon={<FontAwesomeIcon icon={faHandshake} />} component={<Link to="/admin/adminPartner" />}> Partner </MenuItem>
 

@@ -5,9 +5,9 @@ import {
     API_SIGN_UP_STAFF,
     API_UPDATE_STATUS,
     API_GET_STAFFS,
-    API_GET_ACCOUNTS,
     API_GET_PARTNERS,
     API_GET_SHIPPERS,
+    API_GET_ACCOUNTS
 } from './api_paths';
 
 export const deleteStaff = async (id) => {
@@ -44,11 +44,13 @@ export const getPartners = async () => {
     return response;
 }
 
+export const getCustomers = async () => {
+    const response = await get(API_GET_ACCOUNTS);
+    return response;
+}
 
 export const updateStatus = async (id) => {
-    const response = await post(API_UPDATE_STATUS, {
-        id: id,
-    });
+    const response = await post(`${API_UPDATE_STATUS}/${id}`);
     return response;
 }
 

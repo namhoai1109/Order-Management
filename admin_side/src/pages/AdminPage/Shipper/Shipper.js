@@ -1,20 +1,56 @@
-import { React, useState, useEffect } from 'react';
-import { Table } from 'antd';
+import { React, useState, useCallback } from 'react';
+import { Table, Spin } from 'antd';
+
 import './shipper.scss';
 import { COLUMNS_SHIPPER } from '../const/column';
-import { useGetShippers } from '../../../services/Admin/services';
+import { usedGetShippers } from '../../../services/Admin/services';
 
 function Shipper() {
     const columns = COLUMNS_SHIPPER;
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
-    useGetShippers(setData, localStorage.getItem('token'));       // get all staffs from database
+    let getShippers = useCallback(async () => {
+        let list = await usedGetShippers();
+        let tmp = [];
 
+        list.forEach((shippers) => {
+            tmp.push({
+                id: shippers.id,
+                name: shippers.name,
+                cmnd: shippers.nationalId,
+                phone: shippers.phone,
+                address: shippers.address,
+                license: shippers.licensePlate,
+                area: shippers.districtId,
+                email: shippers.email,
+                bank: shippers.bankAccount,
+                status: shippers.status,
+            });
+        });
+        setData(tmp);
+        setIsLoading(false);
+        setDataLoaded(true);
+    }, []);
+
+    if (!dataLoaded) {
+        getShippers();
+    }
 
     return (
         <div>
             <h1 className="page_container_title"> Shipper Page</h1>
-            <Table columns={columns} dataSource={data}></Table>
+            {isLoading ? (
+                <Spin size="large" tip="Loading..." />
+            ) : (
+                <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={data}
+                    pagination={{ pageSize: 5 }}
+                />
+            )}
         </div>
     );
 }

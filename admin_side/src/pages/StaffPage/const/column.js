@@ -1,9 +1,4 @@
-import React from 'react';
-import { faFileContract } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from 'antd';
-import { useGenerateContract } from '~/services/Staff/services';
-
+import {GenerateContract} from '~/pages/StaffPage/action';
 const COLUMNS_CONTRACT = [
     {
         title: 'Name',
@@ -15,7 +10,6 @@ const COLUMNS_CONTRACT = [
         title: 'Tax code',
         dataIndex: 'taxcode',
         key: 'taxcode',
-        // sort theo alphabet
         sorter: (a, b) => a.taxcode.localeCompare(b.taxcode),
 
     },
@@ -56,20 +50,7 @@ const COLUMNS_CONTRACT = [
     {
         title: 'Actions',
         key: 'actions',
-        render: (text, record) => {
-
-            return (
-                <div>
-                    <Button
-                        onClick={() => {
-                            useGenerateContract(localStorage.getItem('token'), record.taxcode);
-                        }}
-                        type="link" className="admin_btnBlock">
-                        <FontAwesomeIcon icon={faFileContract} />
-                    </Button>
-                </div>
-            );
-        },
+        render: (text, record) => GenerateContract(record),
     },
 
 ];

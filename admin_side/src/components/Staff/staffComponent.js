@@ -2,30 +2,30 @@ import React, { useState } from "react";
 import { Button, Modal, Form, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { usedAddStaff } from "~/services/Admin/services";
 
-import { useAddStaff } from "../../services/Admin/services";
 
-
-function AddStaff() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [name, setName] = useState("");
+export const AddStaff = () => {
+    const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState("Content of the modal");
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setData((prevState) => ({ ...prevState, [name]: value }));
+    };
 
     const showModal = () => {
         setVisible(true);
     };
 
     const handleOk = async () => {
-        const staff = { username, password, email, phone, name };
-        setModalText("The modal will be closed after two seconds");
+        const staff = { ...data };
         try {
-            await useAddStaff(staff, localStorage.getItem("token"));
+            await usedAddStaff(staff);
             setVisible(false);
+            setConfirmLoading(false);
+            window.location.reload();
         } catch (error) {
             console.log(error);
         }
@@ -49,48 +49,50 @@ function AddStaff() {
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
             >
-                <Form
-                    onFinish={handleOk}
-                >
+                <Form>
                     <Form.Item label="Username">
                         <Input
                             placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            name="username"
+                            value={data.username || ""}
+                            onChange={handleInputChange}
                         />
                     </Form.Item>
                     <Form.Item label="Password">
                         <Input.Password
                             placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            name="password"
+                            value={data.password || ""}
+                            onChange={handleInputChange}
                         />
                     </Form.Item>
                     <Form.Item label="Email">
                         <Input
                             placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            name="email"
+                            value={data.email || ""}
+                            onChange={handleInputChange}
                         />
                     </Form.Item>
                     <Form.Item label="Phone">
                         <Input
                             placeholder="Phone"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            name="phone"
+                            value={data.phone || ""}
+                            onChange={handleInputChange}
                         />
                     </Form.Item>
                     <Form.Item label="Name">
                         <Input
                             placeholder="Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            name="name"
+                            value={data.name || ""}
+                            onChange={handleInputChange}
                         />
                     </Form.Item>
                 </Form>
             </Modal>
         </>
     );
-}
 
-export { AddStaff }
+}

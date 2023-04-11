@@ -1,4 +1,4 @@
-import { get, post, postForm } from '~/utils/httpRequest';
+import { get, post } from '~/utils/httpRequest';
 
 import {
     API_GET_PARTNERS,
@@ -7,14 +7,12 @@ import {
 
 
 export const getPartners = async () => {
-   const response = await get(API_GET_PARTNERS);
+    const response = await get(API_GET_PARTNERS);
     return response;
 }
 
 export const generateContract = async (taxCode) => {
-    const response = await post(API_GENERATE_CONTRACT, {
-        taxCode: taxCode,
-    });
+    const response = await post(`${API_GENERATE_CONTRACT}/${taxCode}`);
     return response;
 }
 

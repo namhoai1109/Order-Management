@@ -1,28 +1,30 @@
 import { React, useState, useCallback } from 'react';
 import { Table, Spin } from 'antd';
-import './staff.scss';
-import { AddStaff } from '~/components/Staff/staffComponent';
-import { usedGetStaffs } from '~/services/Admin/services';
-import { COLUMNS_STAFF } from '../const/column';
 
-function Staff() {
-    const columns = COLUMNS_STAFF;
+import { COLUMNS_USER } from '../const/column';
+import { usedGetCustomers } from '../../../services/Admin/services';
+
+function Customer() {
+    const columns = COLUMNS_USER;
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    let getStaffs = useCallback(async () => {
-        let list = await usedGetStaffs();
+    let getCustomers = useCallback(async () => {
+        let list = await usedGetCustomers();
         let tmp = [];
 
         list.forEach((staff) => {
-            tmp.push({
-                id: staff.id,
-                username: staff.username,
-                email: staff.email,
-                phone: staff.phone,
-                status: staff.status,
-            });
+            if(staff.role === "customer")
+            {
+                tmp.push({
+                    id: staff.id,
+                    name: staff.username,
+                    email: staff.email,
+                    phone: staff.phone,
+                    address: staff.address,
+                });
+            }
         });
         setData(tmp);
         setIsLoading(false);
@@ -30,13 +32,11 @@ function Staff() {
     }, []);
 
     if (!dataLoaded) {
-        getStaffs();
+        getCustomers();
     }
-
     return (
         <div>
-            <h1 className="page_container_title">Staff Page</h1>
-            <AddStaff />
+            <h1 className="page_container_title"> Customer Page</h1>
             {isLoading ? (
                 <Spin size="large" tip="Loading..." />
             ) : (
@@ -51,4 +51,4 @@ function Staff() {
     );
 }
 
-export default Staff;
+export default Customer;

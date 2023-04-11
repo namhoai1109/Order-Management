@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import { faLock, faTrash, faLockOpen } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Modal, Button } from 'antd';
-import { AuseDelelteStaff, AuseUpdateStatus } from '~/services/Admin/services';
+import React from 'react';
+import { StaffAction } from '../Staff/actions';
 
 const COLUMNS_SHIPPER = [
     {
@@ -59,7 +56,13 @@ const COLUMNS_SHIPPER = [
         key: 'bank',
 
     },
-]
+    {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+
+    },
+];
 
 const COLUMNS_PARTNER = [
     {
@@ -112,53 +115,6 @@ const COLUMNS_PARTNER = [
     }
 ];
 
-const StaffActions = ({ record }) => {
-    const [iconBlock, setIconBlock] = useState();
-    if (record.status === 'active') {
-        setIconBlock(faLockOpen);
-    } else {
-        setIconBlock(faLock);
-    }
-
-    const handleUpdateStatus = () => {
-        AuseUpdateStatus(record.id, localStorage.getItem('token'))
-            .then(() => {
-                if (record.status === 'active') {
-                    setIconBlock(faLock);
-                } else {
-                    setIconBlock(faLockOpen);
-                }
-            });
-    };
-
-    const handleDeleteStaff = () => {
-        Modal.confirm({
-            title: "Are you sure, you want to delete this staff record?",
-            okText: "Yes",
-            okType: "danger",
-            onOk: () => {
-                AuseDelelteStaff(record.id)
-            },
-        });
-    };
-
-    return (
-        <div>
-            <Button
-                onClick={handleUpdateStatus}
-                type="link" className="admin_btnBlock">
-                <FontAwesomeIcon icon={iconBlock} />
-            </Button>
-
-            <Button
-                onClick={handleDeleteStaff}
-                type="link" className="admin_btnDelete">
-                <FontAwesomeIcon icon={faTrash} />
-            </Button>
-        </div>
-    );
-};
-
 const COLUMNS_STAFF = [
     {
         title: 'Username',
@@ -171,11 +127,15 @@ const COLUMNS_STAFF = [
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
+        sorter: (a, b) => a.email.localeCompare(b.email),
+
     },
     {
         title: 'Phone',
         dataIndex: 'phone',
         key: 'phone',
+        sorter: (a, b) => a.phone.localeCompare(b.phone),
+
     },
     {
         title: 'Status',
@@ -185,95 +145,46 @@ const COLUMNS_STAFF = [
     {
         title: 'Actions',
         key: 'actions',
-        render: (text, record) => <StaffActions record={record} />,
+        render: (text, record) => <StaffAction record={record} />,
     },
 ];
 
-
-// const COLUMNS_STAFF = [
-//     {
-//         title: 'ID',
-//         dataIndex: 'id',
-//         key: 'id',
-//         sorter: (a, b) => a.username.localeCompare(b.username),
-
-//     },
-//     {
-//         title: 'Username',
-//         dataIndex: 'username',
-//         key: 'username',
-//         sorter: (a, b) => a.username.localeCompare(b.username),
-
-//     },
-//     {
-//         title: 'Password',
-//         dataIndex: 'password',
-//         key: 'password',
-//     },
-//     {
-//         title: 'Actions',
-//         key: 'actions',
-//         render: (text, record) => {
-//             const [iconBlock, setIconBlock] = useState(faLock);
-
-//             useEffect(() => {
-//                 if (record.status === 'active') {
-//                     setIconBlock(faLockOpen);
-//                 } else {
-//                     setIconBlock(faLock);
-//                 }
-//             }, [record.status]);
-
-//             return (
-//                 <div>
-//                     <Button
-//                         onClick={() => {
-//                             useUpdateStatus(record.id, localStorage.getItem('token'))
-//                             .then(() => {
-//                                 if (record.status === 'active') {
-//                                     setIconBlock(faLock);
-//                                 } else {
-//                                     setIconBlock(faLockOpen);
-//                                 }
-//                             });
-//                         }}
-//                         type="link" className="admin_btnBlock">
-//                         <FontAwesomeIcon icon={faLock} />
-//                     </Button>
-
-//                     <Button
-//                         onClick={() => {
-//                             Modal.confirm({
-//                                 title: "Are you sure, you want to delete this staff record?",
-//                                 okText: "Yes",
-//                                 okType: "danger",
-//                                 onOk: () => { 
-//                                     AuseDelelteStaff(record.id) 
-//                                 },
-//                             });
-//                         }}
-//                         type="link" className="admin_btnDelete">
-//                         <FontAwesomeIcon icon={faTrash} />
-//                     </Button>
-//                 </div>
-//             );
-//         },
-//     },
-// ];
-
 const COLUMNS_USER = [
     {
-        title: 'Username',
-        dataIndex: 'username',
-        key: 'username',
-        sorter: (a, b) => a.username.localeCompare(b.username),
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        sorter: (a, b) => a.id.localeCompare(b.id),
 
     },
     {
-        title: 'Password',
-        dataIndex: 'password',
-        key: 'password',
-    }
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        sorter: (a, b) => a.email.localeCompare(b.email),
+
+    },
+    {
+        title: 'Phone',
+        dataIndex: 'phone',
+        key: 'phone',
+        sorter: (a, b) => a.phone.localeCompare(b.phone),
+
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+        sorter: (a, b) => a.address.localeCompare(b.address),
+
+    },
 ];
 
 const DATASOURCES = [

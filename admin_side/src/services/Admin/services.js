@@ -1,6 +1,6 @@
-import { deleteStaff, addStaff, getStaffs, getShippers, updateStatus, getPartners } from './callers';
+import { deleteStaff, addStaff, getStaffs, getShippers, updateStatus, getPartners, getCustomers } from './callers';
 
-export const AuseDelelteStaff = async (id) => {
+export const usedDelelteStaff = async (id) => {
     try {
         const response = await deleteStaff(id);
         const result = response.result;
@@ -11,24 +11,20 @@ export const AuseDelelteStaff = async (id) => {
     }
 };
 
-
-export const useAddStaff = async (staff) => {
+export const usedAddStaff = async (staff) => {
     try {
         const response = await addStaff(staff);
-        const result = response.result;
-        return result;
+        return response;
     } catch (error) {
         console.log(error);
         return error;
     }
 };
 
-
-export const useGetStaffs = async () => {
+export const usedGetStaffs = async () => {
     try {
         const response = await getStaffs();
         const result = response.result;
-        console.log('result', result);
         return result;
     } catch (error) {
         console.log(error);
@@ -36,7 +32,7 @@ export const useGetStaffs = async () => {
     }
 };
 
-export const useGetShippers = async () => {
+export const usedGetShippers = async () => {
     try {
         const response = await getShippers();
         const result = response.result;
@@ -47,7 +43,7 @@ export const useGetShippers = async () => {
     }
 };
 
-export const useGetPartners = async () => {
+export const usedGetPartners = async () => {
     try {
         const response = await getPartners();
         const result = response.result;
@@ -58,11 +54,21 @@ export const useGetPartners = async () => {
     }
 };
 
-export const AuseUpdateStatus = async (id) => {
+export const usedGetCustomers = async () => {
     try {
-        const response = await updateStatus(id);
+        const response = await getCustomers();
         const result = response.result;
         return result;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
+export const usedUpdateStatus = async (id) => {
+    try {
+        const response = await updateStatus(id);
+        return response;
     } catch (error) {
         console.log(error);
         return error;

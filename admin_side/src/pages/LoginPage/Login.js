@@ -9,27 +9,22 @@ import Background from '~/assets/images/backgroundAdmin.jpg';
 import './Login.scss';
 import { PostSignIn } from '~/services/Login/services';
 
-function Login() { // receive a setToken prop to set token in App.js
-
-
+function Login() {
     const handleSubmit = async (values) => {
-        PostSignIn(values);         // call api to get token
-
-        // if token is null => show error message
-        setTimeout(() => {
-            if (localStorage.getItem('token') === null) {
-                toast.error("Invalid username or password", {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                })
-            }
-        }, 5000)
+        PostSignIn(values); // call api to get token
+        if (localStorage.getItem('token') === null) { // check if response contains token
+            toast.error("Invalid username or password", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            return;
+        }
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
