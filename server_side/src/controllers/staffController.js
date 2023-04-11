@@ -157,6 +157,10 @@ exports.confirmContract = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Internal server error', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
 
 exports.getAllShipper = async (req, res) => {
   try {
