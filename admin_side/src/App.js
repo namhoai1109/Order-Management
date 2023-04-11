@@ -2,6 +2,7 @@
 import { React, Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PRIVATE_ROUTES_ADMIN, PRIVATE_ROUTES_STAFF } from '~/routes';
+import { Result } from 'antd';
 import { DefaultLayout } from '~/layout';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import Login from '~/pages/LoginPage/Login';
@@ -11,11 +12,20 @@ function App() {
   const token = localStorage.getItem('token');   // get the token from local storage
   const role = localStorage.getItem('role');     // get the token from local storage
 
-
   if (!token || !role) {
-    return <Login />; // show the Login component if there is no token or no auth object
-
-  } else
+    if (window.location.href === 'http://localhost:3000/') {
+      return <Login />;
+    } else {
+      return (
+        <Result
+          status="404"
+          title="404"
+          subTitle="Sorry, the page you visited does not exist."
+        />
+      );
+    }
+  }
+  else
     return (
       <ProSidebarProvider>
         <Router>
@@ -68,7 +78,13 @@ function App() {
                     />
                   );
                 })}
-              <Route path="*" element={<h1>404 Not Found Page</h1>} />
+              <Route path="*" element={
+                <Result
+                  status="404"
+                  title="404"
+                  subTitle="Sorry, the page you visited does not exist."
+                />}
+              />
             </Routes>
           </div>
         </Router>

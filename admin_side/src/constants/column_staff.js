@@ -1,9 +1,15 @@
-const COLUMNS = [
+import { GenerateContract } from '~/pages/StaffPage/components/GenerateContract';
+const COLUMNS_CONTRACT = [
     {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+
+    }, {
         title: 'Tax code',
         dataIndex: 'taxcode',
         key: 'taxcode',
-        // sort theo alphabet
         sorter: (a, b) => a.taxcode.localeCompare(b.taxcode),
 
     },
@@ -23,8 +29,8 @@ const COLUMNS = [
     },
     {
         title: 'Expiration date',
-        dataIndex: 'expriation_date',
-        key: 'expriation_date',
+        dataIndex: 'expiration_date',
+        key: 'expiration_date',
     },
     {
         title: 'Bank Account',
@@ -37,10 +43,16 @@ const COLUMNS = [
         key: 'status',
     },
     {
-        title: 'Time left',
-        dataIndex: 'time',
-        key: 'time',
-    }
+        title: 'Culinary Style',
+        dataIndex: 'culinaryStyle',
+        key: 'culinaryStyle',
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (text, record) => GenerateContract(record),
+    },
+
 ];
 
-export {COLUMNS};
+export { COLUMNS_CONTRACT };

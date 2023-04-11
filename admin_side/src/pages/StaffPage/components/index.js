@@ -1,0 +1,1 @@
+export { GenerateContract } from './GenerateContract'

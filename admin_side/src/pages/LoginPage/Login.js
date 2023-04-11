@@ -2,39 +2,15 @@ import { React } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Background from '~/assets/images/backgroundAdmin.jpg';
+import { handleSubmit } from './useLogin';
 
 import './Login.scss';
-import { PostSignIn } from '~/services/Login/servicesLogin';
 
-function Login() { // receive a setToken prop to set token in App.js
-
-
-    const handleSubmit = async (values) => {
-        PostSignIn(values);         // call api to get token
-
-        // if token is null => show error message
-        setTimeout(() => {
-            if (localStorage.getItem('token') === null) {
-                toast.error("Invalid username or password", {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                })
-            }
-        }, 1500)
-    }
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-
+function Login() {
+    
     return (
         <div className="adminPage_container">
             <div className="login_background">
@@ -49,7 +25,6 @@ function Login() { // receive a setToken prop to set token in App.js
                             remember: true,
                         }}
                         onFinish={handleSubmit}
-                        onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
                         <Form.Item
