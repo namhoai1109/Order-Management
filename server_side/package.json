@@ -30,6 +30,6 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.21",
-    "prisma": "^4.11.0"
+    "prisma": "^4.12.0"
   }
 }

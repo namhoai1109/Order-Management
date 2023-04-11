@@ -74,3 +74,21 @@ exports.register = async (req, res) => {
     await prisma.$disconnect()
   }
 }
+
+exports.getShipper = async (req, res) => {
+  try {
+    console.log(req.account)
+    const username = req.params.username
+    const shipper = await prisma.$queryRaw`
+    SELECT * FROM Account acc
+    JOIN Shipper s ON acc.username = s.name
+    WHERE acc.username = ${username}`
+
+    res.status(200).send(createReturnObject(shipper, '', 'Shipper profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}

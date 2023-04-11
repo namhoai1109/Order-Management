@@ -161,3 +161,37 @@ exports.confirmContract = async (req, res) => {
     await prisma.$disconnect()
   }
 }
+
+exports.getAllShipper = async (req, res) => {
+  try {
+    console.log(req.account)
+    const shipper = await prisma.$queryRaw`
+    SELECT * FROM Account acc
+    JOIN Shipper s ON acc.username = s.name
+    WHERE acc.role = 'shipper'`
+
+    res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.getActiveShippers = async (req, res) => {
+  try {
+    console.log(req.account)
+    const shipper = await prisma.$queryRaw`
+    SELECT * FROM Account acc
+    JOIN Shipper s ON acc.username = s.name
+    WHERE acc.role = 'shipper' AND acc.status = 'active'`
+
+    res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
