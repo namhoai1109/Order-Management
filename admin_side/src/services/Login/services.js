@@ -1,9 +1,8 @@
-import { post } from '~/utils/httpRequest';
-import { API_SIGN_IN } from './api_paths';
+import { postSignIn } from './callers';
 
-export const PostSignIn = async (values) => {
+export const usedPostSignIn = async (values) => {
     try {
-        const response = await post(API_SIGN_IN, values);
+        const response = await postSignIn(values);
         const token = response?.result?.token;
         const role = response?.result?.role;
 

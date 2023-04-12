@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { PostSignIn } from '~/services/Login/services';
+import { usedPostSignIn } from '~/services/Login/services';
 
 export const handleSubmit = async (values) => {
-    PostSignIn(values); // call api to get token
+    usedPostSignIn(values); // call api to get token
     setTimeout(() => {
         if (localStorage.getItem('token') === null) { // check if response contains token
             toast.error("Invalid username or password", {
