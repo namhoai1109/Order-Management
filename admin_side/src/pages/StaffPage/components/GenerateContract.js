@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from 'antd';
 import { usedGenerateContract } from '~/services/Staff/services';
 
-export const GenerateContract = (record) => {
+const GenerateContract = (record) => {
     return (
         <div>
             <Button
@@ -18,3 +18,5 @@ export const GenerateContract = (record) => {
         </div>
     );
 }
+
+export default GenerateContract;

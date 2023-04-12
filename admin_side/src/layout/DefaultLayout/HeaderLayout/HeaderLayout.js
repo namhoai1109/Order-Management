@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '~/assets/images/test.png';
+import Logo from '~/assets/images/logo.png';
 import classNames from 'classnames/bind';
 import styles from './header.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,7 +30,7 @@ const handleLogout = () => {
 
 };
 
-function Header() {
+function HeaderLayout() {
     return (
         <div className={CX("header_container")}>
             <div className={CX("header_logo")}>
@@ -61,4 +61,4 @@ function Header() {
 
 };
 
-export default Header;
+export default HeaderLayout;

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { usedGetPartners } from '~/services/Staff/services';
 
-const useStaffManager = () =>{
+const useContract = () =>{
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -37,4 +37,4 @@ const useStaffManager = () =>{
         isLoading,
     };
 }
-export default useStaffManager;
+export default useContract;

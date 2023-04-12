@@ -1,15 +1,15 @@
 import { React, Fragment } from 'react';
 import { Table, Skeleton } from 'antd';
 import { COLUMNS_CONTRACT } from '../../constants/column_staff';
-import useStaffManager from './useStaffManager';
+import useContract from './useContract';
 
 
-function StaffManager() {
+function Contract() {
     const columns = COLUMNS_CONTRACT;
-    const { data, isLoading } = useStaffManager();
+    const { data, isLoading } = useContract();
     return (
         <Fragment>
-            <h1 className="page_container_title"> Staff Manager Page</h1>
+            <h1 className="page_container_title"> Contract Management Page</h1>
             {isLoading ? (
                 <Skeleton active />
             ) : (
@@ -24,4 +24,4 @@ function StaffManager() {
     );
 }
 
-export default StaffManager;
+export default Contract;

@@ -2,7 +2,7 @@
 import { HeaderOnlyLayout } from '~/layout';
 
 import Login from '~/pages/LoginPage/Login';
-import StaffManager from '~/pages/StaffPage/StaffManager';
+import StaffManager from '~/pages/StaffPage/Contract';
 import adminStaff from '~/pages/AdminPage/Staff/Staff';
 import User from '~/pages/AdminPage/Customer/Customer';
 import Shipper from '~/pages/AdminPage/Shipper/Shipper';

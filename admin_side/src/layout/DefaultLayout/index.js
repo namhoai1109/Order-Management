@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from './HeaderLayout';
-import Sidebar from './SidebarLayout';
+import Header from './HeaderLayout/HeaderLayout';
+import Sidebar from './SidebarLayout/SidebarLayout';
 
 function DefaultLayout({ children }) {
     return (

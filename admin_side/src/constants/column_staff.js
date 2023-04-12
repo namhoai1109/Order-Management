@@ -1,4 +1,4 @@
-import { GenerateContract } from '~/pages/StaffPage/components/GenerateContract';
+import GenerateContract from '~/pages/StaffPage/components/GenerateContract';
 const COLUMNS_CONTRACT = [
     {
         title: 'Name',

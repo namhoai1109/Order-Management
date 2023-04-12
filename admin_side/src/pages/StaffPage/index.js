@@ -1,1 +1,1 @@
-export { default } from './StaffManager';
+export { default } from './Contract';
