@@ -10,7 +10,6 @@ router.get('/get-staffs', authorizeUser('admin'), controller.getAllStaff)
 router.get('/get-all-account', authorizeUser('admin'), controller.getAllAccount)
 
 
-router.get('/get-partners', authorizeUser('admin'), controller.getAllPartners)
 router.get('/get-shippers', authorizeUser('admin'), controller.getAllShipper)
 router.get('/get-active-shippers', authorizeUser('admin'), controller.getActiveShippers)
 

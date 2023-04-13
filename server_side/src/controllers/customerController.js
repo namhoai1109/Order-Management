@@ -116,3 +116,19 @@ exports.updatePassword = async (req, res) => {
     await prisma.$disconnect()
   }
 }
+
+exports.deleteOrder = async (req, res) => {
+  try {
+    console.log(req.account)
+    const dishes = await prisma.$queryRaw`
+    SELECT * FROM Order o
+    WHERE o.id = req.params.id AND o.status = 'pending'`
+
+    res.status(200).send(createReturnObject(dishes, '', 'Shippers profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
