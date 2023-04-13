@@ -100,7 +100,7 @@
     }
 ```
 
-3. Get All Active Shipper
+4. Get All Active Shipper
 
 ```
     [GET] /api/staffs/get-active-shippers
