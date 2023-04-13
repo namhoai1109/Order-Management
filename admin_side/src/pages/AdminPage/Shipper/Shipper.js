@@ -1,23 +1,28 @@
-import { React, useState, useEffect } from 'react';
-import { Table } from 'antd';
+import { React, Fragment } from 'react';
+import { Table, Skeleton } from 'antd';
+
 import './shipper.scss';
-import { COLUMNS_SHIPPER } from '../const/column';
-import { getAllShipper } from '../../../services/Admin/servicesAdmin';
+import { COLUMNS_SHIPPER } from '../../../constants/column_admin';
+import useShipper from './useShipper'
 
 function Shipper() {
     const columns = COLUMNS_SHIPPER;
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        getAllShipper(setData, localStorage.getItem('token'));       // get all staffs from database
-    }, []);
-
+    const { data, isLoading } = useShipper();
 
     return (
-        <div>
+        <Fragment>
             <h1 className="page_container_title"> Shipper Page</h1>
-            <Table columns={columns} dataSource={data}></Table>
-        </div>
+            {isLoading ? (
+                <Skeleton active />
+            ) : (
+                <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={data}
+                    pagination={{ pageSize: 5 }}
+                />
+            )}
+        </Fragment>
     );
 }
 

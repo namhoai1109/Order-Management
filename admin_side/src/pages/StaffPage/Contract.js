@@ -1,18 +1,15 @@
 import { React, Fragment } from 'react';
 import { Table, Skeleton } from 'antd';
-import './staff.scss';
-import AddStaff from '~/pages/AdminPage/Staff/components/AddStaff/AddStaff';
-import { COLUMNS_STAFF } from '../../../constants/column_admin';
-import useStaff from './useStaff'
+import { COLUMNS_CONTRACT } from '../../constants/column_staff';
+import useContract from './useContract';
 
-function Staff() {
-    const columns = COLUMNS_STAFF;
-    const { data, isLoading } = useStaff();
 
+function Contract() {
+    const columns = COLUMNS_CONTRACT;
+    const { data, isLoading } = useContract();
     return (
         <Fragment>
-            <h1 className="page_container_title">Staff Page</h1>
-            <AddStaff />
+            <h1 className="page_container_title"> Contract Management Page</h1>
             {isLoading ? (
                 <Skeleton active />
             ) : (
@@ -27,4 +24,4 @@ function Staff() {
     );
 }
 
-export default Staff;
+export default Contract;
