@@ -16,8 +16,6 @@ exports.register = async (req, res) => {
       bankAccount,
       taxCode,
       representative,
-      orderQuantity,
-      status,
       culinaryStyle,
       username,
       password,
@@ -42,17 +40,17 @@ exports.register = async (req, res) => {
           email,
           phone,
           bankAccount,
-          role: 'partner',
+          role: 'partner'
         }
       })
 
-      const partner = await prisma.partner.create({
+      await prisma.partner.create({
         data: {
           brandName,
           taxCode,
           representative,
           orderQuantity: 20,
-          status: "active",
+          status: 'active',
           culinaryStyle,
           account: {
             connect: {
@@ -70,7 +68,6 @@ exports.register = async (req, res) => {
 
       res.status(201).send(createReturnObject(null, '', 'Partner registered successfully', 201))
     })
-
   } catch (err) {
     console.log(err)
     res.status(500).send({ message: err.message })
@@ -103,7 +100,7 @@ exports.register = async (req, res) => {
 
 exports.addDish = async (req, res) => {
   try {
-    const { name, status, description,  } = req.body
+    const { name, status, description } = req.body
     const dishDetails = JSON.parse(req.body.dishDetails)
     const partner = await prisma.partner.findUnique({
       where: {
@@ -113,14 +110,16 @@ exports.addDish = async (req, res) => {
 
     if (!partner) {
       res.status(404).send(createReturnObject(null, 'Partner not found', '', 404))
+      return
     }
 
     const imagesData = req.files.map(file => ({
-      filename: file.filename,
+      filename: file.filename
     }))
     const dishDetailsData = dishDetails.map((dishDetail) => ({
       name: dishDetail.name,
       price: dishDetail.price,
+      quantity: dishDetail.quantity
     }))
 
     await prisma.$transaction(async (prisma) => {
@@ -145,7 +144,6 @@ exports.addDish = async (req, res) => {
     })
 
     res.status(201).send(createReturnObject(null, '', 'Dish added successfully', 201))
-
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, 'Error adding dish', err.message, 500))
@@ -164,6 +162,7 @@ exports.getAllDishes = async (req, res) => {
 
     if (!partner) {
       res.status(404).send(createReturnObject(null, 'Partner not found', '', 404))
+      return
     }
 
     const dishes = await prisma.dish.findMany({
@@ -180,6 +179,107 @@ exports.getAllDishes = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, 'Error getting dishes', err.message, 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.viewOrders = async (req, res) => {
+  try {
+    const partner = await prisma.partner.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+
+    if (!partner) {
+      res.status(404).send(createReturnObject(null, 'Partner not found', '', 404))
+      return
+    }
+
+    const orders = await prisma.order.findMany({
+      where: {
+        branch: {
+          partnerId: partner.id
+        }
+      },
+      select: {
+        id: true,
+        orderCode: true,
+        createdAt: true,
+        deliveredAt: true,
+        status: true,
+        process: true,
+        orderPrice: true,
+        shippingPrice: true,
+        totalPrice: true,
+        customer: {
+          select: {
+            name: true,
+            address: true
+          }
+        },
+        orderDetails: {
+          select: {
+            id: true,
+            dishId: true,
+            dishDetailId: true,
+            dishName: true,
+            dishDetailName: true,
+            quantity: true,
+            totalPrice: true
+          }
+        },
+        branch: {
+          select: {
+            id: true,
+            address: true,
+            district: {
+              select: {
+                id: true,
+                name: true,
+                city: {
+                  select: {
+                    id: true,
+                    name: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    res.status(200).send(createReturnObject(orders, '', '', 200))
+  } catch (err) {
+    res.status(500).send(createReturnObject(null, 'Error getting orders', err.message, 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.confirmOrder = async (req, res) => {
+  try {
+    const { orderCode } = req.params
+    const order = await prisma.order.findUnique({ where: { orderCode } })
+    if (!order) {
+      res.status(404).send(createReturnObject(null, 'Order not found', '', 404))
+      return
+    }
+    if (order.status === 'confirmed') {
+      res.status(400).send(createReturnObject(null, 'Order already confirmed', '', 400))
+      return
+    }
+
+    await prisma.order.update({
+      where: { orderCode },
+      data: { status: 'confirmed' }
+    })
+
+    res.status(200).send(createReturnObject(null, '', 'Order confirmed successfully', 200))
+  } catch (err) {
+    res.status(500).send(createReturnObject(null, 'Error confirming order', err.message, 500))
   } finally {
     await prisma.$disconnect()
   }

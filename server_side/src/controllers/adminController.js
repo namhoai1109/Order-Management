@@ -184,6 +184,7 @@ exports.getAllAccount = async (req, res) => {
 }
 
 
+
 exports.getAllShipper = async (req, res) => {
   try {
     console.log(req.account)
@@ -238,6 +239,7 @@ exports.getActiveShippers = async (req, res) => {
         }
       }
     })
+
 
     res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
   } catch (err) {

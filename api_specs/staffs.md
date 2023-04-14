@@ -1,7 +1,7 @@
 1. Get partners
 
 ```
-  [GET] /api/staffs/get-partners/:taxCode
+  [GET] /api/staffs/get-partners
   headers: {
         authorization: string //Bearer  + jwt_token
   },
@@ -28,6 +28,7 @@
           id: int,
           createdAt: string,
           confirmedAt: string,
+          expiredAt: string,
           isConfirmed: boolean,
           isExpired: boolean,
           taxCode: string,
@@ -66,7 +67,28 @@
 
 ```
 
-3. Get All Shipper
+3. Confirm partner contract
+
+```
+  [PUT] /api/staffs/confirm-contract/:taxCode
+  params: {
+    taxCode: string
+  },
+  headers: {
+    authorization: string //"Bearer " + jwt_token
+  },
+  response: {
+    result: null,
+    meta: {
+      "error": string,
+      "message": string,
+      statusCode: int
+    }
+  }
+
+```
+
+4. Get All Shipper
 
 ```
     [GET] /api/staffs/get-shippers
@@ -100,7 +122,8 @@
     }
 ```
 
-4. Get All Active Shipper
+
+5. Get All Active Shipper
 
 ```
     [GET] /api/staffs/get-active-shippers

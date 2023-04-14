@@ -2,9 +2,9 @@
 import { HeaderOnlyLayout } from '~/layout';
 
 import Login from '~/pages/LoginPage/Login';
-import staffManager from '~/pages/StaffPage/Staff/staffManager';
+import StaffManager from '~/pages/StaffPage/Contract';
 import adminStaff from '~/pages/AdminPage/Staff/Staff';
-import User from '~/pages/AdminPage/User/User';
+import User from '~/pages/AdminPage/Customer/Customer';
 import Shipper from '~/pages/AdminPage/Shipper/Shipper';
 import Partner from '~/pages/AdminPage/Partner/Partner';
 
@@ -17,7 +17,7 @@ const PUBLIC_ROUTES = [
 
 const PRIVATE_ROUTES_STAFF = [
     {
-        path: '/staff', component: staffManager, layout: HeaderOnlyLayout,
+        path: '/staff', component: StaffManager, layout: HeaderOnlyLayout,
     },
     
 ];

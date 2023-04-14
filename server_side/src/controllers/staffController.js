@@ -64,7 +64,7 @@ exports.generateContract = async (req, res) => {
       return
     }
 
-    if (partner.contract) {
+    if (partner.contract !== null) {
       res.status(400).send(createReturnObject(null, 'Contract already exists', 'Contract already exists', 400))
       return
     }
@@ -92,7 +92,6 @@ exports.generateContract = async (req, res) => {
 
     // TODO: send email with contract to partner
     res.status(200).send(createReturnObject(null, 'Contract generated', 'Contract generated', 200))
-
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Contract generation failed', 500))
@@ -101,3 +100,65 @@ exports.generateContract = async (req, res) => {
   }
 }
 
+
+exports.confirmContract = async (req, res) => {
+  try {
+    const { taxCode } = req.params
+    const partner = await prisma.partner.findUnique({
+      where: {
+        taxCode
+      },
+      include: {
+        contract: true,
+        account: true
+      }
+    })
+
+    if (!partner) {
+      res.status(404).send(createReturnObject(null, 'Partner not found', 'Partner not found', 404))
+      return
+    }
+
+    if (partner.contract === null) {
+      res.status(400).send(createReturnObject(null, 'Contract not found', 'Contract not found', 400))
+      return
+    }
+
+    if (partner.contract.isConfirmed) {
+      res.status(400).send(createReturnObject(null, 'Contract already confirmed', 'Contract already confirmed', 400))
+      return
+    }
+
+    const currentDate = new Date()
+    const tmpDate = new Date(currentDate)
+    const expireDate = new Date(tmpDate.setFullYear(tmpDate.getFullYear() + partner.contract.effectTimeInYear))
+    await prisma.$transaction(async (prisma) => {
+      await prisma.contract.update({
+        where: {
+          id: partner.contract.id
+        },
+        data: {
+          isConfirmed: true,
+          confirmedAt: currentDate,
+          expiredAt: expireDate
+        }
+      })
+
+      await prisma.account.update({
+        where: {
+          id: partner.account.id
+        },
+        data: {
+          isConfirmed: true
+        }
+      })
+    })
+
+    res.status(200).send(createReturnObject(null, 'Contract confirmed', 'Contract confirmed', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Internal server error', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}

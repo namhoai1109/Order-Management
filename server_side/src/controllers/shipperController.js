@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const jwt = require('jsonwebtoken')
-const path = require('path')
+// const path = require('path')
 const config = require('../configs')
 const { createReturnObject } = require('../utils/returnObjectUtil')
 const { hashPassword } = require('../utils/passwordUtil')
@@ -65,33 +65,36 @@ exports.register = async (req, res) => {
 
       return res.status(200).json(createReturnObject(link, '', 'Register successfully', 200))
     })
-
   } catch (err) {
     console.log(err)
-    return res.status(500).json(createReturnObject(null, err.message, "Unique constraint", 500))
-
+    return res.status(500).json(createReturnObject(null, err.message, 'Unique constraint', 500))
   } finally {
     await prisma.$disconnect()
   }
 }
 
-exports.getShipper = async (req, res) => {
+exports.viewProfile = async (req, res) => {
   try {
-    console.log(req.account)
-    const shipper = await prisma.account.findMany({
-      where:{
-        username : req.params.username
-        
-      
+    const shipper = await prisma.shipper.findUnique({
+      where: {
+        accountId: req.account.id
       },
-      include:{
-        shipper :{
-          select:{
-            districtId: true,
-            orders: true,
+      include: {
+        district: {
+          select: {
+            id: true,
             name: true,
-            address: true,
-            licensePlate: true
+            city: true
+          }
+        },
+        account: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            phone: true,
+            nationalId: true,
+            bankAccount: true
           }
         }
       }
@@ -101,6 +104,183 @@ exports.getShipper = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.getOrders = async (req, res) => {
+  try {
+    const shipper = await prisma.shipper.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+    if (!shipper) {
+      res.status(400).send(createReturnObject(null, 'Error getting orders', 'Shipper not found', 400))
+      return
+    }
+
+    const orders = await prisma.order.findMany({
+      where: {
+        branch: {
+          district: {
+            id: shipper.districtId
+          }
+        },
+        status: 'confirmed',
+        process: 'pending'
+      },
+      select: {
+        id: true,
+        orderCode: true,
+        customer: {
+          select: {
+            id: true,
+            name: true,
+            address: true
+          }
+        },
+        branch: {
+          select: {
+            id: true,
+            address: true,
+            district: {
+              select: {
+                id: true,
+                name: true,
+                city: true
+              }
+            }
+          }
+        },
+        status: true,
+        orderPrice: true
+      }
+    })
+
+    const orderDetailList = await prisma.orderDetail.findMany({
+      where: {
+        orderId: {
+          in: orders.map(order => order.id)
+        }
+      }
+    })
+
+    const response = orders.map(order => {
+      const orderDetails = orderDetailList.filter(orderDetail => orderDetail.orderId === order.id)
+      return {
+        ...order,
+        orderDetails
+      }
+    })
+
+    res.status(200).send(createReturnObject(response, '', 'Orders retrieved successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error getting orders', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.confirmOrder = async (req, res) => {
+  try {
+    const shipper = await prisma.shipper.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+    if (!shipper) {
+      res.status(400).send(createReturnObject(null, 'Error getting orders', 'Shipper not found', 400))
+      return
+    }
+
+    await prisma.$transaction(async (prisma) => {
+      const order = await prisma.order.findUnique({
+        where: {
+          orderCode: req.params.orderCode
+        }
+      })
+      order.process = req.body.process
+      order.shippingPrice = 25000
+      order.totalPrice = order.orderPrice + order.shippingPrice
+      await prisma.order.update({
+        where: {
+          orderCode: req.params.orderCode
+        },
+        data: {
+          process: order.process,
+          shippingPrice: order.shippingPrice,
+          totalPrice: order.totalPrice,
+          shipper: {
+            connect: {
+              id: shipper.id
+            }
+          }
+        }
+      })
+    })
+
+    res.status(200).send(createReturnObject(null, '', 'Order confirmed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error confirming order', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.deliverOrder = async (req, res) => {
+  try {
+    const shipper = await prisma.shipper.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+    if (!shipper) {
+      res.status(400).send(createReturnObject(null, 'Error getting orders', 'Shipper not found', 400))
+      return
+    }
+
+    await prisma.$transaction(async (prisma) => {
+      const order = await prisma.order.findUnique({
+        where: {
+          orderCode: req.params.orderCode
+        },
+        include: {
+          orderDetails: true
+        }
+      })
+      await prisma.order.update({
+        where: {
+          orderCode: req.params.orderCode
+        },
+        data: {
+          process: 'delivered',
+          deliveredAt: new Date()
+        }
+      })
+
+      // update stock
+      for (const orderDetail of order.orderDetails) {
+        await prisma.dishDetail.update({
+          where: {
+            id: orderDetail.dishDetailId
+          },
+          data: {
+            quantity: {
+              decrement: orderDetail.quantity
+            }
+          }
+        })
+      }
+    })
+
+    res.status(200).send(createReturnObject(null, '', 'Order delivered successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error delivering order', 500))
   } finally {
     await prisma.$disconnect()
   }

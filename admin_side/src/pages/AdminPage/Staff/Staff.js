@@ -1,24 +1,29 @@
-import { React, useState, useEffect } from 'react';
-import { Table } from 'antd';
+import { React, Fragment } from 'react';
+import { Table, Skeleton } from 'antd';
 import './staff.scss';
-import { AddStaff } from '../../../components/Staff/staffComponent';
-import { getAllStaff } from '../../../services/Admin/servicesAdmin';
-import { COLUMNS_STAFF } from '../const/column';
+import AddStaff from '~/pages/AdminPage/Staff/components/AddStaff/AddStaff';
+import { COLUMNS_STAFF } from '../../../constants/column_admin';
+import useStaff from './useStaff'
 
 function Staff() {
     const columns = COLUMNS_STAFF;
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        getAllStaff(setData, localStorage.getItem('token'));       // get all staffs from database
-    }, []);
+    const { data, isLoading } = useStaff();
 
     return (
-        <div>
+        <Fragment>
             <h1 className="page_container_title">Staff Page</h1>
             <AddStaff />
-            <Table dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
-        </div>
+            {isLoading ? (
+                <Skeleton active />
+            ) : (
+                <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={data}
+                    pagination={{ pageSize: 5 }}
+                />
+            )}
+        </Fragment>
     );
 }
 
