@@ -78,11 +78,24 @@ exports.register = async (req, res) => {
 exports.getShipper = async (req, res) => {
   try {
     console.log(req.account)
-    const username = req.params.username
-    const shipper = await prisma.$queryRaw`
-    SELECT * FROM Account acc
-    JOIN Shipper s ON acc.username = s.name
-    WHERE acc.username = ${username}`
+    const shipper = await prisma.account.findMany({
+      where:{
+        username : req.params.username
+        
+      
+      },
+      include:{
+        shipper :{
+          select:{
+            districtId: true,
+            orders: true,
+            name: true,
+            address: true,
+            licensePlate: true
+          }
+        }
+      }
+    })
 
     res.status(200).send(createReturnObject(shipper, '', 'Shipper profile viewed successfully', 200))
   } catch (err) {
