@@ -122,7 +122,6 @@
     }
 ```
 
-
 5. Get All Active Shipper
 
 ```
