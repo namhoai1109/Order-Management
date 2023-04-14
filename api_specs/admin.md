@@ -156,26 +156,26 @@
         authorization: string //"Bearer " + jwt_token
     },
     response:{ 
-       result: [{
+       result: [
             id: int,
-            username: string,
-            password: string,
-            email: string,
-            phone: string,
-            bankAccount: string,
-            nationalId: string,
-            licensePlate: string,
-            role: string,
-            confirmed: boolean,
-            status: string
-        },
-        shipper:{
-            districtId: int,
-            orders: Order[],
             name: string,
             address: string,
-            licensePlate: string
-        }
+            licensePlate: string,
+            account: {
+                id: int,
+                email: string,
+                phone: string,
+                bankAccount: string,
+                nationalId: string
+            },
+            district: {
+                id: int,
+                name: string,
+                city: {
+                    id: int,
+                    name: string
+                }
+            }
         ],
         meta: {
             error: string,
@@ -193,26 +193,26 @@
         authorization: string //"Bearer " + jwt_token
     },
     response:{ 
-       result: [{
+       result: [
             id: int,
-            username: string,
-            password: string,
-            email: string,
-            phone: string,
-            bankAccount: string,
-            nationalId: string,
-            licensePlate: string,
-            role: string,
-            confirmed: boolean,
-            status: string
-        },
-        shipper:{
-            districtId: int,
-            orders: Order[],
             name: string,
             address: string,
-            licensePlate: string
-        }
+            licensePlate: string,
+            account: {
+                id: int,
+                email: string,
+                phone: string,
+                bankAccount: string,
+                nationalId: string
+            },
+            district: {
+                id: int,
+                name: string,
+                city: {
+                    id: int,
+                    name: string
+                }
+            }
         ],
         meta: {
             error: string,

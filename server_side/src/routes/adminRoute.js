@@ -8,11 +8,11 @@ router.post('/update-account-status/:id', authorizeUser('admin'), controller.upd
 router.get('/get-staff/:id', authorizeUser('admin'), controller.getStaff)
 router.get('/get-staffs', authorizeUser('admin'), controller.getAllStaff)
 router.get('/get-all-account', authorizeUser('admin'), controller.getAllAccount)
-router.get('/partners', authorizeUser('admin'), controller.getAllPartners)
 
 
-router.get('/get-shippers', authorizeUser('admin'), controller.getAllShipper)
-router.get('/get-active-shippers', authorizeUser('admin'), controller.getActiveShippers)
+
+router.get('/shippers', authorizeUser('admin'), controller.getAllShipper)
+router.get('/active-shippers', authorizeUser('admin'), controller.getActiveShippers)
 
 
 module.exports = router

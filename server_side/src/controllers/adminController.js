@@ -172,9 +172,9 @@ exports.getAllStaff = async (req, res) => {
 exports.getAllAccount = async (req, res) => {
   try {
     // console.log(req.account);
-    const shippers = await prisma.account.findMany()
+    const all = await prisma.account.findMany()
 
-    res.status(200).send(createReturnObject(shippers, '', 'Shippers profile viewed successfully', 200))
+    res.status(200).send(createReturnObject(all, '', 'All profile viewed successfully', 200))
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
@@ -188,22 +188,37 @@ exports.getAllAccount = async (req, res) => {
 exports.getAllShipper = async (req, res) => {
   try {
     console.log(req.account)
-    const shipper = await prisma.account.findMany({
-      where:{
-        role: 'shipper'
-      },
-      include:{
-        shipper :{
-          select:{
-            districtId: true,
-            orders: true,
+    const shipper = await prisma.shipper.findMany({
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        licensePlate: true,
+        account: {
+          select: {
+            id: true,
+            email: true,
+            phone: true,
+            bankAccount: true,
+            nationalId: true
+          }
+        },
+        district: {
+          select: {
+            id: true,
             name: true,
-            address: true,
-            licensePlate: true
+            city: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
           }
         }
       }
+
     })
+
 
     res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
   } catch (err) {
@@ -217,24 +232,36 @@ exports.getAllShipper = async (req, res) => {
 exports.getActiveShippers = async (req, res) => {
   try {
     console.log(req.account)
-    // const shipper = await prisma.$queryRaw`
-    // SELECT * FROM Account acc
-    // JOIN Shipper s ON acc.username = s.name
-    // WHERE acc.role = 'shipper' AND acc.status = 'active'`
-    const shipper = await prisma.account.findMany({
-      where:{
-        role: 'shipper',
-        status : 'active'
-      
+    const shipper = await prisma.shipper.findMany({
+      where: {
+        account: {
+          status: 'active'
+        }
       },
-      include:{
-        shipper :{
-          select:{
-            districtId: true,
-            orders: true,
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        licensePlate: true,
+        account: {
+          select: {
+            id: true,
+            email: true,
+            phone: true,
+            bankAccount: true,
+            nationalId: true
+          }
+        },
+        district: {
+          select: {
+            id: true,
             name: true,
-            address: true,
-            licensePlate: true
+            city: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
           }
         }
       }
