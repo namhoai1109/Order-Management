@@ -5,14 +5,8 @@ const { authorizeUser } = require('../middlewares/auth')
 router.post('/register', controller.register)
 router.post('/password', authorizeUser('customer'), controller.updatePassword)
 router.get('/profile', authorizeUser('customer'), controller.viewProfile)
-
-
-
 router.get('/partners', authorizeUser('customer'), controller.getPartners)
 router.get('/partner/dishes/:partnerId', authorizeUser('customer'), controller.getDishes)
 router.post('/order', authorizeUser('customer'), controller.createOrder)
-router.delete('/delete-order/:id', authorizeUser('customer'), controller.deleteOrder)
-
-
 
 module.exports = router
