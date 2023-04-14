@@ -20,10 +20,9 @@ export const Notification = (taxcode) => {
                     draggable: true,
                     progress: undefined,
                     theme: "dark",
+                    onClose: () => window.location.reload(),
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+            
             },
         });
 
@@ -45,10 +44,8 @@ export const Notification = (taxcode) => {
                     draggable: true,
                     progress: undefined,
                     theme: "dark",
+                    onClose: () => window.location.reload(),
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
             },
         });
 

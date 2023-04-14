@@ -21,13 +21,11 @@ const handleLogout = () => {
         progress: undefined,
         theme: "dark",
     });
-
     setTimeout(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         window.location.href = "/"
     }, 1200);
-
 };
 
 function HeaderLayout() {
