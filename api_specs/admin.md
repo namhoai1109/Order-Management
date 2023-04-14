@@ -155,8 +155,8 @@
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
-    response: {
-        result: {
+    response:{ 
+       result: [{
             id: int,
             username: string,
             password: string,
@@ -165,15 +165,18 @@
             bankAccount: string,
             nationalId: string,
             licensePlate: string,
-            role: "shipper",
+            role: string,
             confirmed: boolean,
-            status: string,
-            accountId: int,
+            status: string
+        },
+        shipper:{
             districtId: int,
+            orders: Order[],
             name: string,
             address: string,
             licensePlate: string
-        },
+        }
+        ],
         meta: {
             error: string,
             message: string,
@@ -189,8 +192,8 @@
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
-    response: {
-        result: {
+    response:{ 
+       result: [{
             id: int,
             username: string,
             password: string,
@@ -199,15 +202,18 @@
             bankAccount: string,
             nationalId: string,
             licensePlate: string,
-            role: "shipper",
+            role: string,
             confirmed: boolean,
-            status: "active",
-            accountId: int,
+            status: string
+        },
+        shipper:{
             districtId: int,
+            orders: Order[],
             name: string,
             address: string,
             licensePlate: string
-        },
+        }
+        ],
         meta: {
             error: string,
             message: string,
