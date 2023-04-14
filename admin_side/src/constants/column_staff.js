@@ -1,5 +1,4 @@
-import GenerateContract from '~/pages/StaffPage/components/GenerateContract';
-// import ConfirmContract from '~/pages/StaffPage/components/ConfirmContract';
+import GenerateContract from '~/pages/StaffPage/components';
 const COLUMNS_CONTRACT = [
     {
         title: 'Name',
@@ -9,9 +8,9 @@ const COLUMNS_CONTRACT = [
 
     }, {
         title: 'Tax code',
-        dataIndex: 'taxcode',
-        key: 'taxcode',
-        sorter: (a, b) => a.taxcode.localeCompare(b.taxcode),
+        dataIndex: 'taxCode',
+        key: 'taxCode',
+        sorter: (a, b) => a.taxCode.localeCompare(b.taxCode),
 
     },
     {
@@ -44,12 +43,12 @@ const COLUMNS_CONTRACT = [
         key: 'status',
     },
     {
-        title: 'createdAt',
+        title: 'Created Date',
         dataIndex: 'createdAt',
         key: 'createdAt',
     },
     {
-        title: 'confirmedAt',
+        title: 'Confirmed Date',
         dataIndex: 'confirmedAt',
         key: 'confirmedAt',
     },

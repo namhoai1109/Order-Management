@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { usedGetPartners } from '~/services/Staff/services';
-import GenerateContract from './components/GenerateContract/GenerateContract';
 
 const useContract = () =>{
     const [data, setData] = useState([]);
@@ -11,11 +10,12 @@ const useContract = () =>{
         let list = await usedGetPartners();
         let tmp = [];
     
-        list.forEach((partner) => {
+        list.forEach((partner) => { 
             tmp.push({
                 id: partner.id,
+                contractId: partner.contractId,
                 name: partner.brandName,
-                taxcode: partner.taxCode,
+                taxCode: partner.taxCode,
                 quantity: partner.orderQuantity,
                 representative: partner.representative,
                 expiration_date: partner.contract?.expiredAt,
@@ -24,6 +24,7 @@ const useContract = () =>{
                 status: partner.status,
                 createdAt: String(partner.contract?.createdAt),
                 confirmedAt: String(partner.contract?.confirmedAt),
+                expiredAt: String(partner.contract?.expiredAt),
             });
         });
         setData(tmp);

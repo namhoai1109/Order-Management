@@ -4,11 +4,10 @@ import { FileAddOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { usedGenerateContract, usedPutContracts } from '~/services/Staff/services';
-import Notification from './useGenerateContract';
+import { Notification } from './useActions';
 
 const GenerateContract = (record) => {
-    const { createdAt, confirmedAt, taxcode } = record;
+    const { createdAt, confirmedAt, taxCode } = record;
     const { notifyGenerated, notifyConfirm } = Notification();
 
     if (createdAt === "undefined" && confirmedAt === "undefined") {
@@ -17,8 +16,7 @@ const GenerateContract = (record) => {
                 <Button
                     title='Generate Contract'
                     onClick={() => {
-                        usedGenerateContract(taxcode);
-                        notifyGenerated();
+                        notifyGenerated(taxCode);
                     }}
                     type="link" className="admin_btnAddContract">
                     <FileAddOutlined />
@@ -31,8 +29,7 @@ const GenerateContract = (record) => {
                 <Button
                     title='Confirm Contract'
                     onClick={() => {
-                        usedPutContracts(taxcode);
-                        notifyConfirm();
+                        notifyConfirm(taxCode);
                     }}
                     type="link" className="admin_btnConfirm">
                     <FileDoneOutlined />
