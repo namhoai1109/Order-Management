@@ -1,4 +1,4 @@
-import { getPartners, generateContract } from './callers';
+import { getPartners, generateContract, putContracts } from './callers';
 
 export const usedGetPartners = async () => {
     try {
@@ -13,6 +13,15 @@ export const usedGetPartners = async () => {
 export const usedGenerateContract = async (taxCode) => {
     try {
         const response = await generateContract(taxCode);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const usedPutContracts = async (taxCode) => {
+    try {
+        const response = await putContracts(taxCode);
         return response;
     } catch (error) {
         console.log(error);

@@ -8,7 +8,7 @@ import useStaff from './useStaff'
 function Staff() {
     const columns = COLUMNS_STAFF;
     const { data, isLoading } = useStaff();
-
+ 
     return (
         <Fragment>
             <h1 className="page_container_title">Staff Page</h1>

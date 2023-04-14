@@ -15,7 +15,7 @@ const AddStaff = () => {
             </Button>
             <Modal
                 title="Add Staff"
-                visible={visible}
+                open={visible}
                 onOk={handleOk}
                 onCancel={() => {
                     console.log("Clicked cancel button");

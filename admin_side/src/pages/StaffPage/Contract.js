@@ -3,7 +3,6 @@ import { Table, Skeleton } from 'antd';
 import { COLUMNS_CONTRACT } from '../../constants/column_staff';
 import useContract from './useContract';
 
-
 function Contract() {
     const columns = COLUMNS_CONTRACT;
     const { data, isLoading } = useContract();

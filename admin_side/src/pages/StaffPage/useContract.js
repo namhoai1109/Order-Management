@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { usedGetPartners } from '~/services/Staff/services';
+import GenerateContract from './components/GenerateContract/GenerateContract';
 
 const useContract = () =>{
     const [data, setData] = useState([]);
@@ -17,10 +18,12 @@ const useContract = () =>{
                 taxcode: partner.taxCode,
                 quantity: partner.orderQuantity,
                 representative: partner.representative,
-                expiration_date: partner.contract.expiredAt,
-                bank: partner.contract.bankAccount,
-                status: partner.status,
+                expiration_date: partner.contract?.expiredAt,
+                bank: partner.contract?.bankAccount,
                 culinaryStyle: partner.culinaryStyle,
+                status: partner.status,
+                createdAt: String(partner.contract?.createdAt),
+                confirmedAt: String(partner.contract?.confirmedAt),
             });
         });
         setData(tmp);

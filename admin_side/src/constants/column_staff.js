@@ -1,4 +1,5 @@
 import GenerateContract from '~/pages/StaffPage/components/GenerateContract';
+// import ConfirmContract from '~/pages/StaffPage/components/ConfirmContract';
 const COLUMNS_CONTRACT = [
     {
         title: 'Name',
@@ -28,19 +29,9 @@ const COLUMNS_CONTRACT = [
 
     },
     {
-        title: 'Expiration date',
-        dataIndex: 'expiration_date',
-        key: 'expiration_date',
-    },
-    {
         title: 'Bank Account',
         dataIndex: 'bank',
         key: 'bank',
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
     },
     {
         title: 'Culinary Style',
@@ -48,9 +39,29 @@ const COLUMNS_CONTRACT = [
         key: 'culinaryStyle',
     },
     {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+    },
+    {
+        title: 'createdAt',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+    },
+    {
+        title: 'confirmedAt',
+        dataIndex: 'confirmedAt',
+        key: 'confirmedAt',
+    },
+    {
+        title: 'Expiration date',
+        dataIndex: 'expiration_date',
+        key: 'expiration_date',
+    },
+    {
         title: 'Actions',
         key: 'actions',
-        render: (text, record) => GenerateContract(record),
+        render: (text, record) => GenerateContract(record)
     },
 
 ];
