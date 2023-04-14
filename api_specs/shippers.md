@@ -32,10 +32,11 @@
         authorization: string //"Bearer " + jwt_token
     },
     response: {
-        result: {
+        result: [{
             id: int,
             accountId: int,
             districtId: int,
+            orders: Order[],
             name: string,
             address: string,
             licensePlate: string,
