@@ -96,3 +96,77 @@
     }
 
 ```
+
+4. Get all orders
+
+```
+    [GET] /api/partners/orders
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: [
+            {
+                id: int,
+                orderCode: string,
+                createdAt: string,
+                deliveredAt: string,
+                status: string,
+                process: string,
+                orderPrice: float,
+                shippingPrice: float,
+                totalPrice: float,
+                customer: {
+                    name: string,
+                    address: string
+                },
+                orderDetails: [
+                    {
+                    id: int,
+                    dishId: int,
+                    dishDetailId: int,
+                    dishName: string,
+                    dishDetailName: string,
+                    quantity: int,
+                    totalPrice: float
+                    }     
+                ],
+                branch: {
+                    id: int,
+                    address: string,
+                    district: {
+                        id: int,
+                        name: string,
+                        city: {
+                            id: int,
+                            name: string
+                        }
+                    }
+                }
+
+            }
+        ],
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
+
+5. Confirm order
+
+```
+    [PUT] /api/orders/confirm-order/:orderCode
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: null,
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+```
