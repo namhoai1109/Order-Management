@@ -148,7 +148,7 @@
     }
 ```
 
-7. Get All Shipper
+7. Get shippers
 
 ```
     [GET] /api/admin/get-shippers
@@ -181,11 +181,61 @@
             error: string,
             message: string,
             statusCode: int
-        }
-    }
+
 ```
 
-8. Get All Active Shipper
+8. Get partners
+
+```
+  [GET] /api/admin/partners
+  headers: {
+        authorization: string //Bearer  + jwt_token
+  },
+  response: {
+    result: [
+      {
+        id: int,
+        accountId: int,
+        contractId: int,
+        brandName: string,
+        taxCode: string,
+        representative: string,
+        orderQuantity: int,
+        status: string,
+        culinaryStyle: string,
+        account: {
+          id: int,
+          email: string,
+          bankAccount: string,
+          nationalId: string,
+          isConfirmed: boolean
+        },
+        contract: {
+          id: int,
+          createdAt: string,
+          confirmedAt: string,
+          expiredAt: string,
+          isConfirmed: boolean,
+          isExpired: boolean,
+          taxCode: string,
+          representative: string,
+          bankAccount: string,
+          branchQuantity: int,
+          commission: float,
+          effectTimeInYear: int
+        }
+      }
+    ],
+    meta: {
+      error: string,
+      message: string,
+      statusCode: int
+    }
+  }
+  
+```
+
+9. Get All Active Shipper
 
 ```
     [GET] /api/admin/get-active-shippers

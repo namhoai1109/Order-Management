@@ -183,17 +183,10 @@ exports.getAllAccount = async (req, res) => {
   }
 }
 
-
-
-exports.getAllShipper = async (req, res) => {
+exports.getAllPartners = async (req, res) => {
   try {
-    console.log(req.account)
-    const shipper = await prisma.shipper.findMany({
-      select: {
-        id: true,
-        name: true,
-        address: true,
-        licensePlate: true,
+    const partners = await prisma.partner.findMany({
+      include: {
         account: {
           select: {
             id: true,
@@ -267,13 +260,9 @@ exports.getActiveShippers = async (req, res) => {
       }
     })
 
-
-    res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
+    res.status(200).send(createReturnObject(partners, 'Success', 'Success', 200))
   } catch (err) {
     console.log(err)
-    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
-  } finally {
-    await prisma.$disconnect()
+    res.status(500).send(createReturnObject(null, err.message, 'Internal server error', 500))
   }
 }
-
