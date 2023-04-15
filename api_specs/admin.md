@@ -148,7 +148,43 @@
     }
 ```
 
-7. Get partners
+7. Get shippers
+
+```
+    [GET] /api/admin/get-shippers
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response:{ 
+       result: [
+            id: int,
+            name: string,
+            address: string,
+            licensePlate: string,
+            account: {
+                id: int,
+                email: string,
+                phone: string,
+                bankAccount: string,
+                nationalId: string
+            },
+            district: {
+                id: int,
+                name: string,
+                city: {
+                    id: int,
+                    name: string
+                }
+            }
+        ],
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+
+```
+
+8. Get partners
 
 ```
   [GET] /api/admin/partners
@@ -196,5 +232,42 @@
       statusCode: int
     }
   }
+  
+```
 
+9. Get All Active Shipper
+
+```
+    [GET] /api/admin/get-active-shippers
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response:{ 
+       result: [
+            id: int,
+            name: string,
+            address: string,
+            licensePlate: string,
+            account: {
+                id: int,
+                email: string,
+                phone: string,
+                bankAccount: string,
+                nationalId: string
+            },
+            district: {
+                id: int,
+                name: string,
+                city: {
+                    id: int,
+                    name: string
+                }
+            }
+        ],
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
 ```

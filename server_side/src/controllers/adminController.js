@@ -172,9 +172,9 @@ exports.getAllStaff = async (req, res) => {
 exports.getAllAccount = async (req, res) => {
   try {
     // console.log(req.account);
-    const shippers = await prisma.account.findMany()
+    const all = await prisma.account.findMany()
 
-    res.status(200).send(createReturnObject(shippers, '', 'Shippers profile viewed successfully', 200))
+    res.status(200).send(createReturnObject(all, '', 'All profile viewed successfully', 200))
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
@@ -191,25 +191,70 @@ exports.getAllPartners = async (req, res) => {
           select: {
             id: true,
             email: true,
+            phone: true,
             bankAccount: true,
-            nationalId: true,
-            isConfirmed: true
+            nationalId: true
           }
         },
-        contract: {
+        district: {
           select: {
             id: true,
-            createdAt: true,
-            confirmedAt: true,
-            expiredAt: true,
-            isConfirmed: true,
-            isExpired: true,
-            taxCode: true,
-            representative: true,
+            name: true,
+            city: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
+          }
+        }
+      }
+
+    })
+
+
+    res.status(200).send(createReturnObject(shipper, '', 'Shippers profile viewed successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+exports.getActiveShippers = async (req, res) => {
+  try {
+    console.log(req.account)
+    const shipper = await prisma.shipper.findMany({
+      where: {
+        account: {
+          status: 'active'
+        }
+      },
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        licensePlate: true,
+        account: {
+          select: {
+            id: true,
+            email: true,
+            phone: true,
             bankAccount: true,
-            branchQuantity: true,
-            commission: true,
-            effectTimeInYear: true
+            nationalId: true
+          }
+        },
+        district: {
+          select: {
+            id: true,
+            name: true,
+            city: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
           }
         }
       }
