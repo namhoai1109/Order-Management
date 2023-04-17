@@ -131,7 +131,19 @@ exports.getPartners = async (req, res) => {
         branches: {
           select: {
             id: true,
-            address: true
+            address: true,
+            district: {
+              select: {
+                id: true,
+                name: true,
+                city: {
+                  select: {
+                    id: true,
+                    name: true
+                  }
+                }
+              }
+            }
           }
         },
         account: {
@@ -168,7 +180,25 @@ exports.getDishes = async (req, res) => {
         partner: {
           select: {
             id: true,
-            brandName: true
+            brandName: true,
+            branches: {
+              select: {
+                id: true,
+                address: true,
+                district: {
+                  select: {
+                    id: true,
+                    name: true,
+                    city: {
+                      select: {
+                        id: true,
+                        name: true
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         dishDetails: true,
