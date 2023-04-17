@@ -1,8 +1,6 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const jwt = require('jsonwebtoken')
-const path = require('path')
-
 const config = require('../configs')
 const { comparePassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
@@ -94,7 +92,7 @@ exports.validate = async (req, res) => {
     console.log(err)
     if (err.name === 'TokenExpiredError') {
       // resend email
-      res.render('expired', )
+      res.render('expired')
       return
     }
     res.status(500).send(createReturnObject(null, err.message, 'Error validating account', 500))

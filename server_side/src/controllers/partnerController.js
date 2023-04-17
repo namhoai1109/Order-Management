@@ -1,10 +1,10 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
-const jwt = require('jsonwebtoken')
-const config = require('../configs')
+// const jwt = require('jsonwebtoken')
+// const config = require('../configs')
 const { hashPassword } = require('../utils/passwordUtil')
 const { createReturnObject } = require('../utils/returnObjectUtil')
-const { sendEmail } = require('../utils/emailSenderUtil')
+// const { sendEmail } = require('../utils/emailSenderUtil')
 
 // TODO: implement register
 exports.register = async (req, res) => {
@@ -213,10 +213,33 @@ exports.viewOrders = async (req, res) => {
         orderPrice: true,
         shippingPrice: true,
         totalPrice: true,
+        shipper: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+            licensePlate: true,
+            account: {
+              select: {
+                id: true,
+                phone: true,
+                email: true,
+                nationalId: true
+              }
+            }
+          }
+        },
         customer: {
           select: {
+            id: true,
             name: true,
-            address: true
+            address: true,
+            account: {
+              select: {
+                id: true,
+                phone: true
+              }
+            }
           }
         },
         orderDetails: {

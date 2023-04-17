@@ -53,9 +53,8 @@ model Partner {
   account   Account?  @relation(fields: [accountId], references: [id])
   accountId Int?      @unique
   contract  Contract?
-
-  dishes   Dish[]
-  branches Branch[]
+  dishes    Dish[]
+  branches  Branch[]
 
   brandName      String
   taxCode        String  @unique
@@ -75,7 +74,7 @@ model Shipper {
 
   name         String
   address      String?
-  licensePlate String
+  licensePlate String  @unique
 }
 
 model Contract {

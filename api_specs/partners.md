@@ -116,19 +116,36 @@
                 orderPrice: float,
                 shippingPrice: float,
                 totalPrice: float,
-                customer: {
+                shipper: {
+                    id: int,
                     name: string,
-                    address: string
+                    address: string,
+                    licensePlate: string,
+                    account: {
+                        id: int,
+                        phone: string,
+                        email: string,
+                        nationalId: string
+                    }
+                },
+                customer: {
+                    id: int,
+                    name: string,
+                    address: string,
+                    account: {
+                        id: int,
+                        phone: string
+                    }
                 },
                 orderDetails: [
                     {
-                    id: int,
-                    dishId: int,
-                    dishDetailId: int,
-                    dishName: string,
-                    dishDetailName: string,
-                    quantity: int,
-                    totalPrice: float
+                        id: int,
+                        dishId: int,
+                        dishDetailId: int,
+                        dishName: string,
+                        dishDetailName: string,
+                        quantity: int,
+                        totalPrice: float
                     }     
                 ],
                 branch: {

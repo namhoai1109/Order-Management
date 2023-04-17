@@ -5,7 +5,7 @@ const { createReturnObject } = require('../utils/returnObjectUtil')
 
 exports.register = async (req, res) => {
   try {
-    fs.readFile('./data/locations.json', 'utf8', async (err, data) => {
+    fs.readFile('./data/locations.json', 'utf8', async (_err, data) => {
       const cities = JSON.parse(data)
       for (const city of cities) {
         const districtData = city.districts.map(district => ({
@@ -70,11 +70,9 @@ exports.getLocations = async (req, res) => {
     }))
 
     res.status(200).send(createReturnObject(result, '', 'Get locations successfully', 200))
-
   } catch (err) {
     console.log(err)
     res.status(500).send(createReturnObject(null, err.message, 'Get locations failed', 500))
-
   } finally {
     await prisma.$disconnect()
   }

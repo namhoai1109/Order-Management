@@ -62,7 +62,15 @@
                 branches: [
                     {
                         id: int,
-                        address: string
+                        address: string,
+                        district: {
+                            id: int,
+                            name: string,
+                            city: {
+                                id: int,
+                                name: string
+                            }
+                        }
                     }
                 ],
                 account: {
@@ -100,7 +108,21 @@
                 rating: int,
                 partner: {
                     id: int,
-                    brandName: string
+                    brandName: string,
+                    branches: [
+                        {
+                            id: int,
+                            address: string,
+                            district: {
+                                id: int,
+                                name: string,
+                                city: {
+                                    id: int,
+                                    name: string
+                                }
+                            }  
+                        }
+                    ]   
                 },
                 dishDetails: [
                     {
