@@ -178,6 +178,9 @@
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
+    body: {
+        process: 'taking'
+    },
     response: {
         result: null,
         meta: {
