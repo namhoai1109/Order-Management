@@ -109,127 +109,129 @@ exports.viewProfile = async (req, res) => {
   }
 }
 
-exports.getOrders = (process) => {
-  return async (req, res) => {
-    try {
-      const shipper = await prisma.shipper.findUnique({
-        where: {
-          accountId: req.account.id
-        }
-      })
-      if (!shipper) {
-        res.status(400).send(createReturnObject(null, 'Error getting orders', 'Shipper not found', 400))
-        return
+exports.getOrders = async (req, res) => {
+  try {
+    const { process } = req.params
+    const shipper = await prisma.shipper.findUnique({
+      where: {
+        accountId: req.account.id
       }
+    })
+    if (!shipper) {
+      res.status(400).send(createReturnObject(null, 'Error getting orders', 'Shipper not found', 400))
+      return
+    }
 
-      const orders = await prisma.order.findMany({
-        where: {
-          branch: {
-            district: {
-              id: shipper.districtId
-            }
-          },
-          status: 'confirmed',
-          process
+    const orders = await prisma.order.findMany({
+      where: {
+        branch: {
+          district: {
+            id: shipper.districtId
+          }
         },
-        select: {
-          id: true,
-          orderCode: true,
-          createdAt: true,
-          deliveredAt: true,
-          status: true,
-          process: true,
-          orderPrice: true,
-          shippingPrice: true,
-          totalPrice: true,
-          shipper: {
-            select: {
-              id: true,
-              name: true,
-              address: true,
-              licensePlate: true,
-              account: {
-                select: {
-                  id: true,
-                  phone: true,
-                  email: true,
-                  nationalId: true
-                }
+        status: 'confirmed',
+        // eslint-disable-next-line multiline-ternary
+        shipper: process === 'pending' ? null : {
+          id: shipper.id
+        }
+      },
+      select: {
+        id: true,
+        orderCode: true,
+        createdAt: true,
+        deliveredAt: true,
+        status: true,
+        process: true,
+        orderPrice: true,
+        shippingPrice: true,
+        totalPrice: true,
+        shipper: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+            licensePlate: true,
+            account: {
+              select: {
+                id: true,
+                phone: true,
+                email: true,
+                nationalId: true
               }
             }
-          },
-          customer: {
-            select: {
-              id: true,
-              name: true,
-              address: true,
-              account: {
-                select: {
-                  id: true,
-                  phone: true
-                }
+          }
+        },
+        customer: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+            account: {
+              select: {
+                id: true,
+                phone: true
               }
             }
-          },
-          orderDetails: {
-            select: {
-              id: true,
-              dishId: true,
-              dishDetailId: true,
-              dishName: true,
-              dishDetailName: true,
-              quantity: true,
-              totalPrice: true
-            }
-          },
-          branch: {
-            select: {
-              id: true,
-              address: true,
-              district: {
-                select: {
-                  id: true,
-                  name: true,
-                  city: {
-                    select: {
-                      id: true,
-                      name: true
-                    }
+          }
+        },
+        orderDetails: {
+          select: {
+            id: true,
+            dishId: true,
+            dishDetailId: true,
+            dishName: true,
+            dishDetailName: true,
+            quantity: true,
+            totalPrice: true
+          }
+        },
+        branch: {
+          select: {
+            id: true,
+            address: true,
+            district: {
+              select: {
+                id: true,
+                name: true,
+                city: {
+                  select: {
+                    id: true,
+                    name: true
                   }
                 }
               }
             }
           }
         }
-      })
+      }
+    })
 
-      const orderDetailList = await prisma.orderDetail.findMany({
-        where: {
-          orderId: {
-            in: orders.map(order => order.id)
-          }
+    const orderDetailList = await prisma.orderDetail.findMany({
+      where: {
+        orderId: {
+          in: orders.map(order => order.id)
         }
-      })
+      }
+    })
 
-      const response = orders.map(order => {
-        const orderDetails = orderDetailList.filter(orderDetail => orderDetail.orderId === order.id)
-        return {
-          ...order,
-          orderDetails
-        }
-      })
+    const response = orders.map(order => {
+      const orderDetails = orderDetailList.filter(orderDetail => orderDetail.orderId === order.id)
+      return {
+        ...order,
+        orderDetails
+      }
+    })
 
-      res.status(200).send(createReturnObject(response, '', 'Orders retrieved successfully', 200))
-    } catch (err) {
-      console.log(err)
-      res.status(500).send(createReturnObject(null, err.message, 'Error getting orders', 500))
-    } finally {
-      await prisma.$disconnect()
-    }
+    res.status(200).send(createReturnObject(response, '', 'Orders retrieved successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error getting orders', 500))
+  } finally {
+    await prisma.$disconnect()
   }
 }
 
-exports.confirmOrder = async (req, res) => {
+exports.updateOrder = async (req, res) => {
   try {
     const shipper = await prisma.shipper.findUnique({
       where: {
