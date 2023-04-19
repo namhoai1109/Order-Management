@@ -1,0 +1,78 @@
+@height-detail-dish-content: 400px;
+
+.wrap-detail-dish-modal {
+  position: relative;
+  align-items: start;
+  justify-content: space-between;
+  padding-top: 24px;
+  .wrap-info {
+    position: relative;
+    flex-direction: column;
+    justify-content: end;
+    width: 80%;
+    height: @height-detail-dish-content;
+    padding: 16px;
+
+    .carousel-images {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      .image-dish-card {
+        width: 100%;
+        height: @height-detail-dish-content;
+        object-fit: cover;
+        border-radius: 8px;
+
+        .ant-skeleton-image {
+          width: 100%;
+          height: 100%;
+          background-color: @gray-3;
+        }
+      }
+    }
+
+    .wrap-content {
+      z-index: 1;
+      width: 100%;
+      color: @brown-skin-light;
+      .content {
+        padding: 8px;
+        font-size: 14px;
+
+        &:first-child {
+          margin-bottom: 16px;
+          font-weight: bold;
+          font-size: 16pxc;
+        }
+      }
+    }
+  }
+
+  .wrap-option-field {
+    height: @height-detail-dish-content;
+    .header-field {
+      justify-content: space-between;
+      margin-bottom: 16px;
+      .header-title {
+        font-weight: 500;
+        font-size: 18px;
+      }
+    }
+
+    .wrap-option-item {
+      height: 80%;
+      overflow-y: overlay;
+    }
+  }
+
+  .wrap-buttons {
+    position: absolute;
+    right: 8px;
+    bottom: 0px;
+    .delete-btn {
+      margin-right: 8px;
+    }
+  }
+}

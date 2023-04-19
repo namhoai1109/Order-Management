@@ -1,27 +1,64 @@
 .wrap-nav-bar-layout {
-  background-color: @neutral-1;
+  padding-top: 46px;
+  overflow-y: overlay;
+  background-color: @neutral-2;
 
   .wrap-content-navbar {
-    justify-content: space-between;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: @neutral-1;
+    .navbar {
+      justify-content: space-between;
+      .wrap-header-account {
+        width: 80px;
+        margin-right: 8px;
+        padding: 0px 8px;
+        color: @primary-color;
+        font-weight: bold;
+        font-size: 14px;
 
-    .wrap-header-account {
-      margin-right: 8px;
-      padding: 0px 8px;
-      color: @primary-color;
-      font-weight: bold;
-      font-size: 14px;
+        &:hover {
+          cursor: pointer;
+        }
 
-      &:hover {
-        cursor: pointer;
+        .icon {
+          margin-left: 8px;
+        }
       }
+    }
+  }
 
-      .icon {
-        margin-left: 8px;
-      }
+  .wrap-content {
+    padding: 16px;
+    height: 90vh;
+    min-height: 90vh;
+
+    .ant-card {
+      height: 100%;
     }
   }
 }
 
 .menu-item-basic-layout {
   padding: 0px 8px;
+  font-size: 16px;
+}
+
+@mobile-width: 500px;
+
+@media (max-width: @mobile-width) {
+  .wrap-nav-bar-layout {
+    .wrap-content {
+      padding: 0px;
+      .ant-card {
+        height: 100%;
+        .ant-card-body {
+          padding: 8px;
+        }
+      }
+    }
+  }
 }

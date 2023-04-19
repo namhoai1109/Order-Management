@@ -2,6 +2,9 @@ import colors from './colors';
 export default {
   token: {
     colorPrimary: colors['primary-color'],
+    colorPrimaryTextHover: colors['brown-skin'],
+    colorLinkHover: colors['brown-skin'],
+    colorPrimaryTextActive: colors['brown-skin'],
     colorLink: colors['primary-color'],
 
     //light theme

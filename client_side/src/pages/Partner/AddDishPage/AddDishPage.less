@@ -1,0 +1,39 @@
+.wrap-add-dish {
+  position: relative;
+  .wrap-buttons {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1;
+
+    .button {
+      border-radius: 40px;
+      &:first-child {
+        margin-right: 8px;
+      }
+    }
+  }
+  .dragger-image-dish {
+    .ant-upload-list-item {
+      height: 140px;
+      overflow: hidden;
+    }
+    .ant-upload-drag {
+      height: 200px;
+    }
+  }
+
+  .icon-dish-name-field {
+    color: @primary-color;
+  }
+
+  .description-dish-field {
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  .new-size-price-field {
+    margin-bottom: 16px;
+    border-radius: 40px;
+  }
+}

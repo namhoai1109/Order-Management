@@ -1,0 +1,45 @@
+.wrap-dish-list {
+  .wrap-header {
+    justify-content: start;
+    margin-bottom: 20px;
+    .title {
+      color: @primary-color;
+      font-weight: bold;
+      font-size: 20px;
+      margin-right: 20px;
+    }
+
+    .branch-select-form-item {
+      &.ant-form-item {
+        margin-bottom: 0px;
+      }
+
+      .branch-select {
+        width: 240px;
+        .ant-select-selector {
+          border-radius: 40px;
+        }
+      }
+    }
+  }
+
+  .wrap-dish-item {
+    position: relative;
+
+    .add-dish-btn {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: inline-block;
+      padding: 4px 8px;
+      background-color: @primary-color;
+      border-radius: 40px;
+      color: @neutral-1;
+      z-index: 1;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

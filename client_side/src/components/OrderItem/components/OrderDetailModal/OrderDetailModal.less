@@ -1,0 +1,52 @@
+.order-detail-modal {
+  position: relative;
+  .ant-modal-content {
+    height: 400px;
+  }
+
+  &.mobile .ant-modal-content {
+    padding: 12px;
+  }
+
+  .modal-header {
+    margin-bottom: 8px;
+    justify-content: space-between;
+    border-bottom: 1px solid @neutral-3;
+    .modal-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: @primary-color;
+    }
+
+    .title-price {
+      color: @primary-color;
+      font-weight: bold;
+    }
+  }
+
+  .wrap-title {
+    margin-bottom: 8px;
+  }
+  .title {
+    color: @primary-color;
+    font-weight: bold;
+
+    &.mr {
+      margin-right: 8px;
+    }
+  }
+  .mb {
+    margin-bottom: 8px;
+  }
+
+  .order-detail-item {
+    margin-bottom: 8px;
+  }
+
+  .delivered-button {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    border-radius: 40px;
+  }
+}

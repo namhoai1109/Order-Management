@@ -1,10 +1,10 @@
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
 import { join } from 'path';
+import colors from './colors';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
-import colors from './colors';
 import themeProvider from './themeProvider';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
@@ -12,9 +12,13 @@ const { REACT_APP_ENV = 'dev' } = process.env;
 export default defineConfig({
   hash: true,
   routes,
+  define: {
+    HOST_NAME: 'https://79fb-14-186-4-94.ngrok-free.app',
+  },
   theme: {
     ...colors,
     'max-width': '1280px',
+    'width-845': '845px',
   },
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV as keyof typeof proxy],

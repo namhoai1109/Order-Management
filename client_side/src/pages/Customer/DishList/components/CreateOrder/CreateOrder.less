@@ -1,0 +1,56 @@
+.wrap-create-order {
+  height: 520px;
+  background-color: @brown-skin;
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+
+  .wrap-title {
+    padding-right: 36px;
+    margin-bottom: 8px;
+  }
+  .wrap-order-btn {
+    &.ant-form-item {
+      margin-bottom: 0px;
+    }
+
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    .order-btn {
+      border-radius: 40px;
+    }
+  }
+
+  .price-field {
+    justify-content: space-between;
+    margin-top: 8px;
+    .label {
+      font-weight: bold;
+    }
+  }
+
+  .wrap-order-detail {
+    background-color: @neutral-1;
+    border-radius: 8px;
+    height: 72%;
+
+    .title {
+      display: inline-block;
+      width: 100%;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .delete-btn {
+      padding: 4px 8px;
+    }
+
+    .wrap-item {
+      padding-right: 8px;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid @neutral-3;
+    }
+  }
+}

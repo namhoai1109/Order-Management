@@ -1,7 +1,7 @@
 import dimensions from '@/constants/dimensions';
 import { DownOutlined } from '@ant-design/icons';
 import { Outlet, useModel } from '@umijs/max';
-import { Col, Dropdown, Layout, Menu, MenuProps, Row } from 'antd';
+import { Card, Col, Dropdown, Menu, MenuProps, Row } from 'antd';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Auth from './Auth';
@@ -24,11 +24,11 @@ const BasicLayout: React.FC = () => {
     },
   ];
   return (
-    <Layout>
+    <div className="wrap-nav-bar-layout">
       <QueryClientProvider client={queryClient}>
         <Auth role={restProps.role}>
-          <Row className="wrap-nav-bar-layout" justify="center">
-            <Col className="wrap-content-navbar flex-center" flex={dimensions.MAX_WIDTH_NAVBAR}>
+          <Row justify="center" className="wrap-content-navbar">
+            <Col className="flex-center navbar" flex={dimensions.MAX_WIDTH_NAVBAR}>
               <Menu
                 defaultSelectedKeys={[selectedKey]}
                 mode="horizontal"
@@ -45,12 +45,16 @@ const BasicLayout: React.FC = () => {
           </Row>
           <Row justify="center">
             <Col flex={dimensions.MAX_WIDTH}>
-              <Outlet />
+              <div className="wrap-content">
+                <Card>
+                  <Outlet />
+                </Card>
+              </div>
             </Col>
           </Row>
         </Auth>
       </QueryClientProvider>
-    </Layout>
+    </div>
   );
 };
 

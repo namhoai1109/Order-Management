@@ -38,19 +38,19 @@ function getRule(req: Request, res: Response, u: string) {
     realUrl = req.url;
   }
   const { current = 1, pageSize = 10 } = req.query;
-  const params = parse(realUrl, true).query as unknown as API.PageParams &
+  const params = (parse(realUrl, true).query as unknown) as API.PageParams &
     API.RuleListItem & {
       sorter: any;
       filter: any;
     };
 
-  let dataSource = [...tableListDataSource].slice(
+  let dataOptions = [...tableListDataSource].slice(
     ((current as number) - 1) * (pageSize as number),
     (current as number) * (pageSize as number),
   );
   if (params.sorter) {
     const sorter = JSON.parse(params.sorter);
-    dataSource = dataSource.sort((prev, next) => {
+    dataOptions = dataOptions.sort((prev, next) => {
       let sortNumber = 0;
       (Object.keys(sorter) as Array<keyof API.RuleListItem>).forEach((key) => {
         let nextSort = next?.[key] as number;
@@ -77,7 +77,7 @@ function getRule(req: Request, res: Response, u: string) {
       [key: string]: string[];
     };
     if (Object.keys(filter).length > 0) {
-      dataSource = dataSource.filter((item) => {
+      dataOptions = dataOptions.filter((item) => {
         return (Object.keys(filter) as Array<keyof API.RuleListItem>).some((key) => {
           if (!filter[key]) {
             return true;
@@ -92,10 +92,10 @@ function getRule(req: Request, res: Response, u: string) {
   }
 
   if (params.name) {
-    dataSource = dataSource.filter((data) => data?.name?.includes(params.name || ''));
+    dataOptions = dataOptions.filter((data) => data?.name?.includes(params.name || ''));
   }
   const result = {
-    data: dataSource,
+    data: dataOptions,
     total: tableListDataSource.length,
     success: true,
     pageSize,

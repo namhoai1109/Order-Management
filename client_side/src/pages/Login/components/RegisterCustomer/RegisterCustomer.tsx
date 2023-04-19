@@ -14,15 +14,21 @@ import {
 } from '@ant-design/icons';
 import { Button, Col, Row, Select, Typography } from 'antd';
 import { InputStatus } from 'antd/es/_util/statusUtils';
+import ModalSubmit from '../ModalSubmit/ModalSubmit';
 import { keyRegisterCustomer } from './constants';
 import './RegisterCustomer.less';
 import useRegisterCustomer from './useRegisterCustomer';
 
 const RegisterCustomer: React.FC = () => {
   const { values, handleChangeInput, handleChangeSelect, ...restProps } = useRegisterCustomer();
-  const listProvince = restProps.getProvinces();
+
   return (
     <div className="wrap-register-user">
+      <ModalSubmit
+        open={restProps.openModal}
+        onOKModal={restProps.onOKModal}
+        message="Please check your email to verify your account!"
+      />
       <Typography.Title level={2} className="title">
         Register to order your favorite dishes!
       </Typography.Title>
@@ -49,6 +55,7 @@ const RegisterCustomer: React.FC = () => {
           <InputField
             icon={<LockOutlined />}
             placeholder="password"
+            type={componentType.PASSWORD}
             value={values[keyRegisterCustomer.PASSWORD]}
             status={restProps.error[keyRegisterCustomer.PASSWORD] as InputStatus}
             onChange={(eventChange) => handleChangeInput(eventChange, keyRegisterCustomer.PASSWORD)}
@@ -59,7 +66,7 @@ const RegisterCustomer: React.FC = () => {
             <BuildingsIcon />
             <Select
               placeholder="province/city"
-              options={listProvince}
+              options={restProps.listProvinces}
               className="select"
               status={restProps.error[keyRegisterCustomer.PROVINCE] as InputStatus}
               onChange={(value) => handleChangeSelect(value, keyRegisterCustomer.PROVINCE)}
@@ -70,6 +77,7 @@ const RegisterCustomer: React.FC = () => {
           <InputField
             icon={<LockOutlined />}
             placeholder="confirm password"
+            type={componentType.PASSWORD}
             value={values[keyRegisterCustomer.CONFIRM_PASSWORD]}
             status={restProps.error[keyRegisterCustomer.CONFIRM_PASSWORD] as InputStatus}
             onChange={(eventChange) =>
@@ -82,7 +90,7 @@ const RegisterCustomer: React.FC = () => {
             <DistrictIcon />
             <Select
               placeholder="district"
-              options={restProps.districtOptions}
+              options={restProps.listDistrict}
               className="select"
               status={restProps.error[keyRegisterCustomer.DISTRICT] as InputStatus}
               onChange={(value) => handleChangeSelect(value, keyRegisterCustomer.DISTRICT)}
@@ -119,9 +127,19 @@ const RegisterCustomer: React.FC = () => {
           />
         </Col>
       </Row>
-      <Button onClick={restProps.submitForm} type={componentType.PRIMARY}>
-        Register
-      </Button>
+      <Row className="wrap-buttons" justify={componentMode.CENTER}>
+        <Button
+          className="button-form"
+          onClick={restProps.submitForm}
+          loading={restProps.isLoading}
+          type={componentType.PRIMARY}
+        >
+          Register
+        </Button>
+        <Button className="button-form" onClick={restProps.cancelForm}>
+          Cancel
+        </Button>
+      </Row>
     </div>
   );
 };
