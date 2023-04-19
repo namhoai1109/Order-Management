@@ -1,21 +1,21 @@
 import { componentMode } from '@/constants/component_mode';
+import { componentType } from '@/constants/component_type';
 import dimensions from '@/constants/dimensions';
 import { getImageLink } from '@/utils/image';
-import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Carousel, Col, Modal, Row, Skeleton } from 'antd';
+import { Button, Carousel, Col, Modal, Popconfirm, Row, Skeleton } from 'antd';
 import OptionDishItem from '../OptionDishItem/OptionDishItem';
 import './DetailDishModal.less';
 
 interface IDetailDishModalProps {
   openModal: boolean;
+  idDish: number;
   onCancel: () => void;
   name: string;
   description: string;
   images: OBJECT_TYPE.TImageDish[];
   dishDetails: OBJECT_TYPE.TDishDetails[];
+  canDelete: boolean;
 }
-
-const WIDTH_MODAL = '600px';
 
 const DetailDishModal: React.FC<IDetailDishModalProps> = ({
   openModal,
@@ -24,9 +24,16 @@ const DetailDishModal: React.FC<IDetailDishModalProps> = ({
   description,
   images,
   dishDetails,
+  canDelete,
 }) => {
   return (
-    <Modal centered width={WIDTH_MODAL} open={openModal} onCancel={onCancel} footer={null}>
+    <Modal
+      centered
+      width={dimensions.WIDTH_MODAL_600}
+      open={openModal}
+      onCancel={onCancel}
+      footer={null}
+    >
       <Row
         gutter={dimensions.GUTTER_16}
         justify={componentMode.CENTER}
@@ -37,7 +44,6 @@ const DetailDishModal: React.FC<IDetailDishModalProps> = ({
             <Carousel dotPosition={'top'} className="carousel-images" autoplay>
               {images.map((image) => {
                 const linkImg = getImageLink(image.filename);
-                console.log(linkImg);
                 return <img className="image-dish-card" key={image.id} src={linkImg} />;
               })}
             </Carousel>
@@ -57,70 +63,24 @@ const DetailDishModal: React.FC<IDetailDishModalProps> = ({
           <div className="wrap-option-item">
             {dishDetails.map((option) => {
               return (
-                <div>
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                  <OptionDishItem
-                    key={option.id}
-                    optionName={option.name}
-                    optionPrice={option.price.toString()}
-                  />
-                </div>
+                <OptionDishItem
+                  key={option.id}
+                  optionName={option.name}
+                  optionPrice={option.price.toString()}
+                />
               );
             })}
           </div>
         </Col>
-        <Button danger className="delete-btn">
-          <DeleteOutlined />
-        </Button>
+        {canDelete && (
+          <div className="flex-center wrap-buttons">
+            <Popconfirm title="Sure to delete?">
+              <Button type={componentType.PRIMARY} className="delete-btn">
+                Delete
+              </Button>
+            </Popconfirm>
+          </div>
+        )}
       </Row>
     </Modal>
   );

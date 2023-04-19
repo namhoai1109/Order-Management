@@ -1,4 +1,4 @@
-import { constantsTypography } from '@/constants/constants_typography';
+import { typography } from '@/constants/typography';
 import { getImageLink } from '@/utils/image';
 import { MoreOutlined } from '@ant-design/icons';
 import { Skeleton, Tooltip, Typography } from 'antd';
@@ -11,13 +11,11 @@ const constants = {
   TITLE_DETAIL_BTN: 'details',
 };
 
-const DishCard: React.FC<OBJECT_TYPE.TDish> = ({
-  status,
-  name,
-  images,
-  description,
-  dishDetails,
-}) => {
+interface IDishCard extends OBJECT_TYPE.TDish {
+  canDelete?: boolean;
+}
+
+function DishCard({ status, canDelete, name, images, description, dishDetails, id }: IDishCard) {
   const {
     showDescription,
     clickToShowDescription,
@@ -56,8 +54,8 @@ const DishCard: React.FC<OBJECT_TYPE.TDish> = ({
         <div onClick={clickToShowDescription} className="wrap-head-info-dish glassmorphism">
           <Typography.Paragraph
             ellipsis={{
-              rows: constantsTypography.MAX_ROW_1,
-              symbol: constantsTypography.SYMBOL,
+              rows: typography.MAX_ROW_1,
+              symbol: typography.OVERFLOW_SYMBOL,
               tooltip: name,
             }}
             className="title-dish-card"
@@ -70,7 +68,16 @@ const DishCard: React.FC<OBJECT_TYPE.TDish> = ({
             onClick={clickToShowDescription}
             className={`wrap-desc glassmorphism ${showDescription ? 'show' : ''}`}
           >
-            {description}
+            <Typography.Paragraph
+              className="mb-0 desc"
+              ellipsis={{
+                rows: typography.MAX_ROW_6,
+                symbol: typography.OVERFLOW_SYMBOL,
+                tooltip: description,
+              }}
+            >
+              {description}
+            </Typography.Paragraph>
           </div>
         )}
       </div>
@@ -81,9 +88,15 @@ const DishCard: React.FC<OBJECT_TYPE.TDish> = ({
         name={name}
         dishDetails={dishDetails}
         description={description}
+        idDish={id}
+        canDelete={canDelete as boolean}
       />
     </div>
   );
+}
+
+DishCard.defaultProps = {
+  canDelete: true,
 };
 
 export default DishCard;

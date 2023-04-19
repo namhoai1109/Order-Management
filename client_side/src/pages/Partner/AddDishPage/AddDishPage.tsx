@@ -5,22 +5,26 @@ import dimensions from '@/constants/dimensions';
 import { CoffeeOutlined, InboxOutlined } from '@ant-design/icons';
 import {
   Button,
-  Card,
   Col,
   Form,
   FormInstance,
   Input,
   InputRef,
-  message,
   Popconfirm,
   Row,
   Table,
   Upload,
 } from 'antd';
 import { InputStatus } from 'antd/es/_util/statusUtils';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
 import './AddDishPage.less';
-import { keyAddDishPage } from './constants';
+import {
+  DEFAULT_OPTION_VALUE,
+  DEFAULT_PRICE_VALUE,
+  DEFAULT_QUANTITY_VALUE,
+  keyAddDishPage,
+  optionFields,
+} from './constants';
 import useAddDishPage from './useAddDishPage';
 
 const EditableContext = createContext<FormInstance<any> | null>(null);
@@ -43,40 +47,46 @@ const EditableCell: React.FC<IEditableCellProps> = ({
   dataIndex,
   record,
   handleSave,
+  validateTable,
+  resetValidationTable,
   ...restProps
 }) => {
-  const [editing, setEditing] = useState(false);
   const inputRef = useRef<InputRef>(null);
+  const [value, setValue] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  const save = () => {
+    handleSave({ ...record, [dataIndex]: value });
+    resetValidationTable();
+  };
+
   const form = useContext(EditableContext)!;
+  if (validateTable) {
+    form.validateFields();
+  }
 
-  useEffect(() => {
-    if (editing) {
-      inputRef.current!.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: '' });
-  };
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      message.error(('Save failed:' + errInfo) as string);
-    }
-  };
+  let placeholder = '';
+  switch (dataIndex) {
+    case optionFields.OPTION:
+      placeholder = DEFAULT_OPTION_VALUE;
+      break;
+    case optionFields.PRICE:
+      placeholder = DEFAULT_PRICE_VALUE;
+      break;
+    case optionFields.QUANTITY:
+      placeholder = DEFAULT_QUANTITY_VALUE;
+      break;
+    default:
+      break;
+  }
 
   let childNode = children;
-
   if (editable) {
-    childNode = editing ? (
+    childNode = (
       <Form.Item
-        style={{ margin: 0 }}
         name={dataIndex}
         rules={[
           {
@@ -85,12 +95,14 @@ const EditableCell: React.FC<IEditableCellProps> = ({
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input
+          ref={inputRef}
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}
+          onBlur={save}
+        />
       </Form.Item>
-    ) : (
-      <div style={{ paddingRight: 24 }} onClick={toggleEdit}>
-        {children}
-      </div>
     );
   }
 
@@ -113,16 +125,22 @@ const getDefaultColumns = (
 })[] => {
   return [
     {
-      title: 'option',
+      title: 'Option',
       dataIndex: 'option',
       editable: true,
-      width: '40%',
+      width: '30%',
     },
     {
-      title: 'price',
+      title: 'Price',
       dataIndex: 'price',
       editable: true,
-      width: '40%',
+      width: '30%',
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      editable: true,
+      width: '30%',
     },
     {
       title: '',
@@ -141,6 +159,8 @@ const getColumns = (
   lengthDataSource: number,
   onDelete: (key: React.Key) => void,
   handleSave: (row: IOptionItem) => void,
+  validateTable: boolean,
+  resetValidationTable: TCallbackVoid,
 ) => {
   const defaultCols = getDefaultColumns(lengthDataSource, onDelete);
   return defaultCols.map((col) => {
@@ -155,6 +175,8 @@ const getColumns = (
         dataIndex: col.dataIndex,
         title: col.title,
         handleSave,
+        validateTable,
+        resetValidationTable,
       }),
     };
   });
@@ -172,40 +194,61 @@ const AddDishPage: React.FC = () => {
     handleSave,
     handleBack,
     handleSubmit,
+    isLoading,
+    validateTable,
+    resetValidationTable,
   } = useAddDishPage();
-  const columns = getColumns(dataOptions.length, handleDelete, handleSave);
+  const columns = getColumns(
+    dataOptions.length,
+    handleDelete,
+    handleSave,
+    validateTable,
+    resetValidationTable,
+  );
   return (
     <div className="wrap-add-dish">
-      <Card className="card-add-dish-page">
-        <div className="wrap-buttons flex-center">
-          <Popconfirm title="Sure to cancel?" onConfirm={handleBack}>
-            <Button className="button">cancel</Button>
-          </Popconfirm>
-          <Button className="button" type={componentType.PRIMARY} onClick={handleSubmit}>
-            Save
-          </Button>
-        </div>
+      <Form autoComplete="off">
         <Row gutter={dimensions.GUTTERS_16}>
           <Col span={dimensions.SPAN_12}>
             <Row justify={componentMode.START}>
-              <InputField
-                placeholder="dish name"
-                value={values.name}
-                status={error[keyAddDishPage.NAME] as InputStatus}
-                onChange={(eventChange) => handleChange(eventChange, keyAddDishPage.NAME)}
-                icon={<CoffeeOutlined className="icon-dish-name-field" />}
-              />
+              <Form.Item
+                name="dishName"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Dish name is required.',
+                  },
+                ]}
+              >
+                <InputField
+                  placeholder="dish name"
+                  value={values.name}
+                  status={error[keyAddDishPage.NAME] as InputStatus}
+                  onChange={(eventChange) => handleChange(eventChange, keyAddDishPage.NAME)}
+                  icon={<CoffeeOutlined className="icon-dish-name-field" />}
+                />
+              </Form.Item>
             </Row>
-            <Input.TextArea
-              className="description-dish-field"
-              placeholder="How is your dish ?"
-              showCount
-              allowClear
-              status={error[keyAddDishPage.DESCRIPTION] as InputStatus}
-              value={values.description}
-              onChange={(eventChange) => handleChange(eventChange, keyAddDishPage.DESCRIPTION)}
-              autoSize={{ minRows: 5 }}
-            />
+            <Form.Item
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: 'Description is required.',
+                },
+              ]}
+            >
+              <Input.TextArea
+                className="description-dish-field"
+                placeholder="How is your dish ?"
+                showCount
+                allowClear
+                status={error[keyAddDishPage.DESCRIPTION] as InputStatus}
+                value={values.description}
+                onChange={(eventChange) => handleChange(eventChange, keyAddDishPage.DESCRIPTION)}
+                autoSize={{ minRows: 5 }}
+              />
+            </Form.Item>
             <Upload.Dragger {...propsDragger} className="dragger-image-dish">
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -230,7 +273,23 @@ const AddDishPage: React.FC = () => {
             />
           </Col>
         </Row>
-      </Card>
+        <div className="wrap-buttons flex-center">
+          <Popconfirm title="Sure to cancel?" onConfirm={handleBack}>
+            <Button className="button">cancel</Button>
+          </Popconfirm>
+          <Form.Item>
+            <Button
+              loading={isLoading}
+              className="button"
+              type={componentType.PRIMARY}
+              onClick={handleSubmit}
+              htmlType="submit"
+            >
+              Save
+            </Button>
+          </Form.Item>
+        </div>
+      </Form>
     </div>
   );
 };

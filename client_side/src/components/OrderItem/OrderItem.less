@@ -1,0 +1,45 @@
+.wrap-order-item {
+  padding: 8px 0px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e8e8e8;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  .wrap-info-field {
+    height: 100%;
+  }
+  .choose-button {
+    border-radius: 40px;
+  }
+
+  .green {
+    color: @green-8;
+  }
+
+  .green-light {
+    color: @green-6;
+  }
+
+  .select-order-process {
+    width: 100%;
+    .ant-select-selector {
+      border-radius: 40px;
+    }
+  }
+
+  .customer-address {
+    margin-bottom: 0px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  &.no-hover {
+    &:hover {
+      cursor: default;
+      box-shadow: none;
+    }
+  }
+}

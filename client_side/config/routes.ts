@@ -69,6 +69,19 @@ export default [
                 path: '/partner/menu/add',
                 component: './Partner/AddDishPage',
               },
+              {
+                path: '/partner/menu/update/:id',
+                component: './Partner/AddDishPage',
+              },
+            ],
+          },
+          {
+            path: '/partner/order',
+            routes: [
+              {
+                path: '/partner/order',
+                component: './Partner/OrderPage',
+              },
             ],
           },
           {
@@ -89,6 +102,11 @@ export default [
             component: './Shipper/OrderPage',
           },
           {
+            path: '/shipper/my-order',
+            exact: true,
+            component: './Shipper/MyOrderPage',
+          },
+          {
             path: '/shipper',
             redirect: '/shipper/order',
           },
@@ -103,7 +121,20 @@ export default [
           {
             path: '/customer/order',
             exact: true,
-            component: './Customer/OrderPage',
+            routes: [
+              {
+                path: '/customer/order',
+                component: './Customer/OrderPage',
+              },
+              {
+                path: '/customer/order/:id',
+                component: './Customer/DishList',
+              },
+            ],
+          },
+          {
+            path: '/customer/my-order',
+            component: './Customer/MyOrderPage',
           },
           {
             path: '/customer',

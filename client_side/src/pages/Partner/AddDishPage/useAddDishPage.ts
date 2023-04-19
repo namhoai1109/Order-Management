@@ -1,8 +1,14 @@
-import { REGEX_TEST_NUMBER, getDefaultValues } from '@/utils/register_form';
+import { usePostDish } from '@/services/Partner/services';
 import { history } from '@umijs/max';
-import { UploadFile, UploadProps, message } from 'antd';
+import { message, UploadFile, UploadProps } from 'antd';
 import { useState } from 'react';
-import { DEFAULT_OPTION_VALUE, DEFAULT_PRICE_VALUE, keyAddDishPage } from './constants';
+import {
+  DEFAULT_OPTION_VALUE,
+  DEFAULT_PRICE_VALUE,
+  DISH_DETAIL_FIELD,
+  IMAGE_FIELD,
+  keyAddDishPage,
+} from './constants';
 
 const DEFAULT_VALUE_FORM = {
   [keyAddDishPage.NAME]: '',
@@ -57,6 +63,7 @@ const useAddDishPage = () => {
       key: count,
       option: DEFAULT_OPTION_VALUE,
       price: DEFAULT_PRICE_VALUE,
+      quantity: 0,
     };
     setDataOption([...dataOptions, newData]);
     setCount(count + 1);
@@ -77,36 +84,23 @@ const useAddDishPage = () => {
     history.back();
   };
 
+  const [validateTable, setValidateTable] = useState(false);
+
+  const resetValidationTable = () => {
+    setValidateTable(false);
+  };
   const validateForm = () => {
     let numFieldError = 0;
-    Object.values(keyAddDishPage).forEach((keyOfValues) => {
-      if (values[keyOfValues] === '') {
-        setError((prev) => ({ ...prev, [keyOfValues]: 'error' }));
-        numFieldError++;
-      }
-    });
+    setValidateTable(true);
 
     if (fileList.length === 0) {
       message.error('Please upload at least one image !');
       numFieldError++;
     }
 
-    if (dataOptions.length !== 0) {
-      dataOptions.forEach((item) => {
-        if (item.option === '' || item.option === DEFAULT_OPTION_VALUE) {
-          message.error('Please fill in all options !');
-          numFieldError++;
-        }
-        if (item.price === '' || item.price === DEFAULT_PRICE_VALUE) {
-          message.error('Please fill in all prices !');
-          numFieldError++;
-        } else {
-          if (REGEX_TEST_NUMBER.test(item.price) === false) {
-            message.error('Please enter a valid price !');
-            numFieldError++;
-          }
-        }
-      });
+    if (dataOptions.length === 0) {
+      message.error('Please add at least one option !');
+      numFieldError++;
     }
     if (numFieldError === 0) {
       return true;
@@ -115,8 +109,31 @@ const useAddDishPage = () => {
     }
   };
 
+  const getDataForm = () => {
+    const formData = new FormData();
+    formData.append(keyAddDishPage.NAME, values[keyAddDishPage.NAME]);
+    formData.append(keyAddDishPage.DESCRIPTION, values[keyAddDishPage.DESCRIPTION]);
+    const mapOption = dataOptions.map((item) => {
+      return {
+        name: item.option,
+        price: Number(item.price),
+        quantity: Number(item.quantity),
+      };
+    });
+    formData.append(DISH_DETAIL_FIELD, JSON.stringify(mapOption));
+
+    fileList.forEach((file) => {
+      formData.append(IMAGE_FIELD, file.originFileObj as Blob);
+    });
+
+    return formData;
+  };
+
+  const { mutate, isLoading } = usePostDish();
+
   const handleSubmit = () => {
     if (validateForm()) {
+      mutate(getDataForm());
     }
   };
 
@@ -125,12 +142,15 @@ const useAddDishPage = () => {
     propsDragger,
     values,
     error,
+    isLoading,
     handleSubmit,
     handleChange,
     handleDelete,
     handleBack,
     handleAdd,
     handleSave,
+    validateTable,
+    resetValidationTable,
   };
 };
 

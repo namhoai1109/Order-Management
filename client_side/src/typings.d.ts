@@ -28,6 +28,7 @@ declare namespace OBJECT_TYPE {
     description: string;
     dishDetails: TDishDetails[];
     images: TImageDish[];
+    partner?: TPartner;
   };
 
   type TDishDetails = {
@@ -55,6 +56,78 @@ declare namespace OBJECT_TYPE {
   type TBranch = {
     districtId: int;
     address: string;
+  };
+
+  type TOrder = {
+    id: number;
+    orderCode: string;
+    createdAt: string;
+    deliveredAt: string;
+    status: string;
+    process: string;
+    orderPrice: number;
+    shippingPrice: number;
+    totalPrice: number;
+    shipper: TShipper | null;
+    customer: TCustomer;
+    orderDetails: TOrderDetail[];
+    branch: TBranchOrder;
+  };
+
+  type TOrderDetail = {
+    id: number;
+    dishId: number;
+    dishDetailId: number;
+    dishName: string;
+    dishDetailName: string;
+    quantity: number;
+    totalPrice: number;
+  };
+
+  type TBranchObj = {
+    id: number;
+    address: string;
+    district: {
+      id: number;
+      name: string;
+    };
+  };
+
+  interface TBranchOrder extends TBranchObj {
+    partner: {
+      id: number;
+      brandName: string;
+    };
+  }
+
+  type TPartner = {
+    id: number;
+    brandName: string;
+    culinaryStyle: string;
+    branches: TBranchObj[];
+  };
+
+  type TShipper = {
+    id: number;
+    name: string;
+    address: string;
+    licensePlate: string;
+    account: {
+      id: number;
+      phone: string;
+      email: string;
+      nationalId: string;
+    };
+  };
+
+  type TCustomer = {
+    id: number;
+    name: string;
+    address: string;
+    account: {
+      id: number;
+      phone: string;
+    };
   };
 }
 

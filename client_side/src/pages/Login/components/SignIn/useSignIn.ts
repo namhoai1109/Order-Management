@@ -34,17 +34,6 @@ const useSignIn = () => {
     });
   };
 
-  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormSignIn({
-      ...formSignIn,
-      password: event.target.value,
-    });
-    setError({
-      ...error,
-      password: '',
-    });
-  };
-
   const handleSubmit = () => {
     const validate = { ...DEFAULT_VALUE_VALIDATE };
     if (!formSignIn.username) {
@@ -60,7 +49,33 @@ const useSignIn = () => {
     }
   };
 
-  return { formSignIn, error, isLoading, handleChangeUsername, handleChangePassword, handleSubmit };
+  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setFormSignIn({
+      ...formSignIn,
+      password: inputValue,
+    });
+    setError({
+      ...error,
+      password: '',
+    });
+  };
+
+  const handleEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
+  return {
+    formSignIn,
+    error,
+    isLoading,
+    handleEnterKey,
+    handleChangeUsername,
+    handleChangePassword,
+    handleSubmit,
+  };
 };
 
 export default useSignIn;

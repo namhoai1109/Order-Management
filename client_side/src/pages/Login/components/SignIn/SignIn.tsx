@@ -26,6 +26,7 @@ const SignIn: React.FC = () => {
         value={formSignIn.password}
         onChange={handleChangePassword}
         status={restProps.error.password}
+        onKeyUp={restProps.handleEnterKey}
       />
       <div className="wrap-buttons flex-center">
         <Button

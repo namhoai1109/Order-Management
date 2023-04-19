@@ -22,6 +22,16 @@ body,
   left: unset;
 }
 
+.mb-0 {
+  &.ant-typography {
+    margin-bottom: 0;
+  }
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+
 .glassmorphism {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
@@ -34,6 +44,14 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.align-left {
+    justify-content: start;
+  }
+
+  &.align-right {
+    justify-content: end;
+  }
 }
 
 canvas {

@@ -25,6 +25,16 @@ const colors = {
   'red-8': '#820014',
   'red-9': '#5c0011',
   'red-10': '#3e000b',
+  'green-1': '#e2feec',
+  'green-2': '#c2fcd6',
+  'green-3': '#92f0b1',
+  'green-4': '#65e08e',
+  'green-5': '#1ac454',
+  'green-6': '#0ea841',
+  'green-7': '#04852d',
+  'green-8': '#00641b',
+  'green-9': '#024817',
+  'green-10': '#00320e',
 };
 
 export default colors;

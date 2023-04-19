@@ -1,7 +1,7 @@
 import dimensions from '@/constants/dimensions';
 import { DownOutlined } from '@ant-design/icons';
 import { Outlet, useModel } from '@umijs/max';
-import { Col, Dropdown, Menu, MenuProps, Row } from 'antd';
+import { Card, Col, Dropdown, Menu, MenuProps, Row } from 'antd';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Auth from './Auth';
@@ -45,7 +45,11 @@ const BasicLayout: React.FC = () => {
           </Row>
           <Row justify="center">
             <Col flex={dimensions.MAX_WIDTH}>
-              <Outlet />
+              <div className="wrap-content">
+                <Card>
+                  <Outlet />
+                </Card>
+              </div>
             </Col>
           </Row>
         </Auth>

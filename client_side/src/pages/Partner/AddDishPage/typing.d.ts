@@ -2,6 +2,7 @@ interface IOptionItem {
   key: React.Key;
   option: string;
   price: string;
+  quantity: number;
 }
 
 interface IEditableRowProps {
@@ -15,6 +16,8 @@ interface IEditableCellProps {
   dataIndex: keyof IOptionItem;
   record: IOptionItem;
   handleSave: (record: IOptionItem) => void;
+  validateTable: boolean;
+  resetValidationTable: TCallbackVoid;
 }
 
 type IEditableTableProps = Parameters<typeof Table>[0];
