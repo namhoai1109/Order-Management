@@ -175,3 +175,82 @@
     }
 
 ```
+
+6. View orders
+
+```
+    [GET] /api/customers/orders
+    headers: {
+        authorization: string //"Bearer " + jwt_token
+    },
+    response: {
+        result: [
+            {
+                id: int,
+                orderCode: string,
+                createdAt: string,
+                deliveredAt: string,
+                status: string,
+                process: string,
+                orderPrice: float,
+                shippingPrice: float,
+                totalPrice: float,
+                shipper: {
+                    id: int,
+                    name: string,
+                    address: string,
+                    licensePlate: string,
+                    account: {
+                        id: int,
+                        phone: string,
+                        email: string,
+                        nationalId: string
+                    }
+                },
+                customer: {
+                    id: int,
+                    name: string,
+                    address: string,
+                    account: {
+                        id: int,
+                        phone: string
+                    }
+                },
+                orderDetails: [
+                    {
+                        id: int,
+                        dishId: int,
+                        dishDetailId: int,
+                        dishName: string,
+                        dishDetailName: string,
+                        quantity: int,
+                        totalPrice: float
+                    }     
+                ],
+                branch: {
+                    id: int,
+                    address: string,
+                    partner: {
+                        id: int,
+                        brandName: string
+                    },
+                    district: {
+                        id: int,
+                        name: string,
+                        city: {
+                            id: int,
+                            name: string
+                        }
+                    }
+                }
+
+            }
+        ],
+        meta: {
+            error: string,
+            message: string,
+            statusCode: int
+        }
+    }
+
+```

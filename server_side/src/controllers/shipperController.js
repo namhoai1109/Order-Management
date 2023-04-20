@@ -203,6 +203,9 @@ exports.getOrders = async (req, res) => {
             }
           }
         }
+      },
+      orderBy: {
+        createdAt: 'desc'
       }
     })
 

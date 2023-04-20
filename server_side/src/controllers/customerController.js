@@ -301,3 +301,107 @@ exports.createOrder = async (req, res) => {
     await prisma.$disconnect()
   }
 }
+
+exports.getOrders = async (req, res) => {
+  try {
+    const customer = await prisma.customer.findUnique({
+      where: {
+        accountId: req.account.id
+      }
+    })
+    if (!customer) {
+      res.status(404).send(createReturnObject(null, 'Customer not found', 'Customer not found', 404))
+      return
+    }
+
+    const orders = await prisma.order.findMany({
+      where: {
+        customerId: customer.id
+      },
+      select: {
+        id: true,
+        orderCode: true,
+        createdAt: true,
+        deliveredAt: true,
+        status: true,
+        process: true,
+        orderPrice: true,
+        shippingPrice: true,
+        totalPrice: true,
+        shipper: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+            licensePlate: true,
+            account: {
+              select: {
+                id: true,
+                phone: true,
+                email: true,
+                nationalId: true
+              }
+            }
+          }
+        },
+        customer: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+            account: {
+              select: {
+                id: true,
+                phone: true
+              }
+            }
+          }
+        },
+        orderDetails: {
+          select: {
+            id: true,
+            dishId: true,
+            dishDetailId: true,
+            dishName: true,
+            dishDetailName: true,
+            quantity: true,
+            totalPrice: true
+          }
+        },
+        branch: {
+          select: {
+            id: true,
+            address: true,
+            partner: {
+              select: {
+                id: true,
+                brandName: true
+              }
+            },
+            district: {
+              select: {
+                id: true,
+                name: true,
+                city: {
+                  select: {
+                    id: true,
+                    name: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
+    res.status(200).send(createReturnObject(orders, '', 'Orders retrieved successfully', 200))
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(createReturnObject(null, err.message, 'Error getting orders', 500))
+  } finally {
+    await prisma.$disconnect()
+  }
+}

@@ -144,7 +144,7 @@
 4. Update order
 
 ```
-    [PUT] /api/shippers/order/:orderCode
+    [PUT] /api/shippers/orders/:orderCode
     params: {
         orderCode: string
     },
@@ -153,27 +153,6 @@
     },
     body: {
         process: string //taking, delivering
-    },
-    response: {
-        result: null,
-        meta: {
-            error: string,
-            message: string,
-            statusCode: int
-        }
-    }
-
-```
-
-5. Confirm deliver order
-
-```
-    [PUT] /api/shippers/deliver-order/:orderCode
-    param: {
-        orderCode: string
-    },
-    headers: {
-        authorization: string //"Bearer " + jwt_token
     },
     response: {
         result: null,
