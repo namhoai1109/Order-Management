@@ -8,5 +8,6 @@ router.get('/profile', authorizeUser('customer'), controller.viewProfile)
 router.get('/partners', authorizeUser('customer'), controller.getPartners)
 router.get('/partner/dishes/:partnerId', authorizeUser('customer'), controller.getDishes)
 router.post('/order', authorizeUser('customer'), controller.createOrder)
+router.get('/orders/', authorizeUser('customer'), controller.getOrders)
 
 module.exports = router
