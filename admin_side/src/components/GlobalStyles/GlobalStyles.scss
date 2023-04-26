@@ -46,7 +46,7 @@ html *::-webkit-scrollbar-track {
 
 .content {
   flex: 1;
-  margin: 0 50px 0 50px;
+  margin: 0 40px 0 40px;
 
 }
 
@@ -78,6 +78,11 @@ body .ant-table-wrapper thead tr .ant-table-cell {
   text-align: center;
 }
 
+.adminPage_staff_table tbody tr .ant-table-cell:last-child {
+  width: 100px;
+}
+
+.admin_btnAddContract,
 .admin_btnEdit {
   color: rgb(65, 65, 255);
   font-size: 16px;
@@ -85,11 +90,17 @@ body .ant-table-wrapper thead tr .ant-table-cell {
   cursor: pointer;
 }
 
+.admin_btnConfirm,
 .admin_btnBlock {
   color: rgb(255, 59, 59);
   font-size: 16px;
   padding: 0 5px 0 5px;
   cursor: pointer;
+}
+
+.admin_btnAddContract,
+.admin_btnConfirm {
+  font-size: 23px;
 }
 
 .admin_btnDelete {

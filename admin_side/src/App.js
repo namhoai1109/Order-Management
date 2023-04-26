@@ -6,6 +6,7 @@ import { Result } from 'antd';
 import { DefaultLayout } from '~/layout';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import Login from '~/pages/LoginPage/Login';
+import { StaffContextProvider } from './contexts/staffContext';
 
 
 function App() {
@@ -30,62 +31,64 @@ function App() {
       <ProSidebarProvider>
         <Router>
           <div className="App">
-            <Routes>
-              {role === 'admin' &&
-                PRIVATE_ROUTES_ADMIN.map((route, index) => {
-                  const PageComponent = route.component;
-                  let LayoutComponent = DefaultLayout;
+            <StaffContextProvider>
+              <Routes>
+                {role === 'admin' &&
+                  PRIVATE_ROUTES_ADMIN.map((route, index) => {
+                    const PageComponent = route.component;
+                    let LayoutComponent = DefaultLayout;
 
-                  if (route.layout === null) {
-                    LayoutComponent = Fragment;
-                  } else if (route.layout) {
-                    LayoutComponent = route.layout;
-                  }
+                    if (route.layout === null) {
+                      LayoutComponent = Fragment;
+                    } else if (route.layout) {
+                      LayoutComponent = route.layout;
+                    }
 
-                  return (
+                    return (
 
-                    <Route
-                      key={index}
-                      path={route.path}
-                      element={
-                        <LayoutComponent>
-                          <PageComponent />
-                        </LayoutComponent>
-                      }
-                    />
-                  );
-                })}
-              {role === 'staff' &&
-                PRIVATE_ROUTES_STAFF.map((route, index) => {
-                  const PageComponent = route.component;
-                  let LayoutComponent = DefaultLayout;
+                      <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          <LayoutComponent>
+                            <PageComponent />
+                          </LayoutComponent>
+                        }
+                      />
+                    );
+                  })}
+                {role === 'staff' &&
+                  PRIVATE_ROUTES_STAFF.map((route, index) => {
+                    const PageComponent = route.component;
+                    let LayoutComponent = DefaultLayout;
 
-                  if (route.layout === null) {
-                    LayoutComponent = Fragment;
-                  } else if (route.layout) {
-                    LayoutComponent = route.layout;
-                  }
+                    if (route.layout === null) {
+                      LayoutComponent = Fragment;
+                    } else if (route.layout) {
+                      LayoutComponent = route.layout;
+                    }
 
-                  return (
-                    <Route
-                      key={index}
-                      path={route.path}
-                      element={
-                        <LayoutComponent>
-                          <PageComponent />
-                        </LayoutComponent>
-                      }
-                    />
-                  );
-                })}
-              <Route path="*" element={
-                <Result
-                  status="404"
-                  title="404"
-                  subTitle="Sorry, the page you visited does not exist."
-                />}
-              />
-            </Routes>
+                    return (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          <LayoutComponent>
+                            <PageComponent />
+                          </LayoutComponent>
+                        }
+                      />
+                    );
+                  })}
+                <Route path="*" element={
+                  <Result
+                    status="404"
+                    title="404"
+                    subTitle="Sorry, the page you visited does not exist."
+                  />}
+                />
+              </Routes>
+            </StaffContextProvider>
           </div>
         </Router>
       </ProSidebarProvider>

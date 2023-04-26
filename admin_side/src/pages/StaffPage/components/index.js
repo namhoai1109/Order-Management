@@ -1,1 +1,1 @@
-export { default } from './GenerateContract'
+export { default } from './Actions'

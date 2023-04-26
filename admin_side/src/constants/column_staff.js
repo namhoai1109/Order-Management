@@ -1,4 +1,4 @@
-import GenerateContract from '~/pages/StaffPage/components/GenerateContract';
+import GenerateContract from '~/pages/StaffPage/components';
 const COLUMNS_CONTRACT = [
     {
         title: 'Name',
@@ -8,9 +8,9 @@ const COLUMNS_CONTRACT = [
 
     }, {
         title: 'Tax code',
-        dataIndex: 'taxcode',
-        key: 'taxcode',
-        sorter: (a, b) => a.taxcode.localeCompare(b.taxcode),
+        dataIndex: 'taxCode',
+        key: 'taxCode',
+        sorter: (a, b) => a.taxCode.localeCompare(b.taxCode),
 
     },
     {
@@ -28,19 +28,9 @@ const COLUMNS_CONTRACT = [
 
     },
     {
-        title: 'Expiration date',
-        dataIndex: 'expiration_date',
-        key: 'expiration_date',
-    },
-    {
         title: 'Bank Account',
         dataIndex: 'bank',
         key: 'bank',
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
     },
     {
         title: 'Culinary Style',
@@ -48,9 +38,29 @@ const COLUMNS_CONTRACT = [
         key: 'culinaryStyle',
     },
     {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+    },
+    {
+        title: 'Created Date',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+    },
+    {
+        title: 'Confirmed Date',
+        dataIndex: 'confirmedAt',
+        key: 'confirmedAt',
+    },
+    {
+        title: 'Expiration date',
+        dataIndex: 'expiredAt',
+        key: 'expiredAt',
+    },
+    {
         title: 'Actions',
         key: 'actions',
-        render: (text, record) => GenerateContract(record),
+        render: (text, record) => GenerateContract(record)
     },
 
 ];

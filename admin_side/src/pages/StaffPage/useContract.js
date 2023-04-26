@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { usedGetPartners } from '~/services/Staff/services';
+import {formatDate} from '~/utils/formatDate';
 
 const useContract = () =>{
     const [data, setData] = useState([]);
@@ -10,19 +11,24 @@ const useContract = () =>{
         let list = await usedGetPartners();
         let tmp = [];
     
-        list.forEach((partner) => {
+        list.forEach((partner) => { 
             tmp.push({
                 id: partner.id,
+                contractId: partner.contractId,
                 name: partner.brandName,
-                taxcode: partner.taxCode,
+                taxCode: partner.taxCode,
                 quantity: partner.orderQuantity,
                 representative: partner.representative,
-                expiration_date: partner.contract.expiredAt,
-                bank: partner.contract.bankAccount,
-                status: partner.status,
+                expiration_date: partner.contract?.expiredAt,
+                bank: partner.contract?.bankAccount,
                 culinaryStyle: partner.culinaryStyle,
+                status: partner.status,
+                createdAt: formatDate(partner.contract?.createdAt),
+                confirmedAt: formatDate(partner.contract?.confirmedAt),
+                expiredAt: formatDate(partner.contract?.expiredAt),
             });
         });
+
         setData(tmp);
         setIsLoading(false);
         setDataLoaded(true);

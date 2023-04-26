@@ -14,14 +14,13 @@ const useShipper = () => {
             tmp.push({
                 id: shippers.id,
                 name: shippers.name,
-                cmnd: shippers.nationalId,
-                phone: shippers.phone,
+                cmnd: shippers.account.nationalId,
+                phone: shippers.account.phone,
                 address: shippers.address,
                 license: shippers.licensePlate,
-                area: shippers.districtId,
-                email: shippers.email,
-                bank: shippers.bankAccount,
-                status: shippers.status,
+                area: shippers.district.name,
+                email: shippers.account.email,
+                bank: shippers.account.bankAccount,
             });
         });
         setData(tmp);

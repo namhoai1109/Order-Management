@@ -2,7 +2,7 @@ import { React } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainerConfig } from '~/components/Toast';
 import 'react-toastify/dist/ReactToastify.css';
 import Background from '~/assets/images/backgroundAdmin.jpg';
 import { handleSubmit } from './useLogin';
@@ -65,11 +65,12 @@ function Login() {
                             </Button>
                         </Form.Item>
                     </Form>
-                    <ToastContainer />
+                    <ToastContainerConfig />
 
                 </div>
             </div>
         </div>
+        
     );
 }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = "https://5a78-113-161-84-248.ngrok-free.app";
+const API_URL = "https://acba-2405-4802-7156-30-6c6c-3d1c-fbeb-2891.ngrok-free.app";
 
 const request = axios.create({
     baseURL: API_URL,
@@ -67,3 +67,13 @@ export const _delete = async (url) => {
         return error;
     }
 };
+
+export const put = async (url, data) => {
+    try {
+        let res = await requestToken.put(url, data);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
+    
