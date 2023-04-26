@@ -70,7 +70,6 @@ export const usedUpdateStatus = async (id) => {
         const response = await updateStatus(id);
         return response;
     } catch (error) {
-        console.log(error);
         return error;
     }
 }

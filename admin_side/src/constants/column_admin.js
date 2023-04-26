@@ -55,13 +55,7 @@ const COLUMNS_SHIPPER = [
         dataIndex: 'bank',
         key: 'bank',
 
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-
-    },
+    }
 ];
 
 const COLUMNS_PARTNER = [
@@ -179,9 +173,9 @@ const COLUMNS_USER = [
 
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
+        title: 'CMND',
+        dataIndex: 'nationalId',
+        key: 'nationalId',
         sorter: (a, b) => a.address.localeCompare(b.address),
 
     },

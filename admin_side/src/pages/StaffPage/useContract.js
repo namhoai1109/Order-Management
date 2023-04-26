@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { usedGetPartners } from '~/services/Staff/services';
+import {formatDate} from '~/utils/formatDate';
 
 const useContract = () =>{
     const [data, setData] = useState([]);
@@ -22,11 +23,12 @@ const useContract = () =>{
                 bank: partner.contract?.bankAccount,
                 culinaryStyle: partner.culinaryStyle,
                 status: partner.status,
-                createdAt: String(partner.contract?.createdAt),
-                confirmedAt: String(partner.contract?.confirmedAt),
-                expiredAt: String(partner.contract?.expiredAt),
+                createdAt: formatDate(partner.contract?.createdAt),
+                confirmedAt: formatDate(partner.contract?.confirmedAt),
+                expiredAt: formatDate(partner.contract?.expiredAt),
             });
         });
+
         setData(tmp);
         setIsLoading(false);
         setDataLoaded(true);

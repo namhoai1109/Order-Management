@@ -8,7 +8,6 @@ import useStaff from './useStaff'
 function Staff() {
     const columns = COLUMNS_STAFF;
     const { data, isLoading } = useStaff();
- 
     return (
         <Fragment>
             <h1 className="page_container_title">Staff Page</h1>
@@ -17,6 +16,7 @@ function Staff() {
                 <Skeleton active />
             ) : (
                 <Table
+                    className="adminPage_staff_table"
                     rowKey="id"
                     columns={columns}
                     dataSource={data}

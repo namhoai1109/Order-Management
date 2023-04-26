@@ -30,6 +30,7 @@ const useStaff = () => {
 
     return {
         data,
+        setData,
         isLoading,
     };
 };

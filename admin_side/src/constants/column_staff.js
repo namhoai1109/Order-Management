@@ -54,8 +54,8 @@ const COLUMNS_CONTRACT = [
     },
     {
         title: 'Expiration date',
-        dataIndex: 'expiration_date',
-        key: 'expiration_date',
+        dataIndex: 'expiredAt',
+        key: 'expiredAt',
     },
     {
         title: 'Actions',
