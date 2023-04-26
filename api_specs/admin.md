@@ -1,7 +1,7 @@
 1. Register staff
 
 ```
-    [POST] /api/admin/register-staff
+    [POST] /api/admin/staffs
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -26,7 +26,7 @@
 2. Delete staff
 
 ```
-    [DELETE] /api/admin/delete-staff/:id
+    [DELETE] /api/admin/staffs/:id
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -45,7 +45,7 @@
 
 3. Update Status Account
 ```
-    [POST] /api/admin/update-account-status/:id
+    [POST] /api/admin/account-status/:id
     header: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -67,7 +67,7 @@
 4. Get Staff
 
 ```
-    [GET] /api/admin/get-staff/:id
+    [GET] /api/admin/staffs/:id
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -88,10 +88,10 @@
 ```
 
 
-5. Get All Staff
+5. Get all staffs
 
 ```
-    [GET] /api/admin/get-staffs
+    [GET] /api/admin/staffs
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -122,7 +122,7 @@
 6. Get All Account
 
 ```
-    [GET] /api/admin/get-all-account
+    [GET] /api/admin/accounts
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -151,7 +151,7 @@
 7. Get shippers
 
 ```
-    [GET] /api/admin/get-shippers
+    [GET] /api/admin/shippers
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
@@ -193,38 +193,31 @@
   },
   response: {
     result: [
-      {
-        id: int,
-        accountId: int,
-        contractId: int,
-        brandName: string,
-        taxCode: string,
-        representative: string,
-        orderQuantity: int,
-        status: string,
-        culinaryStyle: string,
-        account: {
-          id: int,
-          email: string,
-          bankAccount: string,
-          nationalId: string,
-          isConfirmed: boolean
-        },
-        contract: {
-          id: int,
-          createdAt: string,
-          confirmedAt: string,
-          expiredAt: string,
-          isConfirmed: boolean,
-          isExpired: boolean,
-          taxCode: string,
-          representative: string,
-          bankAccount: string,
-          branchQuantity: int,
-          commission: float,
-          effectTimeInYear: int
+        {
+            id: int,
+            brandName: string,
+            culinaryStyle: string,
+            status: string,
+            branches: [
+                {
+                    id: int,
+                    address: string,
+                    district: {
+                        id: int,
+                        name: string,
+                        city: {
+                            id: int,
+                            name: string
+                        }
+                    }
+                }
+            ],
+            account: {
+                id: int,
+                email: string,
+                phone: string
+            }
         }
-      }
     ],
     meta: {
       error: string,
@@ -238,7 +231,7 @@
 9. Get All Active Shipper
 
 ```
-    [GET] /api/admin/get-active-shippers
+    [GET] /api/admin/active-shippers
     headers: {
         authorization: string //"Bearer " + jwt_token
     },
