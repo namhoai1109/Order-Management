@@ -186,36 +186,47 @@ exports.getAllAccount = async (req, res) => {
 exports.getAllPartners = async (req, res) => {
   try {
     const partners = await prisma.partner.findMany({
-      include: {
+      where: {
+        account: {
+          isConfirmed: true
+        }
+      },
+      select: {
+        id: true,
+        brandName: true,
+        culinaryStyle: true,
+        status: true,
+        branches: {
+          select: {
+            id: true,
+            address: true,
+            district: {
+              select: {
+                id: true,
+                name: true,
+                city: {
+                  select: {
+                    id: true,
+                    name: true
+                  }
+                }
+              }
+            }
+          }
+        },
         account: {
           select: {
             id: true,
             email: true,
-            phone: true,
-            bankAccount: true,
-            nationalId: true
-          }
-        },
-        district: {
-          select: {
-            id: true,
-            name: true,
-            city: {
-              select: {
-                id: true,
-                name: true
-              }
-            }
+            phone: true
           }
         }
       }
-
     })
-
-    res.status(200).send(createReturnObject(partners, '', 'Shippers profile viewed successfully', 200))
+    res.status(200).send(createReturnObject(partners, '', 'Partners retrieved successfully', 200))
   } catch (err) {
     console.log(err)
-    res.status(500).send(createReturnObject(null, err.message, 'Error viewing profile', 500))
+    res.status(500).send(createReturnObject(null, err.message, 'Error getting partners', 500))
   } finally {
     await prisma.$disconnect()
   }

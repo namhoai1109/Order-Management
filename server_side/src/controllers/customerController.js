@@ -118,11 +118,6 @@ exports.updatePassword = async (req, res) => {
 exports.getPartners = async (req, res) => {
   try {
     const partners = await prisma.partner.findMany({
-      where: {
-        account: {
-          isConfirmed: true
-        }
-      },
       select: {
         id: true,
         brandName: true,
