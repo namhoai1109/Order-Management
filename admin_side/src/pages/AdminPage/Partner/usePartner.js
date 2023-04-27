@@ -11,15 +11,22 @@ const usePartner = () => {
         let tmp = [];
 
         list.forEach((partner) => {
+            let count = 0;
+            let branchAddress = [];
+            partner.branches.forEach((branch) => {
+                count++;
+                branchAddress.push(branch.address + ', ' + branch.district.name);
+                branchAddress.push(<br />);
+            });
+
             tmp.push({
-                name: partner.brandName,
-                taxcode: partner.taxCode,
-                quantity: partner.orderQuantity,
-                representative: partner.representative,
-                expiration_date: partner.contract.expiredAt,
-                bank: partner.contract.bankAccount,
-                status: partner.status,
-                culinaryStyle: partner.culinaryStyle,
+                name: partner.brandName ?? <i>Chưa cập nhật</i>,
+                email: partner.account.email ?? <i>Chưa cập nhật</i>,
+                phone: partner.account.phone ?? <i>Chưa cập nhật</i>,
+                quantity: count ?? <i>Chưa cập nhật</i>,
+                branchAddress: branchAddress ?? <i>Chưa cập nhật</i>,
+                culinaryStyle: partner.culinaryStyle ?? <i>Chưa cập nhật</i>,
+                status: partner.status ?? <i>Chưa cập nhật</i>,
             });
         });
         setData(tmp);

@@ -14,11 +14,11 @@ const useCustomer = () => {
         list.forEach((customer) => {
             if (customer.role === "customer") {
                 tmp.push({
-                    id: customer.id,
-                    name: customer.username,
-                    email: customer.email,
-                    phone: customer.phone,
-                    nationalId: customer.nationalId,
+                    id: customer.id ?? <i>Chưa cập nhật</i>,
+                    name: customer.username ?? <i>Chưa cập nhật</i>,
+                    email: customer.email ?? <i>Chưa cập nhật</i>,
+                    phone: customer.phone ?? <i>Chưa cập nhật</i>,
+                    nationalId: customer.nationalId ?? <i>Chưa cập nhật</i>,
                 });
             }
         });

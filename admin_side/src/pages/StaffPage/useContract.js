@@ -13,19 +13,19 @@ const useContract = () =>{
     
         list.forEach((partner) => { 
             tmp.push({
-                id: partner.id,
-                contractId: partner.contractId,
-                name: partner.brandName,
-                taxCode: partner.taxCode,
-                quantity: partner.orderQuantity,
-                representative: partner.representative,
-                expiration_date: partner.contract?.expiredAt,
-                bank: partner.contract?.bankAccount,
-                culinaryStyle: partner.culinaryStyle,
-                status: partner.status,
-                createdAt: formatDate(partner.contract?.createdAt),
-                confirmedAt: formatDate(partner.contract?.confirmedAt),
-                expiredAt: formatDate(partner.contract?.expiredAt),
+                id: partner.id ?? <i>Chưa cập nhật</i>,
+                contractId: partner.contractId ?? <i>Chưa cập nhật</i>,  
+                name: partner.brandName ?? <i>Chưa cập nhật</i>,
+                taxCode: partner.taxCode ?? <i>Chưa cập nhật</i>,
+                quantity: partner.orderQuantity ?? <i>Chưa cập nhật</i>,
+                representative: partner.representative ?? <i>Chưa cập nhật</i>,
+                expiration_date: partner.contract?.expiredAt ?? <i>Chưa cập nhật</i>,
+                bank: partner.contract?.bankAccount ?? <i>Chưa cập nhật</i>,
+                culinaryStyle: partner.culinaryStyle ?? <i>Chưa cập nhật</i>,
+                status: partner.status ?? <i>Chưa cập nhật</i>,
+                createdAt: formatDate(partner.contract?.createdAt) ?? <i>Chưa cập nhật</i>,
+                confirmedAt: formatDate(partner.contract?.confirmedAt) ?? <i>Chưa cập nhật</i>,
+                expiredAt: formatDate(partner.contract?.expiredAt) ?? <i>Chưa cập nhật</i>,
             });
         });
 

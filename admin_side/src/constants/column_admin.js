@@ -66,11 +66,18 @@ const COLUMNS_PARTNER = [
         sorter: (a, b) => a.name.localeCompare(b.name),
 
     }, {
-        title: 'Tax code',
-        dataIndex: 'taxcode',
-        key: 'taxcode',
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        sorter: (a, b) => a.email.localeCompare(b.email),
+
+    },
+    {
+        title: 'Phone',
+        dataIndex: 'phone',
+        key: 'phone',
         // sort theo alphabet
-        sorter: (a, b) => a.taxcode.localeCompare(b.taxcode),
+        sorter: (a, b) => a.phone.localeCompare(b.phone),
 
     },
     {
@@ -81,21 +88,11 @@ const COLUMNS_PARTNER = [
 
     },
     {
-        title: 'Representative',
-        dataIndex: 'representative',
-        key: 'representative',
-        sorter: (a, b) => a.representative.localeCompare(b.representative),
+        title: 'Branch Address',
+        dataIndex: 'branchAddress',
+        key: 'branchAddress',
+        sorter: (a, b) => a.branchAddress.localeCompare(b.branchAddress),
 
-    },
-    {
-        title: 'Expiration date',
-        dataIndex: 'expiration_date',
-        key: 'expiration_date',
-    },
-    {
-        title: 'Bank Account',
-        dataIndex: 'bank',
-        key: 'bank',
     },
     {
         title: 'Status',

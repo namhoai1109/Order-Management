@@ -12,15 +12,15 @@ const useShipper = () => {
 
         list.forEach((shippers) => {
             tmp.push({
-                id: shippers.id,
-                name: shippers.name,
-                cmnd: shippers.account.nationalId,
-                phone: shippers.account.phone,
-                address: shippers.address,
-                license: shippers.licensePlate,
-                area: shippers.district.name,
-                email: shippers.account.email,
-                bank: shippers.account.bankAccount,
+                id: shippers.id ?? <i>Chưa cập nhật</i>,
+                name: shippers.name ?? <i>Chưa cập nhật</i>,
+                cmnd: shippers.account.nationalId ?? <i>Chưa cập nhật</i>,
+                phone: shippers.account.phone ?? <i>Chưa cập nhật</i>,
+                address: shippers.address ?? <i>Chưa cập nhật</i>,
+                license: shippers.licensePlate ?? <i>Chưa cập nhật</i>,
+                area: shippers.district.name ?? <i>Chưa cập nhật</i>,
+                email: shippers.account.email ?? <i>Chưa cập nhật</i>,
+                bank: shippers.account.bankAccount ?? <i>Chưa cập nhật</i>,
             });
         });
         setData(tmp);
