@@ -39,8 +39,10 @@ const useActions = (record) => {
             okText: "Yes",
             okType: "danger",
             onOk: () => {
-                usedDelelteStaff(record.id);
-                window.location.reload();
+                usedDelelteStaff(record.id)
+                .then(() => {
+                    window.location.reload();
+                });
             },
         });
     };

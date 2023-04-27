@@ -12,11 +12,11 @@ const useStaff = () => {
 
         list.forEach((staff) => {
             tmp.push({
-                id: staff.id,
-                username: staff.username,
-                email: staff.email,
-                phone: staff.phone,
-                status: staff.status,
+                id: staff.id ?? <i>Chưa cập nhật</i>,
+                username: staff.username ?? <i>Chưa cập nhật</i>,
+                email: staff.email ?? <i>Chưa cập nhật</i>,
+                phone: staff.phone ?? <i>Chưa cập nhật</i>,
+                status: staff.status ?? <i>Chưa cập nhật</i>,
             });
         });
         setData(tmp);
