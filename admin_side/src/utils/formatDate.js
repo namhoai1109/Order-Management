@@ -9,6 +9,11 @@ export const formatDate = (d) => {
 
     let formattedDate = year + "/" + month + "/" + day + " " + hours + ":" + minutes + ":" + seconds;
 
+    if (formattedDate === "1970/01/01 08:00:00") {
+        formattedDate = "null";
+    }else if(formattedDate === "NaN/aN/aN aN:aN:aN"){
+        formattedDate = "";
+    }
     return formattedDate;
 }
 

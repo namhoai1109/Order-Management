@@ -10,7 +10,7 @@ const GenerateContract = (record) => {
     const { createdAt, confirmedAt, taxCode } = record;
     const { notifyGenerated, notifyConfirm } = Notification();
 
-    if (createdAt === "undefined" && confirmedAt === "undefined") {
+    if (createdAt === "") {
         return (
             <div>
                 <Button
