@@ -23,9 +23,9 @@ const useContract = () =>{
                 bank: partner.contract?.bankAccount ?? <i>Chưa cập nhật</i>,
                 culinaryStyle: partner.culinaryStyle ?? <i>Chưa cập nhật</i>,
                 status: partner.status ?? <i>Chưa cập nhật</i>,
-                createdAt: formatDate(partner.contract?.createdAt) ?? <i>Chưa cập nhật</i>,
-                confirmedAt: formatDate(partner.contract?.confirmedAt) ?? <i>Chưa cập nhật</i>,
-                expiredAt: formatDate(partner.contract?.expiredAt) ?? <i>Chưa cập nhật</i>,
+                createdAt: formatDate(partner.contract?.createdAt),
+                confirmedAt: formatDate(partner.contract?.confirmedAt),
+                expiredAt: formatDate(partner.contract?.expiredAt),
             });
         });
 
